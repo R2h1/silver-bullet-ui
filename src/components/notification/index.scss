@@ -1,0 +1,175 @@
+@import "./_var.scss";
+
+$prefix: "yt-notification";
+$prefixList: "yt-notification-list";
+
+@keyframes slidein-top-left {
+    0% {
+        opacity: 0;
+        transform: translate3d(-100%,0,0)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateZ(0)
+    }
+}
+
+@keyframes slidein-top-right {
+    0% {
+        opacity: 0;
+        transform: translate3d(100%,0,0)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateZ(0)
+    }
+}
+
+@keyframes slidein-bottom-left {
+    0% {
+        opacity: 0;
+        transform: translate3d(-100%,0,0)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateZ(0)
+    }
+}
+
+@keyframes slidein-bottom-right {
+    0% {
+        opacity: 0;
+        transform: translate3d(100%,0,0)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateZ(0)
+    }
+}
+
+.#{$prefixList}__top-right,
+.#{$prefixList}__bottom-left,
+.#{$prefixList}__top-left,
+.#{$prefixList}__bottom-right {
+    position: fixed;
+}
+.#{$prefixList}__top-right {
+    top: 0;
+    right: 0;
+}
+
+.#{$prefixList}__top-left {
+    top: 0;
+    left: 0;
+}
+
+.#{$prefixList}__bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+.#{$prefixList}__bottom-right {
+    bottom: 0;
+    right: 0;
+}
+
+.#{$prefixList}__top-left>.#{$prefix} {
+    animation-duration: .3s;
+    animation-name: slidein-top-left
+}
+
+.#{$prefixList}__top-right>.#{$prefix} {
+    animation-duration: .3s;
+    animation-name: slidein-top-right
+}
+
+.#{$prefixList}__bottom-left,
+.#{$prefixList}__bottom-right {
+    display: flex;
+    flex-direction: column-reverse
+}
+
+.#{$prefixList}__bottom-left>.#{$prefix} {
+    animation-duration: .3s;
+    animation-name: slidein-bottom-left
+}
+
+.#{$prefixList}__bottom-right>.#{$prefix} {
+    animation-duration: .3s;
+    animation-name: slidein-bottom-right
+}
+
+.#{$prefix} {
+    color: $--yt-font-gray-1;
+    margin: 0;
+    list-style: none;
+    font: $--yt-font-body-medium;
+    outline: 0;
+    border: 0;
+    background-color: $--yt-notification-bg-color;
+    display: flex;
+    box-shadow: $--yt-notification-box-shadow;
+    box-sizing: border-box;
+    border-radius: $--yt-notification-border-radius;
+    width: $--yt-notification-width;
+    padding: $--yt-notification-padding-TB-m $--yt-notification-padding-LR-m;
+    .#{$prefix}__icon {
+        text-align: center;
+        margin-right: 8px;
+        .icon {
+            display: inline-block;
+            vertical-align: middle;
+            width: 1em;
+            height: 1em;
+            font-size: 24px;
+            &.is-info{
+                color: $--yt-brand-color-8;
+            }
+            &.is-success {
+                color: $--yt-success-color-8;
+            }
+            &.is-warning {
+                color: $--yt-warning-color-8;
+            }
+            &.is-error {
+                color: $--yt-error-color-8;
+            }
+        }
+    }
+    .#{$prefix}__main{
+        flex: 1;
+    }
+    .#{$prefix}__title-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .#{$prefix}__title {
+        font: $--yt-font-body-large;
+        color: $--yt-font-gray-1;
+        font-weight: 600;
+    }
+    .#{$prefix}__close{
+        cursor: pointer;
+    }
+    .#{$prefix}__content {
+        font: $--yt-font-body-medium;
+        color: $--yt-font-gray-2;
+        margin-top: 8px;
+        max-height: 66px;
+        padding-right: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+    .#{$prefix}__footer {
+        margin-top: 16px;
+    }
+}

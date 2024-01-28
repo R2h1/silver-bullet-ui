@@ -1,0 +1,35 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --sb-padding-1: 2px;
+  --sb-padding-2: 4px;
+  --sb-padding-3: 6px;
+  --sb-padding-4: 8px;
+  --sb-padding-5: 10px;
+
+  --sb-border-radius-1: 3px;
+  --sb-border-radius-2: 6px;
+  --sb-border-radius-3: 9px;
+  --sb-border-radius-4: 12px;
+  --sb-border-radius-5: 15px;
+  --sb-border-radius-circle: 50%;
+
+  --sb-default-color: rgb(0, 0, 0, 0.9);
+  --sb-default-bg-color: rgb(255, 255, 255);
+  --sb-hover-color: rgb(0, 0, 0, 0.9);
+  --sb-hover-bg-color: #e8e8e8;
+  --sb-active-color: #1371f6;
+  --sb-active-bg-color: #dcf1ff;
+}
+
+/* semantic color variables for this project */
+:root {
+  
+}
+
+*,
+*::before,
+*::after {
+}
+
+body {
+}

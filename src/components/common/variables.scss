@@ -1,0 +1,237 @@
+@import "./light.scss";
+@import "./size.scss";
+@import "./radius.scss";
+
+$--yt-brand-color-1: var(--yt-brand-color-1);
+$--yt-brand-color-2: var(--yt-brand-color-2);
+$--yt-brand-color-3: var(--yt-brand-color-3);
+$--yt-brand-color-4: var(--yt-brand-color-4);
+$--yt-brand-color-5: var(--yt-brand-color-5);
+$--yt-brand-color-6: var(--yt-brand-color-6);
+$--yt-brand-color-7: var(--yt-brand-color-7);
+$--yt-brand-color-8: var(--yt-brand-color-8);
+$--yt-brand-color-9: var(--yt-brand-color-9);
+$--yt-brand-color-10: var(--yt-brand-color-10);
+$--yt-warning-color-1: var(--yt-warning-color-1);
+$--yt-warning-color-2: var(--yt-warning-color-2);
+$--yt-warning-color-3: var(--yt-warning-color-3);
+$--yt-warning-color-4: var(--yt-warning-color-4);
+$--yt-warning-color-5: var(--yt-warning-color-5);
+$--yt-warning-color-6: var(--yt-warning-color-6);
+$--yt-warning-color-7: var(--yt-warning-color-7);
+$--yt-warning-color-8: var(--yt-warning-color-8);
+$--yt-warning-color-9: var(--yt-warning-color-9);
+$--yt-warning-color-10: var(--yt-warning-color-10);
+$--yt-error-color-1: var(--yt-error-color-1);
+$--yt-error-color-2: var(--yt-error-color-2);
+$--yt-error-color-3: var(--yt-error-color-3);
+$--yt-error-color-4: var(--yt-error-color-4);
+$--yt-error-color-5: var(--yt-error-color-5);
+$--yt-error-color-6: var(--yt-error-color-6);
+$--yt-error-color-7: var(--yt-error-color-7);
+$--yt-error-color-8: var(--yt-error-color-8);
+$--yt-error-color-9: var(--yt-error-color-9);
+$--yt-error-color-10: var(--yt-error-color-10);
+$--yt-success-color-1: var(--yt-success-color-1);
+$--yt-success-color-2: var(--yt-success-color-2);
+$--yt-success-color-3: var(--yt-success-color-3);
+$--yt-success-color-4: var(--yt-success-color-4);
+$--yt-success-color-5: var(--yt-success-color-5);
+$--yt-success-color-6: var(--yt-success-color-6);
+$--yt-success-color-7: var(--yt-success-color-7);
+$--yt-success-color-8: var(--yt-success-color-8);
+$--yt-success-color-9: var(--yt-success-color-9);
+$--yt-success-color-10: var(--yt-success-color-10);
+$--yt-gray-color-1: var(--yt-gray-color-1);
+$--yt-gray-color-2: var(--yt-gray-color-2);
+$--yt-gray-color-3: var(--yt-gray-color-3);
+$--yt-gray-color-4: var(--yt-gray-color-4);
+$--yt-gray-color-5: var(--yt-gray-color-5);
+$--yt-gray-color-6: var(--yt-gray-color-6);
+$--yt-gray-color-7: var(--yt-gray-color-7);
+$--yt-gray-color-8: var(--yt-gray-color-8);
+$--yt-gray-color-9: var(--yt-gray-color-9);
+$--yt-gray-color-10: var(--yt-gray-color-10);
+$--yt-gray-color-11: var(--yt-gray-color-11);
+$--yt-gray-color-12: var(--yt-gray-color-12);
+$--yt-gray-color-13: var(--yt-gray-color-13);
+$--yt-gray-color-14: var(--yt-gray-color-14);
+
+$--yt-white-color: var(--yt-white-color);
+$--yt-black-color: var(--yt-black-color);
+
+// 文字 & 图标 颜色
+$--yt-font-white-1: rgba(255, 255, 255, 90%);
+$--yt-font-white-2: rgba(255, 255, 255, 55%);
+$--yt-font-white-3: rgba(255, 255, 255, 35%);
+$--yt-font-white-4: rgba(255, 255, 255, 22%);
+$--yt-font-gray-1: rgba(0, 0, 0, 90%);
+$--yt-font-gray-2: rgba(0, 0, 0, 60%);
+$--yt-font-gray-3: rgba(0, 0, 0, 40%);
+$--yt-font-gray-4: rgba(0, 0, 0, 26%);
+
+// 基础颜色
+$--yt-brand-color: $--yt-brand-color-7; // 色彩-品牌-可操作
+$--yt-warning-color: $--yt-warning-color-5; // 色彩-功能-警告
+$--yt-error-color: $--yt-error-color-6; // 色彩-功能-失败
+$--yt-success-color: $--yt-success-color-5; // 色彩-功能-成功
+
+// 基础颜色的扩展 用于 hover / 聚焦 / 禁用 / 点击 等状态
+$--yt-brand-color-hover: $--yt-brand-color-6; // hover态
+$--yt-brand-color-focus: $--yt-brand-color-2; // focus态，包括鼠标和键盘
+$--yt-brand-color-active: $--yt-brand-color-8; // 点击态
+$--yt-brand-color-disabled: $--yt-brand-color-3; // 禁用态
+$--yt-brand-color-light: $--yt-brand-color-1; // 浅色的选中态
+$--yt-brand-color-light-hover: $--yt-brand-color-2;
+
+// 警告色扩展
+$--yt-warning-color-hover: $--yt-warning-color-4;
+$--yt-warning-color-focus: $--yt-warning-color-2;
+$--yt-warning-color-active: $--yt-warning-color-6;
+$--yt-warning-color-disabled: $--yt-warning-color-3;
+$--yt-warning-color-light: $--yt-warning-color-1;
+$--yt-warning-color-light-hover: $--yt-warning-color-2;
+
+// 失败/错误色扩展
+$--yt-error-color-hover: $--yt-error-color-5;
+$--yt-error-color-focus: $--yt-error-color-2;
+$--yt-error-color-active: $--yt-error-color-7;
+$--yt-error-color-disabled: $--yt-error-color-3;
+$--yt-error-color-light: $--yt-error-color-1;
+$--yt-error-color-light-hover: $--yt-error-color-2;
+
+// 成功色扩展
+$--yt-success-color-hover: $--yt-success-color-4;
+$--yt-success-color-focus: $--yt-success-color-2;
+$--yt-success-color-active: $--yt-success-color-6;
+$--yt-success-color-disabled: $--yt-success-color-3;
+$--yt-success-color-light: $--yt-success-color-1;
+$--yt-success-color-light-hover: $--yt-success-color-2;
+
+// 遮罩
+$--yt-mask-active: rgba(0, 0, 0, 60%); // 遮罩-弹出
+$--yt-mask-disabled: rgba(255, 255, 255, 60%); // 遮罩-禁用
+
+// 背景色
+$--yt-bg-color-page: $--yt-gray-color-2; // 色彩 - page
+$--yt-bg-color-container: $--yt-white-color; // 色彩 - 容器
+$--yt-bg-color-container-hover: $--yt-gray-color-1; // 色彩 - 容器 - hover
+$--yt-bg-color-container-active: $--yt-gray-color-3; // 色彩 - 容器 - active
+$--yt-bg-color-container-select: $--yt-white-color; // 色彩 - 容器 - select
+$--yt-bg-color-secondarycontainer: $--yt-gray-color-1; // 色彩 - 次级容器
+$--yt-bg-color-secondarycontainer-hover: $--yt-gray-color-2; // 色彩 - 次级容器 - hover
+$--yt-bg-color-secondarycontainer-active: $--yt-gray-color-4; // 色彩 - 次级容器 - active
+$--yt-bg-color-component: $--yt-gray-color-3; // 色彩 - 组件
+$--yt-bg-color-component-hover: $--yt-gray-color-4; // 色彩 - 组件 - hover
+$--yt-bg-color-component-active: $--yt-gray-color-6; // 色彩 - 组件 - active
+$--yt-bg-color-secondarycomponent: $--yt-gray-color-4; // 色彩 - 次级组件
+$--yt-bg-color-secondarycomponent-hover: $--yt-gray-color-5; // 色彩 - 次级组件 - hover
+$--yt-bg-color-secondarycomponent-active: $--yt-gray-color-6; // 色彩 - 次级组件 - active
+$--yt-bg-color-component-disabled: $--yt-gray-color-2; // 色彩 - 组件 - disabled
+
+// 特殊组件背景色，目前只用于 button、input 组件多主题场景，浅色主题下固定为白色，深色主题下为 transparent 适配背景颜色
+$--yt-bg-color-specialcomponent: $--yt-white-color;
+
+// 文本颜色
+$--yt-text-color-primary: $--yt-font-gray-1; // 色彩-文字-主要
+$--yt-text-color-secondary: $--yt-font-gray-2; // 色彩-文字-次要
+$--yt-text-color-placeholder: $--yt-font-gray-3; // 色彩-文字-占位符/说明
+$--yt-text-color-disabled: $--yt-font-gray-4; // 色彩-文字-禁用
+$--yt-text-color-anti: $--yt-white-color; // 色彩-文字-反色
+$--yt-text-color-brand: $--yt-brand-color-7; // 色彩-文字-品牌
+$--yt-text-color-link: $--yt-brand-color-7; // 色彩-文字-链接
+
+// 分割线
+$--yt-border-level-1-color: $--yt-gray-color-3;
+$--yt-component-stroke: $--yt-gray-color-3;
+// 边框
+$--yt-border-level-2-color: $--yt-gray-color-4;
+$--yt-component-border: $--yt-gray-color-4;
+
+// 基础/下层 投影 hover 使用的组件包括：表格 /
+$--yt-shadow-1: 0 1px 10px rgba(0, 0, 0, 5%), 0 4px 5px rgba(0, 0, 0, 8%),
+  0 2px 4px -1px rgba(0, 0, 0, 12%);
+// 中层投影 下拉 使用的组件包括：下拉菜单 / 气泡确认框 / 选择器 /
+$--yt-shadow-2: 0 3px 14px 2px rgba(0, 0, 0, 5%),
+  0 8px 10px 1px rgba(0, 0, 0, 6%), 0 5px 5px -3px rgba(0, 0, 0, 10%);
+// 上层投影（警示/弹窗）使用的组件包括：全局提示 / 消息通知
+$--yt-shadow-3: 0 6px 30px 5px rgba(0, 0, 0, 5%),
+  0 16px 24px 2px rgba(0, 0, 0, 4%), 0 8px 10px -5px rgba(0, 0, 0, 8%);
+
+// 内投影 用于弹窗类组件（气泡确认框 / 全局提示 / 消息通知）的内描边
+$--yt-shadow-inset-top: inset 0 0.5px 0 #dcdcdc;
+$--yt-shadow-inset-right: inset 0.5px 0 0 #dcdcdc;
+$--yt-shadow-inset-bottom: inset 0 -0.5px 0 #dcdcdc;
+$--yt-shadow-inset-left: inset -0.5px 0 0 #dcdcdc;
+$--yt-shadow-inset: $--yt-shadow-inset-top, $--yt-shadow-inset-right,
+  $--yt-shadow-inset-bottom, $--yt-shadow-inset-left;
+
+// 融合阴影
+$--yt-shadow-2-inset: $--yt-shadow-2, $--yt-shadow-inset;
+$--yt-shadow-3-inset: $--yt-shadow-3, $--yt-shadow-inset;
+
+// table 特定阴影
+$--yt-table-shadow-color: rgba(0, 0, 0, 8%);
+
+// 滚动条颜色
+$--yt-scrollbar-color: rgba(0, 0, 0, 10%);
+// 滚动条悬浮颜色（ hover ）
+$--yt-scrollbar-hover-color: rgba(0, 0, 0, 30%);
+// 滚动条轨道颜色，不能是带透明度，否则纵向滚动时，横向滚动条会穿透
+$--yt-scroll-track-color: #fff;
+
+// 动画
+$--yt-anim-time-fn-easing: cubic-bezier(0.38, 0, 0.24, 1);
+$--yt-anim-time-fn-ease-out: cubic-bezier(0, 0, 0.15, 1);
+$--yt-anim-time-fn-ease-in: cubic-bezier(0.82, 0, 1, 0.9);
+$--yt-anim-duration-base: 0.2s;
+$--yt-anim-duration-moderate: 0.24s;
+$--yt-anim-duration-slow: 0.28s;
+
+// 统一管理各组件层级关系
+$--yt-z-index-back-top: 300;
+$--yt-z-index-affix: 500;
+$--yt-z-index-drawer: 1500;
+$--yt-z-index-dialog: 2500;
+$--yt-z-index-image-viewer: 3000;
+$--yt-z-index-loading: 3500;
+$--yt-z-index-message: 5000;
+$--yt-z-index-Popup: 5500;
+$--yt-z-index-Tooltip: 5600;
+$--yt-z-index-Notification: 6000;
+$--yt-z-index-dragging: 6500;
+$--yt-z-index-guide: 999999;
+
+// 文字
+$--yt-font-body-large: 16px / 24px PingFang SC, Microsoft YaHei, Arial Regular;
+$--yt-font-body-medium: 14px / 22px PingFang SC, Microsoft YaHei, Arial Regular;
+$--yt-font-body-small: 12px / 20px PingFang SC, Microsoft YaHei, Arial Regular;
+
+// Border Radius
+$--yt-border-radius-small: 2px; // 圆角-2
+$--yt-border-radius-default: 3px; // 圆角-3
+$--yt-border-radius-medium: 6px; // 圆角-6
+$--yt-border-radius-large: 9px; // 圆角-9
+$--yt-border-radius-extraLarge: 12px; // 圆角-12
+$--yt-border-radius-round: 999px; // 圆角-999
+$--yt-border-radius-circle: 50%; // 圆角-全圆角
+
+// input select input-number
+$--yt-input-height-default: 40px;
+$--yt-input-height-large: 40px;
+$--yt-input-height-medium: 36px;
+$--yt-input-height-small: 32px;
+$--yt-input-height-mini: 24px;
+
+// notification
+$--yt-notification-width: 400px;
+$--yt-notification-padding: var(--yt-size-6);
+$--yt-notification-border-radius: var(--yt-radius-default);
+$--yt-notification-padding-LR-m: var(--yt-size-6);
+$--yt-notification-padding-TB-m: var(--yt-size-6);
+$--yt-notification-padding-LR-l: var(--yt-size-8);
+$--yt-notification-padding-TB-l: var(--yt-size-8);
+$--yt-notification-bg-color: var(--yt-white-color);
+$--yt-notification-box-shadow: 0px 8px 10px -5px rgba(0,0,0,0.08), 
+                              0px 16px 24px 2px rgba(0,0,0,0.04),
+                              0px 6px 30px 5px rgba(0,0,0,0.05);

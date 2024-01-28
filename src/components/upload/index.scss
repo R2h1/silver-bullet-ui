@@ -1,0 +1,116 @@
+$prefix: "yt-upload";
+
+.#{$prefix} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font: 14px / 22px PingFangSC-Regular, Microsoft YaHei, Arial Regular;
+    font-size: 14px;
+    color: rgba(0,0,0,0.60);
+    letter-spacing: 0;
+    --yt-upload-file-ext-icon-size: 24px;
+
+    .#{$prefix}__triggers {
+        display: flex;
+        gap: 16px;
+
+        .#{$prefix}__upload-op {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+        }
+    }
+    
+    .el-table {
+        border: 1px solid rgba(231,231,231,1);
+        border-radius: 3px 3px 0px 0px;
+        border-bottom: none;
+        .el-table__cell {
+            padding: 6px 0;
+        }
+        
+        .#{$prefix}__file-ext-icon {
+            align-self: center;
+            width: var(--yt-upload-file-ext-icon-size);
+            height: var(--yt-upload-file-ext-icon-size);
+            min-width: var(--yt-upload-file-ext-icon-size);
+        }
+
+        .#{$prefix}__display-file-name,
+        .#{$prefix}__display-file-op {
+            display: inline-flex;
+        }
+
+        .#{$prefix}__display-file-op {
+            width: 100%;
+            justify-content: flex-end;
+            
+            .#{$prefix}__upload-icon {
+                margin-top: 8px;
+            }
+            i {
+                width: 32px;
+                height: 32px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 16px;
+                cursor: pointer;
+            }
+        }
+
+        .#{$prefix}__display-file-name {
+            gap: 10px;
+        }
+
+        .#{$prefix}__display-file-who,
+        .#{$prefix}__display-file-time {
+            font-size: 12px;
+        }
+    }
+}
+
+.#{$prefix}__delete-popover-content {
+    display: flex;
+    gap: 20px;
+    padding: 4px;
+    flex-direction: column;
+}
+
+.#{$prefix}__delete-tips {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    svg {
+        color: rgb(255 125 0);
+    }
+}
+
+.#{$prefix}__delete-cancel {
+    padding: 2px 8px;
+    font-size: 12px;
+    background-color: #E3E3E3;
+    color: rgba(0, 0, 0, 0.9);
+    border: none;
+    height: auto;
+    &:hover{
+        border: none;
+        background-color: #c4c4c4;
+        color: rgba(0, 0, 0, 0.9);
+    }
+}
+
+
+.#{$prefix}__delete-ok {
+    padding: 2px 8px;
+    font-size: 12px;
+    background-color: #1974FF;
+    color: #fff;
+    border: none;
+    height: auto;
+    &:hover{
+        border: none;
+        background-color: #066aff;
+        color: #fff;
+    }
+}

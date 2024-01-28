@@ -1,0 +1,38 @@
+$namespaceYt: "yt" !default;
+$blockSeparator: "-" !default;
+$elementSeparator: "__" !default;
+$modifyerSeparator: "--" !default;
+$statePrefix: "is-" !default;
+@mixin block($block) {
+  $temp: $namespaceYt + $blockSeparator + $block;
+  .#{$temp} {
+    @content;
+  }
+}
+
+@mixin element($el) {
+  $selector: &;
+  $temp: $selector + $elementSeparator + $el;
+  @at-root {
+    #{$temp} {
+      @content;
+    }
+  }
+}
+
+@mixin modifier($modify) {
+  $temp: & + $modifyerSeparator + $modify;
+  @at-root {
+    #{$temp} {
+      @content;
+    }
+  }
+}
+
+@mixin when($state) {
+  @at-root {
+    &.#{$statePrefix + $state} {
+      @content;
+    }
+  }
+}
