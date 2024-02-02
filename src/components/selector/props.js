@@ -1,6 +1,5 @@
 export default {
   value: {
-    type: [String, Array],
   },
   optionsLabel: {
     type: String,
@@ -29,6 +28,14 @@ export default {
   label: {
     type: String,
     default: '',
+  },
+  showLabel: {
+    type: Boolean,
+    default: false
+  },
+  labelField: {
+    type: String,
+    default: 'label',
   },
   filterable: {
     type: Boolean,
@@ -61,7 +68,7 @@ export default {
     type: Boolean,
     default: false,
   },
-  showSelectAll: {
+  showSelectedList: {
     type: Boolean,
     default: false,
   },
@@ -83,6 +90,10 @@ export default {
   popperWidth: {
     type: Number,
     default: 300,
+  },
+  popperClass: {
+    type: String,
+    default: '',
   },
   itemType: {
     type: String,
@@ -110,5 +121,21 @@ export default {
   valueField: {
     type: String,
     default: 'value',
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  appendToBody: {
+    type: Boolean,
+    default: false,
+  },
+  selectedList: {
+    type: Array,
+    default: () => ([])
+  },
+  selectedValueSet: {
+    type: Set,
+    default: () => (new Set())
   }
 }

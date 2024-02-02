@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { YtNotification } from "@yutu/yt-vue";
+import { YtNotification } from ".";
 import Test from './test.vue';
 
 export default {

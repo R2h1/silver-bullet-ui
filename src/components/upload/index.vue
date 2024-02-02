@@ -5,12 +5,11 @@
 </template>>
 
 <script>
-import { YtUploadBus, YtButton } from "@yutu/yt-vue";
+import { YtUploadBus } from ".";
 
 export default {
     components: {
         YtUploadBus,
-        YtButton
     },
     data() {
         return {

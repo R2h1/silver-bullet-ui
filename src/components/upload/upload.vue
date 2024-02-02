@@ -36,7 +36,7 @@
             <ppt-icon :class="`${prefixClass}__file-ext-icon`" v-else-if="isFileExtension(scope.row.name, 'ppt')"/>
             <word-icon :class="`${prefixClass}__file-ext-icon`" v-else-if="isFileExtension(scope.row.name, 'word')"/>
             <zip-icon :class="`${prefixClass}__file-ext-icon`" v-else-if="isFileExtension(scope.row.name, 'zip')"/>
-            <unknow-icon :class="`${prefixClass}__file-ext-icon`" v-else />
+            <unknown-icon :class="`${prefixClass}__file-ext-icon`" v-else />
             <span :style="{ color: getIsUploading(scope.row) ? 'rgba(0, 0, 0, 0.6)' : 'inherit' }" >{{ scope.row.name }}</span>
           </div>
         </template>
@@ -102,35 +102,23 @@
 </template>
 
 <script>
-import { 
-  Upload as ElUpload, 
-  Table as ElTable, 
-  TableColumn as ElTableColumn,
-  Progress as ElProgress
-} from "element-ui";
-import YtButton from '../../components/button';
 import props from './props';
 import { EXTENSIONS } from "./constant";
 import { 
   ExcelIcon, 
   PptIcon, 
-  UnknowIcon, 
+  UnknownIcon, 
   PdfIcon,
   ZipIcon,
   WordIcon
-} from './icons';
+} from '../icons';
 
 export default {
   name: "yt-upload",
   components: {
-    ElUpload,
-    ElTable,
-    YtButton,
-    ElTableColumn,
-    ElProgress,
     ExcelIcon,
     PptIcon,
-    UnknowIcon,
+    UnknownIcon,
     PdfIcon,
     ZipIcon,
     WordIcon,
@@ -222,3 +210,7 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import "./index.scss";
+</style>

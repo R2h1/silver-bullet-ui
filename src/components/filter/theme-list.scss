@@ -9,12 +9,19 @@
     margin: 0;
 
     @include element(item) {
+        display: flex;
+        position: relative;
         padding: 3px 8px;
         border-radius: 3px;
         color: var(--color);
         background-color: var(--bg-color);
         cursor: pointer;
         transition: all 0.2s;
+
+        @include when(disabled) {
+            color: rgba(0,0,0,0.26);
+            pointer-events: none;
+        }
 
         &:hover:not(.active) {
             color: var(--hover-color);

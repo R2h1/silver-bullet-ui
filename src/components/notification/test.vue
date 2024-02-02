@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import props from '../../../components/notification/props';
-import YtNotification, { Notify  }  from "../../../components/notification";
-import NotificationList from '../../../components/notification/notificationList.jsx';
+import props from './props';
+import YtNotification, { Notify  }  from ".";
+import NotificationList from './notificationList.jsx';
 
 const DEFAULT_OFFSET = {
     'top-left': {

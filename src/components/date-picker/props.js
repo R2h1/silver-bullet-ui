@@ -3,6 +3,10 @@ export default {
         type: String,
         default: ''
     },
+    showLabel: {
+        type: Boolean,
+        default: false,
+    },
     dateWidth: {
         type: Number,
         default: 78,
@@ -62,5 +66,9 @@ export default {
     showPrefixIcon: {
         type: Boolean,
         default: false,
-    }
+    },
+    popperClass: {
+        type: String,
+        default: ''
+    },
 }

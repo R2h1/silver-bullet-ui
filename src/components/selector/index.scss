@@ -1,4 +1,16 @@
-@import "./mixins.scss";
+@import "../common/bem.scss";
+
+@mixin center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 $prefix: 'yt-selector';
 
@@ -14,16 +26,27 @@ $prefix: 'yt-selector';
 
   background: #F5F7FA;
   border-radius: 3px;
+  cursor: pointer;
 
   &.fit-content {
     width: fit-content;
     .#{$prefix} {
       width: fit-content;
-      .el-input {
+      .el-input:not(.#{$prefix}__popper-input) {
         width: fit-content;
         .el-input__inner {
           width: calc(var(--select-input-inner-width) + var(--select-trigger-padding-left) + 30px);
         }
+      }
+    }
+  }
+
+  @include when(disabled) {
+    background-color: #F3F3F3;
+
+    @include block(selector) {
+      @include element(trigger-suffix) {
+        display: none;
       }
     }
   }
@@ -129,8 +152,11 @@ $prefix: 'yt-selector';
   letter-spacing: 0;
   padding-top: 6px;
   color: rgba(0, 0, 0, 0.90);
-  left: 0px !important;
 
+  @include when(not-in-body) {
+    left: 0px !important;
+  }
+  
   &.fixed-width {
     width: var(--select-popper-width) !important;
     min-width: var(--select-popper-width) !important;
@@ -230,13 +256,19 @@ $prefix: 'yt-selector';
       display: inline-flex;
       justify-content: space-between;
       border-bottom: 1px solid rgba(231,231,231,1);
-      color: rgba(0,0,0,0.40);
+      color: rgba(0, 0, 0, 0.6);
+
+      @include when(empty) {
+        color: rgba(0, 0, 0, 0.26);
+      }
 
       .#{$prefix}__selected-count {
 
       }
       
       .#{$prefix}__selected-clear-btn {
+        position: absolute;
+        right: 12px;
         color: #1974FF;
         cursor: pointer;
       }
@@ -245,8 +277,9 @@ $prefix: 'yt-selector';
   .#{$prefix}__options-label {
     display: inline-block;
     box-sizing: border-box;
-    width: 100%;
-    padding: 7px 12px;
+    width: calc(calc(100%) - 12px);
+    padding: 7px 0px;
+    margin-left: 12px;
     color: rgba(0,0,0,0.40);
     border-bottom: 1px solid rgba(231,231,231,1);
   }
@@ -278,9 +311,13 @@ $prefix: 'yt-selector';
   }
   
   .#{$prefix}__options-body {
-    max-height: 200px;
+    max-height: 320px;
     overflow-y: scroll;
     padding-top: 6px;
+
+    @include when(selected) {
+      max-height: 170px;
+    }
 
     .el-select-dropdown__item  {
       width: calc(var(--select-wrap-width) - 6px);
@@ -319,8 +356,8 @@ $prefix: 'yt-selector';
           color: rgba(0, 0, 0, 0.90);
         }
 
-        &.hover:not(.selected),
-        &:hover:not(.selected) {
+        &.hover:not(.selected):not(.is-disabled),
+        &:hover:not(.selected):not(.is-disabled) {
           span {
             background-color: #f3f3f3;
           }
@@ -332,6 +369,12 @@ $prefix: 'yt-selector';
             font-weight: 400;
             color: rgba(0, 0, 0, 0.90);
           }
+        }
+      }
+
+      @include when(disabled) {
+        span {
+          color: rgba(0,0,0,0.26);
         }
       }
       

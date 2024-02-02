@@ -49,7 +49,7 @@ function handleChange(val) {
     <div>
       <span>active 可重复触发</span>
       <span>当前值: {{ JSON.stringify(value) }}</span>
-      <ThemeList :once="false" v-model="value" @change="handleChange" :data="data" :colorInfo="colorInfo" >
+      <ThemeList draggable :once="false" v-model="value" @change="handleChange" :data="data" :colorInfo="colorInfo" >
       </ThemeList>
     </div>
     

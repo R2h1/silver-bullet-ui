@@ -1,6 +1,6 @@
 <template>
     <div :class="`${prefixClass}`">
-        <span v-if="label" :class="`${prefixClass}__label`" >{{ label }}</span>
+        <span v-if="showLabel && label" :class="`${prefixClass}__label`" >{{ label }}</span>
         <div :class="`${prefixClass}__content`">
             <div :class="`${prefixClass}__content-begin`" :style="{
                 '--input-inner-width': startInputWidth
@@ -14,7 +14,7 @@
                     :clearable="clearable"
                     :placeholder="startPlaceholder"
                     :append-to-body="appendToBody"
-                    :popper-class="`${prefixClass}__popper ${prefixClass}__popper-start`"
+                    :popper-class="`${popperClass} ${prefixClass}__popper ${prefixClass}__popper-start`"
                     :picker-options="startPickerOptions"
                     @change="handleStartDateChange"
                     @focus="handleStartDateFocus"
@@ -51,10 +51,12 @@
 
 
 <script >
+import {
+    ClearIcon,
+    SuffixIcon,
+    PrefixIcon,
+} from '../icons'
 import props from './props';
-import ClearIcon from './icons/clear-icon.vue';
-import SuffixIcon from './icons/suffix-icon.vue';
-import PrefixIcon from './icons/prefix-icon.vue';
 
 export default {
     name: 'yt-date-picker-range',
@@ -152,6 +154,6 @@ export default {
 
 </script>
 
-<style lang="scss">
-@import "index.scss";
+<style lang='scss'>
+@import './index.scss';
 </style>

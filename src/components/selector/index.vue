@@ -1,10 +1,10 @@
 <template>
     <div class="yt-selector-list">
       <yt-selector />
-    <yt-selector 
+    <!-- <yt-selector 
       :data="data" 
       :loading="loading" 
-      prefix="项目经理："
+      label="项目经理："
       placeholder="全部"
       optionsLabel="搜索结果"
       showSelectAll
@@ -34,7 +34,7 @@
     <yt-selector 
       :data="data" 
       :loading="loading" 
-      prefix="项目经理："
+      label="项目经理："
       placeholder="全部"
       type="txt"
       optionsLabel="搜索结果"
@@ -51,7 +51,7 @@
     <yt-selector 
       :data="data" 
       :loading="loading" 
-      prefix="项目经理："
+      label="项目经理："
       placeholder="全部"
       type="tag"
       optionsLabel="搜索结果"
@@ -70,7 +70,7 @@
       <yt-selector 
         :data="data" 
         :loading="loading" 
-        prefix=""
+        label=""
         placeholder="请选择"
         type="tag"
         optionsLabel="搜索结果"
@@ -91,7 +91,7 @@
       <yt-selector 
         :data="data" 
         :loading="loading" 
-        prefix=""
+        label=""
         placeholder="请选择"
         type="tag"
         optionsLabel=""
@@ -111,7 +111,7 @@
       <yt-selector 
         :data="data" 
         :loading="loading" 
-        prefix="项目经理："
+        label="项目经理1："
         placeholder="全部"
         type="txt"
         optionsLabel="搜索结果"
@@ -133,7 +133,7 @@
       <yt-selector 
         :data="data" 
         :loading="loading" 
-        prefix="项目经理："
+        label="项目经理2："
         placeholder="全部"
         type="txt"
         optionsLabel="搜索结果"
@@ -150,12 +150,12 @@
         v-model="values"
       >
       </yt-selector>
-    </div>
+    </div> -->
     </div>
 </template>
 
 <script>
-import { YtSelector } from "@yutu/yt-vue";
+import { YtSelector } from ".";
 
 export default {
   components: {
@@ -175,8 +175,8 @@ export default {
     }
   },
   watch: {
-    values(val) {
-      console.log('选中值改变,', val)
+    values(val, oldValue) {
+      console.log('选中值改变,', val, oldValue)
     }
   },
   methods: {
@@ -200,7 +200,6 @@ export default {
       })
     },
     handleLoadMore(val) {
-      console.log('load', this.pageInfo.done, this.pageInfo.next)
       if (this.pageInfo.done) {
         return;
       }
@@ -239,7 +238,8 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style>
+
 .yt-selector-list {
   display: flex;
   flex-direction: row;

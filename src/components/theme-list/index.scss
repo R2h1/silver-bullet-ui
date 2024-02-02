@@ -24,5 +24,13 @@
       color: var(--sb-hover-color);
       background-color: var(--sb-hover-bg-color);
     }
+    
+    &.draggable {
+      cursor: move;
+    }
+
+    &.drag-move {
+      transition: .5s;
+    }
   }
 }

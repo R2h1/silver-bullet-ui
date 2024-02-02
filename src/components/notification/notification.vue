@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div :class="`${prefixClass}`" :style="styles" @mouseenter="clearTimer" @mouseleave="setTimer">
     <div v-if="showIcon" :class="`${prefixClass}__icon`" >
       <slot name="icon">
@@ -89,5 +89,6 @@ export default Vue.extend({
 });
 </script>
 
-<style>
+<style lang='scss'>
+@import './index.scss';
 </style>

@@ -1,0 +1,12 @@
+@import "../common/bem.scss";
+
+@include block(remove) {
+  position: relative;
+
+  @include element(icon) {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    cursor: pointer;
+  }
+}

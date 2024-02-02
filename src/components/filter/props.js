@@ -3,6 +3,10 @@ export default {
         type: String,
         default: 'fieldName',
     },
+    idSuffix: {
+        type: String,
+        default: '0',
+    },
     filterItemValueField: { // 筛选字段列表值字段
         type: String,
         default: 'fieldName',

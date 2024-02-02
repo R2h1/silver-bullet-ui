@@ -6,6 +6,7 @@
 import props from './props';
 
 export default {
+  name: 'yt-observer',
   props: {
     ...props
   },

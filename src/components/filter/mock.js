@@ -273,20 +273,14 @@ export const filterList = [
     {
         "id": null,
         "name": "全部",
-        "defaultFlag": "0",
-        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]}]"
-    },
-    {
-        "id": "618499853467389952",
-        "name": "23",
         "defaultFlag": "1",
-        "filterContent": "[{\"fieldName\":\"fixedTimeProjectFlag\",\"sort\":1,\"value\":[]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]},{\"fieldName\":\"responsibleGroup\",\"sort\":4,\"value\":[]},{\"fieldName\":\"primaryCategory\",\"sort\":5,\"value\":[]},{\"fieldName\":\"status\",\"sort\":6,\"value\":[]},{\"fieldName\":\"secondaryCategory\",\"sort\":7,\"value\":[]}]"
+        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[\"4\"]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[\"00000\",\"02051\"]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]}]"
     },
     {
         "id": "617441846033780736",
         "name": "xinshiti",
         "defaultFlag": "0",
-        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[\"已结项\"]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]},{\"fieldName\":\"applicationDate\",\"sort\":4,\"value\":[null,null]}]"
+        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[\"6\"]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]},{\"fieldName\":\"applicationDate\",\"sort\":4,\"value\":[null,null]}]"
     },
     {
         "id": "618869933262901248",
@@ -298,20 +292,59 @@ export const filterList = [
         "id": "618110483493163008",
         "name": "测",
         "defaultFlag": "0",
-        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]}]"
+        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[\"3\"]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]}]"
     },
     {
         "id": "618143843460452352",
         "name": "测2",
         "defaultFlag": "0",
-        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[{\"accountNo\":\"00022\",\"fullName\":\"郭敬晖\",\"email\":null,\"status\":\"0\",\"type\":\"0\",\"roleNames\":\"admin\",\"deptNo\":\"H19900352\",\"deptName\":\"总裁办公室\",\"deptFullName\":\"国信证券股份有限公司/总裁办公室\",\"checked\":true,\"disabled\":false}]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]}]"
+        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[\"2\"]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[{\"accountNo\":\"00022\",\"fullName\":\"郭敬晖\",\"email\":null,\"status\":\"0\",\"type\":\"0\",\"roleNames\":\"admin\",\"deptNo\":\"H19900352\",\"deptName\":\"总裁办公室\",\"deptFullName\":\"国信证券股份有限公司/总裁办公室\",\"checked\":true,\"disabled\":false}]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]}]"
     },
     {
         "id": "618107789193908224",
         "name": "项目经理测试",
         "defaultFlag": "0",
-        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]}]"
-    }
+        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[\"1\"]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]}]"
+    },
+    {
+        "id": "618499853467389952",
+        "name": "23",
+        "defaultFlag": "0",
+        "filterContent": "[{\"fieldName\":\"fixedTimeProjectFlag\",\"sort\":1,\"value\":[\"0\"]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]},{\"fieldName\":\"responsibleGroup\",\"sort\":4,\"value\":[]},{\"fieldName\":\"primaryCategory\",\"sort\":5,\"value\":[]},{\"fieldName\":\"status\",\"sort\":6,\"value\":[]},{\"fieldName\":\"secondaryCategory\",\"sort\":7,\"value\":[\"1\"]}]"
+    },
+]
+
+export const filterList2 = [
+    {
+        "id": null,
+        "name": "全部",
+        "defaultFlag": "1",
+        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[\"4\"]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[\"00000\",\"02051\"]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]}]"
+    },
+    {
+        "id": "618499853467389111",
+        "name": "232",
+        "defaultFlag": "0",
+        "filterContent": "[{\"fieldName\":\"fixedTimeProjectFlag\",\"sort\":1,\"value\":[\"0\"]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]},{\"fieldName\":\"responsibleGroup\",\"sort\":4,\"value\":[]},{\"fieldName\":\"primaryCategory\",\"sort\":5,\"value\":[]},{\"fieldName\":\"status\",\"sort\":6,\"value\":[]},{\"fieldName\":\"secondaryCategory\",\"sort\":7,\"value\":[\"1\"]}]"
+    },
+    {
+        "id": "617441846033780222",
+        "name": "xinshiti2",
+        "defaultFlag": "0",
+        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[\"6\"]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]},{\"fieldName\":\"applicationDate\",\"sort\":4,\"value\":[null,null]}]"
+    },
+    {
+        "id": "618869933262901333",
+        "name": "新的2",
+        "defaultFlag": "0",
+        "filterContent": "[]"
+    },
+    {
+        "id": "618110483493163444",
+        "name": "测2",
+        "defaultFlag": "0",
+        "filterContent": "[{\"fieldName\":\"status\",\"sort\":1,\"value\":[\"3\"]},{\"fieldName\":\"projectManager\",\"sort\":2,\"value\":[]},{\"fieldName\":\"projectPriority\",\"sort\":3,\"value\":[]}]"
+    },
 ]
 
 export const moreMenuList = [
@@ -331,3 +364,283 @@ export const moreMenuList = [
         disabled: false,
     }
 ]
+
+// 筛选字段对应数据源
+export const statusList =  [
+    {
+        "type": "PROJECT_STATUS",
+        "desc": "项目状态",
+        "value": "0",
+        "label": "立项阶段",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_STATUS",
+        "desc": "项目状态",
+        "value": "1",
+        "label": "实施阶段",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_STATUS",
+        "desc": "项目状态",
+        "value": "2",
+        "label": "结项阶段",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_STATUS",
+        "desc": "项目状态",
+        "value": "3",
+        "label": "已上线待验收",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_STATUS",
+        "desc": "项目状态",
+        "value": "4",
+        "label": "撤销或终止",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_STATUS",
+        "desc": "项目状态",
+        "value": "5",
+        "label": "计划阶段",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_STATUS",
+        "desc": "项目状态",
+        "value": "6",
+        "label": "已结项",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_STATUS",
+        "desc": "项目状态",
+        "value": "-99",
+        "label": "作废",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    }
+]
+
+export const priorityList = [
+    {
+        "type": "PROJECT_PRIORITY_TYPE",
+        "desc": "项目重要级别",
+        "value": "0",
+        "label": "一般项目",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_PRIORITY_TYPE",
+        "desc": "项目重要级别",
+        "value": "1",
+        "label": "部门重点",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_PRIORITY_TYPE",
+        "desc": "项目重要级别",
+        "value": "2",
+        "label": "公司重点",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    }
+]
+
+export const categoryPrimaryList = [
+    {
+        "type": "PROJECT_CATEGORY_PRIMARY_TYPE",
+        "desc": "项目一级分类",
+        "value": "0",
+        "label": "全新项目",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_CATEGORY_PRIMARY_TYPE",
+        "desc": "项目一级分类",
+        "value": "1",
+        "label": "优化项目",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_CATEGORY_PRIMARY_TYPE",
+        "desc": "项目一级分类",
+        "value": "2",
+        "label": "专项项目",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    }
+]
+
+export const categorySecondaryList = [
+    {
+        "type": "PROJECT_CATEGORY_SECONDARY_TYPE",
+        "desc": "项目二级分类",
+        "value": "0",
+        "label": "开发项目",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_CATEGORY_SECONDARY_TYPE",
+        "desc": "项目二级分类",
+        "value": "1",
+        "label": "工程项目",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    },
+    {
+        "type": "PROJECT_CATEGORY_SECONDARY_TYPE",
+        "desc": "项目二级分类",
+        "value": "2",
+        "label": "服务项目",
+        "parentCategory": null,
+        "referenceType": null,
+        "fieldName": null,
+        "fixedFlag": null,
+        "hiddenFlag": null,
+        "canHiddenFlag": null,
+        "sort": null,
+        "checked": false,
+        "disabled": false
+    }
+]
+
+export const fixedTimeProjectFlagList = [
+    {
+        "value": "1",
+        "label": "是",
+    },
+    {
+        "value": "0",
+        "label": "否",
+    },
+]
+

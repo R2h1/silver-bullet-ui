@@ -1,19 +1,34 @@
 <template>
-  <ul ref="theme-list" :class="`${prefixClass}`">
+  <transition-group
+      name="drag"
+      tag="ul"
+      ref="theme-list" 
+      :class="`${prefixClass}`"
+      @dragover.native="handle($event)"
+      @dragenter.native="handle($event)"
+    >
     <li
-      
-      :class="[{ active: activeList[index] }, `${prefixClass}__item`]" 
+      :draggable="draggable"
+      :class="[{ active: activeList[index], 'draggable': draggable }, `${prefixClass}__item`]" 
       @click="handleClick(item, index)" 
-      v-for="(item, index) in data" :key='item[valueField]' >
+      v-for="(item, index) in data" :key='item[valueField]'
+      @drop="handleDrop($event, index)"
+      @dragstart="handleDragStart($event, index)"
+      @dragover="handleDragover($event)"
+      >
         <slot :current="item" :index="index">
-          {{ item.label }} <Observer v-if="index === data.length - 1" @intersect="handleIntersect"/>
+          <slot v-if="draggable" name='reference'>
+            <span >
+              <i class="el-icon-rank"></i>
+            </span>
+          </slot>
+          {{ item.label }}
         </slot>
       </li>
-  </ul>
+  </transition-group>
 </template>
 
 <script>
-import Observer from '../observer/observer.vue';
 import props from './props';
 
 const COLOR_INFO_KEYS = [
@@ -34,12 +49,12 @@ export default {
     ...props
   },
   components: {
-    Observer
   },
   data() {
     return {
       prefixClass: 'sb-theme-list',
       loading: false,
+      draggingIndex: -1,
     }
   },
   computed: {
@@ -73,8 +88,27 @@ export default {
       }
       return obj.hasOwnProperty(key);
     },
-    handleIntersect() {
-      console.log('科技')
+    handleDragStart(event, index) {
+      event.dataTransfer.effectAllowed = 'move';
+      this.draggingIndex = index;
+    },
+    handleDragover(event) {
+      event.preventDefault();
+    },
+    handleDrop(event, index){
+      event.preventDefault();
+      // 排除自身
+      if (this.draggingIndex === index) return;
+      // 拖拽的元素
+      const draggingItem = this.data[this.draggingIndex];
+      this.data.splice(this.draggingIndex, 1);
+      this.data.splice(index, 0, draggingItem);
+      // 更新为拖拽进入的 index
+      this.draggingIndex = index;
+    },
+    handle(event) {
+      console.log(11111)
+      event.preventDefault();
     }
   }
 };
@@ -84,3 +118,5 @@ export default {
 <style lang="scss">
 @import './index.scss';
 </style>
+
+

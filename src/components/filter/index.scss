@@ -1,17 +1,298 @@
 @import "../common/bem.scss";
+@import "../common/mixins.scss";
 @import "./theme-list.scss";
+@import "../remove/index.scss";
 
 @include block(filter) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 24px;
+    box-shadow: 0px 2px 6px 0px rgba(228,233,238,1);
+    font: 14px / 22px PingFangSC-Regular;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.90);
+    letter-spacing: 0;
 
-    // @include element() {
+    @include element(header) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-    // }
+        @include modifier(front) {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+    }
 
-    // @include element() {
+    @include element(title-wrap) {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        cursor: pointer;
+    }
 
-    // }
+    @include element(title) {
+        font: 15px / 24px PingFangSC-Semibold;
+        font-weight: 600;
+    }
 
-    // @include element() {
+    @include element(has-modify) {
+        margin-left: 2px;
+        padding: 0px 6px;
+        background: #E8F5FF;
+        border-radius: 3px;
+        font: 12px / 20px PingFangSC-Medium;
+        font-weight: 500;
+        color: #1974FF;
+    }
 
-    // }
+    @include element(filter-operate-item) {
+        padding: 4px 8px;
+        border: 1px solid rgba(220,220,220,1);
+        border-radius: 3px;
+        span {
+            font-size: 12px;
+        }
+    }
+
+    @include element(content-operate-list) {
+        @include modifier(back) {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+        }
+    }
+
+    @include element(content-operate-item) {
+        padding: 3px 8px;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        border-radius: 3px;
+        cursor: pointer;
+
+        .prefix {
+            margin-right: 6px;
+        }
+
+        &:hover {
+            background-color: #F3F3F3;
+        }
+
+        @include modifier(icon) {
+            margin-left: -12px;
+            padding: 6px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #F3F3F3;
+            }
+        }
+    }
+
+    @include element(condition-list) {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        --yt-date-picker-range-popper-start-bottom-margin-top: 3px;
+        --yt-date-picker-range-popper-end-bottom-margin-top: 3px;
+    }
+
+    @include element(condition-config-trigger) {
+        padding: 3px 8px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        border: 1px solid rgba(220, 220, 220, 1);
+        border-radius: 3px;
+        cursor: pointer;
+
+        @include modifier(label) {
+            font-weight: 500;
+        }
+
+        @include modifier(count) {
+            color: #1974FF;
+        }
+
+        .suffix-icon {
+            opacity: 0.4; 
+        }
+        &:hover {
+            .suffix-icon {
+                opacity: 1; 
+            }
+        }
+    }
+
+    @include element(condition-input-item) {
+        width: 200px;
+
+        .el-input__inner {
+            height: 28px;
+            padding-left: 8px;
+        }
+        .el-input__suffix,
+        .el-input__suffix-inner {
+            display: flex;
+            align-items: center;
+        }
+        .el-input__suffix {
+            right: 8px;
+        }
+    }
+
+    @each $popper in filter-list-popper, sort-list-popper, condition-config-popper {
+        @include element($popper) {
+            &[x-placement^=bottom] {
+                margin-top: 0;
+                padding: 0;
+                font: 14px / 22px PingFangSC-Regular;
+                font-size: 14px;
+                color: rgba(0, 0, 0, 0.90);
+                letter-spacing: 0;
+            }
+        }
+    }
+
+    @include element(filter-list-popper) {
+        &[x-placement^=bottom] {
+            width: 272px;
+        }
+    }
+
+    @include element(list) {
+        @include modifier(item-name) {
+            display: inline-block;
+            width: 100%;
+            max-width: 220px;
+            @include yt-overflow-ellipsis;
+        }
+        @include modifier(item-default-tag) {
+            position: absolute;
+            top: 50%;
+            right: 28px;
+            padding: 1px 4px;
+            color: #FF7D00; 
+            background-color: #FFF7E8;
+            border-radius: 3px;
+            transform: translateY(-50%);
+        }
+    }
+
+    @include element(more-icon) {
+        position: absolute;
+        top: 50%;
+        right: 8px;
+        transform: translateY(-50%);
+    }
+
+    @include element(more-menu-popper) {
+        &[x-placement^=right] {
+            margin-top: 0;
+            padding: 0;
+            font: 14px / 22px PingFangSC-Regular;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.90);
+            letter-spacing: 0;
+
+            .is-delete {
+                color: #F53F3F;
+            }
+        }
+    }
+
+    @include element(condition-config-popper) {
+        width: 620px;
+    }
+
+    @include element(condition-config) {
+        padding: 20px 0 20px 20px;
+
+        @include modifier(header) {
+            position: relative;
+            height: 24px;
+            margin-bottom: 16px;
+        }
+        @include modifier(title) {
+            font: 16px / 24px PingFangSC-Semibold;
+            font-weight: 600;
+        }
+        @include modifier(close-icon) {
+            position: absolute;
+            top: 0;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        @include modifier(list) {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 384px;
+            overflow-y: scroll;
+        }
+
+        @include modifier(item) {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        @each $item in item-front, item-back {
+            @include modifier($item) {
+                box-sizing: border-box;
+                background-color: #FFFFFF;
+                border: 1px solid rgba(220,220,220,1);
+                border-radius: 3px;
+            }
+        }
+
+        @include modifier(item-front) {
+            width: 180px;
+        }
+
+        @include modifier(item-back) {
+            width: 354px;
+            --select-wrap-max-width: 354px;
+        }
+
+        @include modifier(item-remove) {
+            cursor: pointer;
+        }
+
+        @include modifier(popper-back) {
+            &.fixed-width {
+                --select-popper-width: 354px;
+            }
+        }
+
+        @include modifier(add) {
+            margin-top: 20px;
+            padding: 8px 16px;
+            border-radius: 3px;
+            color: rgba(255,255,255,0.90);
+            .el-icon-plus:before {
+                font-size: 12px;
+                margin-right: 3px;
+            }
+        }
+    }
+
+    @include element(date-popper) {
+        --yt-date-picker-range-popper-start-bottom-margin-top: 3px;
+        --yt-date-picker-range-popper-end-bottom-margin-top: 3px;
+    }
+
+    @include element(condition-selector-item) {
+        --selected-item-bg-color: transparent;
+    }
+
+    @include element(popper) {
+
+    }
 }

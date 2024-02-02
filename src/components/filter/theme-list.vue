@@ -4,6 +4,7 @@
             :class="{ 
                 [`${prefixClass}__item`]: true,
                 active: activeList[index], 
+                'is-disabled': item.disabled,
             }"
             @click="handleClick(item, index)"
             v-for="(item, index) in data"
@@ -48,11 +49,15 @@ export default {
         colorInfo: {
             type: Object,
             default: () => ({}) 
+        },
+        once: { // active 是否只触发一次
+            type: Boolean,
+            default: true,
         }
     },
     data() { 
         return { 
-            prefixClass: 'yt-theme-list'
+            prefixClass: 'yt-theme-list',
         } 
     },
     computed: { 
@@ -67,8 +72,9 @@ export default {
         this.setTheme(); 
     },
     methods: {
-        handleClick(value) { 
-            this.$emit('change', value) 
+        handleClick(value) {
+            if (this.once && value[this.valueField] === this.value[this.valueField]) return;
+            this.$emit('change', value, this.value)
         },
         kebabCase(str) { 
             return str.replace(/\B([A-Z])/g, '-$1').toLowerCase(); 

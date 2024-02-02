@@ -1,7 +1,7 @@
 <template>
   <div
     ref="wrapper"
-    :class="[`${prefixClass}__wrap`, autoWidth ? 'fit-content' : '']"
+    :class="[`${prefixClass}__wrap`, { 'fit-content': autoWidth, 'is-disabled': disabled }]"
     :style="{ 
       '--select-trigger-padding-left': triggerPrefixWidth, 
       '--select-input-margin-left': inputMarginLeft,
@@ -12,7 +12,7 @@
       <el-select
         ref="selector"
         :class="`${prefixClass}`"
-        :popper-class="`${prefixClass}__popper${popperAutoWidth ? '' : ' fixed-width'}`"
+        :popper-class="`${popperClass} ${appendToBody ? '' : 'not-in-body'} ${prefixClass}__popper${popperAutoWidth ? '' : ' fixed-width'}`"
         v-model="selectedValues"
         :placeholder="type === 'tag' ? placeholder : ''"
         @focus="handleFocus"
@@ -21,17 +21,13 @@
         :filter-method="filterMethod"
         :multiple="multiple"
         :collapse-tags="collapseTags"
-        :popper-append-to-body="false"
+        :popper-append-to-body="appendToBody"
         :reserve-keyword="reserveKeyword"
         :size="size"
+        :disabled="disabled"
         >
-        <span v-if="label" :class="`${prefixClass}__trigger-prefix`" slot="prefix" >{{ label }}</span>
+        <span v-if="showLabel && label" :class="`${prefixClass}__trigger-prefix`" slot="prefix" >{{ label }}</span>
         <div v-if="showPopperHeader" :class="`${prefixClass}__popper-header`">
-          <div 
-            :class="[`${prefixClass}__select-all`, isSelectedAll ? '' : 'is-not-selected-all']" 
-            @click="selectAll" 
-            v-if="multiple && showSelectAll && options.length" 
-          >所有</div>
           <div 
             :class="[`${prefixClass}__select-all`, clickUnSelect ? '' : 'is-not-selected-all']" 
             @click="handleUnSelect" 
@@ -51,43 +47,42 @@
               :class="`${prefixClass}__popper-input-suffix`"  
               v-show="searchValue" />
           </el-input>
-
         </div>
-        <div :class="`${prefixClass}__loading-wrapper`" v-if="remote && loading && options.length">
+        <div :class="`${prefixClass}__loading-wrapper`" v-if="loading && options.length">
           <loading-icon :class="`${prefixClass}__loading-icon`" />
           <span :class="`${prefixClass}__loading-text`">加载中...</span>
         </div>
-        <div :class="`${prefixClass}__selected`" v-if="multiple && showSelected && selectedValues.length">
-          <div :class="`${prefixClass}__selected-header`">
-            <span :class="`${prefixClass}__selected-count`">{{ selectedLabel }}<span v-if="showSelectedCount">: {{ validSelectedOptions.length }}</span></span>
+        <div :class="`${prefixClass}__selected`" v-if="multiple && showSelected">
+          <div :class="[`${prefixClass}__selected-header`, { 'is-empty': !validSelectedOptions.length}]">
+            <span :class="`${prefixClass}__selected-count`">{{ selectedLabel }}<span v-if="showSelectedCount">{{ validSelectedValues.length }}项</span></span>
             <el-tooltip v-if="showRemoveAllIcon" placement="top" effect="dark" :content="`清空${selectedLabel}`" >
               <RemoveAllIcon @click.native="handleClear"/>
             </el-tooltip>
-            <span v-else :class="`${prefixClass}__selected-clear-btn`" @click="handleClear">清空</span>
+            <span v-else-if="selectedValues.length" :class="`${prefixClass}__selected-clear-btn`" @click="handleClear">清空</span>
           </div>
           
-          <el-checkbox-group :class="`${prefixClass}__options-body`" v-model="selectedValues">
+          <el-checkbox-group v-if="showSelected && showSelectedList && selectedValues.length" :class="[`${prefixClass}__options-body`, `is-selected`]" v-model="selectedValues">
             <el-option v-for="item in displaySelectedOptions" :key="item[valueField]" :label="item.label" :value="item[valueField]">
               <el-checkbox style="pointer-events: none" :label="item[valueField]">
                 <span> 
-                    <img v-if="item.prefix" :class="`${prefixClass}__option-item-prefix`" :src="item.prefix"/>
-                    <span v-if="itemType === 'tag'" :class="`${prefixClass}__option-item-label`" :style="`color: ${item.color}; background-color: ${item.bgColor}`">
-                      {{ item.label }}
-                    </span>
-                    <span v-else>
-                      {{ item.label }}
-                    </span>
+                  <img v-if="item.prefix" :class="`${prefixClass}__option-item-prefix`" :src="item.prefix"/>
+                  <span v-if="itemType === 'tag'" :class="`${prefixClass}__option-item-label`" :style="`color: ${item.color}; background-color: ${item.bgColor}`">
+                    {{ item.label }}
                   </span>
-                </el-checkbox>
+                  <span v-else>
+                    {{ item.label }}
+                  </span>
+                </span>
+              </el-checkbox>
             </el-option>
           </el-checkbox-group>
         </div>
         <div :class="`${prefixClass}__options`">
           <span 
             :class="`${prefixClass}__options-label`" 
-            v-if="optionsLabel">{{ optionsLabel }}</span>
+            v-if="showOptionsLabel">{{ optionsLabel }}</span>
           <template v-if="multiple">
-            <el-checkbox-group :class="`${prefixClass}__options-body`"  v-model="selectedValues" v-load-more="handleLoadMore">
+            <el-checkbox-group :class="`${prefixClass}__options-body`" v-model="selectedValues " v-load-more="handleLoadMore">
               <el-option v-for="item in options" :key="item[valueField]" :label="item.label" :value="item[valueField]">
                 <el-checkbox  style="pointer-events: none" :label="item[valueField]">
                   <span> 
@@ -105,7 +100,7 @@
           </template>
           <template v-else>
             <div :class="`${prefixClass}__options-body`" v-load-more="handleLoadMore">
-              <el-option class="is-radio" v-for="item in options" :key="item[valueField]" :label="item.label" :value="item[valueField]" >
+              <el-option :class="['is-radio', { 'is-disabled': item.disabled }]" v-for="item in options" :key="item[valueField]" :label="item.label" :value="item[valueField]" :disabled="item.disabled">
                 <span> 
                   <img v-if="item.prefix" :class="`${prefixClass}__option-item-prefix`" :src="item.prefix"/>
                   <span>
@@ -149,11 +144,13 @@
 </template>
 
 <script>
-import LoadingIcon from './icon/loading.vue';
-import SearchIcon from './icon/search.vue';
-import ClearIcon from './icon/clear.vue';
-import SuffixIcon from '../date-picker/icons/suffix-icon.vue';
-import RemoveAllIcon from './icon/remove-all.vue'
+import {
+    LoadingIcon,
+    SearchIcon,
+    ClearIcon,
+    SuffixIcon,
+    RemoveAllIcon
+} from '../icons'
 import props from './props';
 
 export default {
@@ -175,32 +172,41 @@ export default {
   data() {
     return {
       prefixClass: 'yt-selector',
-      selectedValues: this.value || [],
       searchValue: '',
       triggerPrefixWidth: '',
-      isSelectedAll: false,
-      selectedOptions: [],
       clickUnSelect: false,
-      optionMap: new Map(),
     }
   },
   computed: {
+    selectedValues: {
+      get() {
+        return this.value;
+      },
+      set() {}
+    },
     displaySelectedOptions() {
       if (!this.showSelectedLimit) return this.validSelectedOptions;
       const res = this.validSelectedOptions.slice(0, this.showSelectedLimit);
       return res;
     },
     validSelectedOptions() {
-      return this.selectedOptions.filter(item=> item[this.valueField]);
+      const res = this.options.filter(item => this.selectedValues.includes(item[this.valueField]))
+      return res;
+    },
+    validSelectedValues() {
+      return this.selectedValues.filter(item=> item);
     },
     selectedTxt() {
+      if (this.disabled) {
+        return '';
+      }
       if (this.clickUnSelect) {
         return this.unSelectText;
       }
       if (this.multiple) {
         const res = this.selectedValues.map((value) => {
           const option = this.options.find(option => option[this.valueField] === value);
-          return option && option.label;
+          return option && option[this.labelField];
         }).filter(item => item).join(',');
         return res || this.placeholder;
       }
@@ -219,8 +225,7 @@ export default {
       });
     },
     showPopperHeader() {
-      return (this.multiple && this.showSelectAll && this.options.length) 
-        || this.showPopperSearchInput || this.unSelectText;
+      return  this.showPopperSearchInput || this.unSelectText;
     },
     showSelectedTxt() {
       return !this.filterable && this.type !== 'tag'
@@ -240,7 +245,19 @@ export default {
         return this.selectedValues.length === 0;
       }
       return !this.selectedValues;
-    }
+    },
+    showOptionsLabel() {
+      if (!this.optionsLabel) {
+        return false
+      }
+      if (this.selectedValues.length) {
+        return true;
+      }
+      if (!this.searchValue) {
+        return false;
+      }
+      return true;
+    },
   },
   mounted() {
     this.triggerPrefixWidth = this.getTriggerPrefixWidth();
@@ -248,9 +265,7 @@ export default {
   },
   updated() {
     this.triggerPrefixWidth = this.getTriggerPrefixWidth();
-    this.options.forEach((item) => {
-        this.optionMap.set(item[this.valueField], item);
-    })
+    this.setInputInnerWidth();
   },
   watch: {
     searchValue(val) {
@@ -259,35 +274,34 @@ export default {
       }
     },
     options(val) {
-      val.forEach((item) => {
-        this.optionMap.set(item[this.valueField], item);
-      })
-      if (this.selectedValues.length < val.length) {
-        this.isSelectedAll = false;
-      }
       this.$nextTick(() => {
-        if (!this.selectedOptions.length && !val.length) {
+        if (!this.validSelectedOptions.length && !val.length) {
           this.$refs['search-empty'] && this.$refs['search-empty'].focus();
         } else {
           this.$refs['search'] && this.$refs['search'].focus();
         }
       });
     },
-    selectedValues(val) {
-      if (!this.multiple) {
-        return;
-      };
-      if (val.length < this.options.length) {
-        this.isSelectedAll = false;
-      }
-      this.selectedOptions = val.map((item) => {
-        const option = this.optionMap.get(item);
-        return option;
-      });
-      this.$nextTick(() => {
-        this.setTagsPrefix();
-        this.setInputInnerWidth();
-      })
+    selectedValues: {
+      handler(newValues, oldValues) {
+        if (!this.multiple) {
+          return;
+        };
+
+        this.changeSelectedList(newValues, oldValues);
+        
+        // console.error('this.selectedList: ', {
+        //   selectedValueSet: this.selectedValueSet, 
+        //   selectedList: this.selectedList,
+        //   id: this.$attrs.id, newValues, oldValues,
+        //   label: this.label
+        // })
+
+        this.$nextTick(() => {
+          this.type === 'tag' && this.setTagsPrefix();
+          this.setInputInnerWidth();
+        })
+      },
     },
   },
   directives: {
@@ -309,14 +323,19 @@ export default {
     },
     handleSelect(val) {
       this.clickUnSelect = false;
-      this.$emit('change', val)
+      if (this.multiple) {
+        this.$emit('change', val)
+      } else {
+        this.$emit('change', val)
+      }
     },
     handleClear() {
-      this.selectedValues = [];
+      this.selectedValues.splice(0, this.selectedValues.length);
+      this.$emit('change', this.selectedValues)
     },
     getTriggerPrefixWidth() {
       const initWidth = 8;
-      return `${this.label ? this.getActualWidthOfChars(this.label) + initWidth : initWidth}px`
+      return `${this.label && this.showLabel ? this.getActualWidthOfChars(this.label) + initWidth : initWidth}px`;
     },
     handleLoadMore() {
       if (!this.loading) {
@@ -326,27 +345,20 @@ export default {
     handleFocus() {
       this.$emit('focus');
     },
-    selectAll() {
-      if (this.selectedOptions.length < this.options.length) {
-        this.options.forEach((option) => {
-          if (!this.selectedValues.includes(option[this.valueField])) {
-            this.selectedValues.push(option[this.valueField]);
-          }
-        })
-        this.isSelectedAll = true;
-      }
-      this.clickUnSelect = false;
-    },
     handleUnSelect() {
-      this.selectedValues = this.multiple ? [] : '';
+      if (this.multiple) {
+        this.selectedValues.splice(0, this.selectedValues.length);
+      } else {
+        this.selectedValues = '';
+      }
       this.clickUnSelect = true;
     },
     setTagsPrefix() {
       const selectorRef = this.$refs.selector;
-      if (!selectorRef) return;
+      if (!selectorRef || !this.validSelectedOptions.length) return;
       const tagEls = selectorRef.$el.querySelectorAll('.el-tag:not(.v-leave)');
       Array.from(tagEls).forEach((tagEl, index) => {
-        const { prefix } = this.selectedOptions[index];
+        const { prefix } = this.validSelectedOptions[index];
         if (prefix) {
           tagEl.style.setProperty('--tag-prefix-display', 'block');
           tagEl.style.setProperty('--tag-prefix-image', `url(${prefix})`)
@@ -369,11 +381,35 @@ export default {
       const metrics = ctx.measureText(text);
       const actual = Math.abs(metrics.actualBoundingBoxLeft) + Math.abs(metrics.actualBoundingBoxRight);
       return Math.max(metrics.width, actual);
+    },
+    changeSelectedList(newValues, oldValues) {
+      if (newValues.length === 0) { // 清空
+        this.selectedList.splice(0, this.selectedList.length);
+        this.selectedValueSet.clear();
+      } else if (newValues.length > oldValues.length ) { // 新增
+        const value = newValues.find(value => !oldValues.includes(value)); // 新增的值
+        if (value) {
+          const option = this.options.find(option => option[this.valueField] === value);
+          if (option && !this.selectedValueSet.has(value)) {
+                this.selectedList.push(option);
+                this.selectedValueSet.add(value);
+          }
+        }
+      } else if (newValues.length < oldValues.length) { // 取消
+        const value = oldValues.find(value => !newValues.includes(value)); // 取消的值
+        if (value) {
+          const index = this.selectedList.findIndex(option => option[this.valueField] === value);
+          if (index !== -1) {
+            this.selectedList.splice(index, 1);
+            this.selectedValueSet.delete(value);
+          }
+        }
+      }
     }
   },
 }
 </script>
 
 <style lang="scss">
-@import "index.scss";
+@import "./index.scss";
 </style>
