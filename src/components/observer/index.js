@@ -1,6 +1,6 @@
 import Observer from "./observer.vue";
 
-Notification.install = () => {
+Observer.install = () => {
     Vue.component(Observer.name, Observer);
 };
 

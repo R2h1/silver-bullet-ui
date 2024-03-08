@@ -12,18 +12,16 @@
   display: flex;
   align-items: center;
   width: fit-content;
-  padding: 12px 16px;
+  padding: 14px 16px;
   border-radius: 6px;
+  background: #FFFFFF;
+  border: 0.5px solid rgba(220,220,220,1);
   color: rgba(0, 0, 0, 0.9);
   font: 14px / 22px PingFangSC-Regular;
   gap: 8px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 30px 5px, 
-              rgba(0, 0, 0, 0.04) 0px 16px 24px 2px, 
-              rgba(0, 0, 0, 0.08) 0px 8px 10px -5px, 
-              rgb(220, 220, 220) 0px 0.5px 0px 0px inset, 
-              rgb(220, 220, 220) 0.5px 0px 0px 0px inset, 
-              rgb(220, 220, 220) 0px -0.5px 0px 0px inset, 
-              rgb(220, 220, 220) -0.5px 0px 0px 0px inset;
+  box-shadow: 0px 8px 10px -5px rgba(0,0,0,0.08),
+              0px 16px 24px 2px rgba(0,0,0,0.04),
+              0px 6px 30px 5px rgba(0,0,0,0.05);
 
   @include modifier(close-icon) {
     margin-left: 16px;
@@ -34,23 +32,23 @@
     }
   }
 
-  @include element(info-icon) {
+  @include element(icon) {
     font-size: 20px;
-    color: #0052d9;
-  }
+    
+    @include when(info) {
+      color: #999999;
+    }
+    
+    @include when(success) {
+      color: #00A870;
+    }
 
-  @include element(success-icon) {
-    font-size: 20px;
-    color: #2ba471;
-  }
+    @include when(warning) {
+      color: #FF7D00;
+    }
 
-  @include element(warning-icon) {
-    font-size: 20px;
-    color: #e37318;
-  }
-
-  @include element(error-icon) {
-    font-size: 20px;
-    color: #d54941;
+    @include when(error) {
+      color: #F53F3F;
+    }
   }
 }

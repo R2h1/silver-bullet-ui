@@ -1,17 +1,5 @@
 @import "../common/bem.scss";
 
-@mixin center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-@mixin ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 $prefix: 'yt-selector';
 
 .#{$prefix}__wrap {
@@ -123,6 +111,11 @@ $prefix: 'yt-selector';
     }
   }
 
+  .#{$prefix}__trigger-prefix {
+    font-size: 14px;
+
+  }
+
   .#{$prefix}__trigger-suffix {
     @include center;
     position: absolute;
@@ -163,7 +156,7 @@ $prefix: 'yt-selector';
   }
   
   &.el-popper[x-placement^=bottom] {
-    margin-top: 0;
+    margin-top: 2px;
   }
 
   .el-scrollbar__wrap {
@@ -319,12 +312,16 @@ $prefix: 'yt-selector';
       max-height: 170px;
     }
 
+    .el-tree {
+      padding-left: 6px;
+    }
+
     .el-select-dropdown__item  {
       width: calc(var(--select-wrap-width) - 6px);
       max-width: calc(var(--select-wrap-max-width) - 6px);
       padding-left: 6px;
       padding-right: 2px;
-      height: 28px;
+      height: auto;
       margin-top: 2px;
 
       display: flex;
@@ -337,11 +334,18 @@ $prefix: 'yt-selector';
       }
 
       .#{$prefix}__option-item-label {
-        display: inline-block;
         padding: 2px 8px;
         background-color: #E8F5FF;
         border-radius: 3px;
         color: #1974FF;
+      }
+
+      .#{$prefix}__option-item-sub {
+        display: block; 
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.40);
+        padding-bottom: 3px;
+        @include ellipsis;
       }
 
       &.is-radio {
@@ -349,11 +353,16 @@ $prefix: 'yt-selector';
         >span {
           width: 100%;
           display: flex;
-          align-items: center;
+          align-items: baseline;
           padding: 3px 8px;
           box-sizing: border-box;
-          height: 28px;
+          height: auto;
+          line-height: 22px;
           color: rgba(0, 0, 0, 0.90);
+
+          span {
+            @include ellipsis;
+          }
         }
 
         &.hover:not(.selected):not(.is-disabled),
@@ -400,6 +409,7 @@ $prefix: 'yt-selector';
         height: 100%;
         line-height: 28px;
         padding-left: 8px;
+        padding-right: 8px;
         color: rgba(0, 0, 0, 0.90);
         border-radius: 3px;
         @include ellipsis;

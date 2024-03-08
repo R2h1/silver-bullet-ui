@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div :class="`${prefixClass}`" :style="styles" @mouseenter="clearTimer" @mouseleave="setTimer">
     <div v-if="showIcon" :class="`${prefixClass}__icon`" >
       <slot name="icon">

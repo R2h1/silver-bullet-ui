@@ -1,7 +1,7 @@
 @import "../common/bem.scss";
 @import "../common/mixins.scss";
 @import "./theme-list.scss";
-@import "../remove/index.scss";
+@import "./remove.scss";
 
 @include block(filter) {
     display: flex;
@@ -13,17 +13,24 @@
     font-size: 14px;
     color: rgba(0, 0, 0, 0.90);
     letter-spacing: 0;
+    min-width: fit-content;
+    box-sizing: border-box;
 
     @include element(header) {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 24px;
 
         @include modifier(front) {
             display: flex;
             align-items: center;
             gap: 12px;
         }
+    }
+
+    @include element(filter-operate-list) {
+        display: flex;
     }
 
     @include element(title-wrap) {
@@ -36,6 +43,7 @@
     @include element(title) {
         font: 15px / 24px PingFangSC-Semibold;
         font-weight: 600;
+        white-space: nowrap;
     }
 
     @include element(has-modify) {
@@ -46,6 +54,7 @@
         font: 12px / 20px PingFangSC-Medium;
         font-weight: 500;
         color: #1974FF;
+        white-space: nowrap;
     }
 
     @include element(filter-operate-item) {
@@ -73,12 +82,17 @@
         gap: 2px;
         border-radius: 3px;
         cursor: pointer;
+        white-space: nowrap;
 
         .prefix {
             margin-right: 6px;
         }
 
-        &:hover {
+        .loading {
+            animation: rotate 1s linear infinite;
+        }
+
+        &:hover:not(.is-disabled) {
             background-color: #F3F3F3;
         }
 
@@ -90,6 +104,18 @@
             &:hover {
                 background-color: #F3F3F3;
             }
+        }
+
+        @include when(disabled) {
+            color: rgba(0, 0, 0, 0.4);
+            cursor: not-allowed;
+            
+            .prefix {
+                opacity: 0.4;
+            }
+        }
+        @include when(loading) {
+            background-color: #F3F3F3;
         }
     }
 
@@ -117,6 +143,7 @@
 
         @include modifier(count) {
             color: #1974FF;
+            font-weight: 500;
         }
 
         .suffix-icon {
@@ -144,28 +171,46 @@
         .el-input__suffix {
             right: 8px;
         }
+        @include modifier(clear-icon) {
+            opacity: 0.4;
+            cursor: pointer;
+        }
     }
 
     @each $popper in filter-list-popper, sort-list-popper, condition-config-popper, display-setting-popper {
         @include element($popper) {
+            padding: 0;
+            font: 14px / 22px PingFangSC-Regular;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.90);
+            letter-spacing: 0;
             &[x-placement^=bottom] {
-                margin-top: 0;
-                padding: 0;
-                font: 14px / 22px PingFangSC-Regular;
-                font-size: 14px;
-                color: rgba(0, 0, 0, 0.90);
-                letter-spacing: 0;
+                margin-top: 1px;
             }
         }
     }
 
     @include element(filter-list-popper) {
-        &[x-placement^=bottom] {
-            width: 272px;
+        width: 272px;
+    }
+
+    @include element(sort-list-popper) {
+        min-width: 130px;
+    }
+
+    @include element(display-setting-popper) {
+        min-width: 200px;
+        @include modifier(header) {
+            padding: 6px;
+            border-bottom: 1px solid rgba(231,231,231,1);
+        }
+        @include modifier(header-item) {
+            padding: 3px 8px;
         }
     }
 
     @include element(list) {
+
         @include modifier(item-name) {
             display: inline-block;
             width: 100%;
@@ -182,6 +227,18 @@
             border-radius: 3px;
             transform: translateY(-50%);
         }
+
+        ul {
+            padding-right: 1px !important;
+            max-height: 520px;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: 3px;
+            }
+        }
+
+        
     }
 
     @include element(more-icon) {
@@ -235,6 +292,10 @@
             gap: 12px;
             max-height: 384px;
             overflow-y: scroll;
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: 3px;
+            }
         }
 
         @include modifier(item) {
@@ -284,15 +345,28 @@
     }
 
     @include element(date-popper) {
-        --yt-date-picker-range-popper-start-bottom-margin-top: 3px;
-        --yt-date-picker-range-popper-end-bottom-margin-top: 3px;
+        --yt-date-picker-range-popper-start-bottom-margin-top: 5px;
+        --yt-date-picker-range-popper-end-bottom-margin-top: 5px;
     }
 
     @include element(condition-selector-item) {
         --selected-item-bg-color: transparent;
+
+        @include modifier(popper) {
+            margin-left: -5px;
+        }
     }
 
     @include element(popper) {
 
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }

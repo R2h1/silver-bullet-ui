@@ -1,7 +1,9 @@
 export const EXTENSIONS = {
     pdf: ['pdf'],
-    word: ['doc', 'docx'],
-    ppt: ['ppt'],
+    word: ['doc', 'docx', 'rtf'],
+    ppt: ['ppt', 'pptx'],
     excel: ['xls', 'xlsx'],
-    zip: ['zip', '7z'],
+    zip: ['zip', '7z', 'rar', 'tgz'],
+    img: ['jgp', 'jpeg', 'png', 'svg', 'bmp', 'webp', 'gif'],
+    txt: ['txt']
 }

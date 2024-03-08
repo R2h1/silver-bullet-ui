@@ -21,7 +21,7 @@ function getCookie(cname) {
 
 let authorization = getCookie("Authorization");
 
-authorization = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwNjE5MiIsImFjY291bnRObyI6IjA2MTkyIiwiZXhwIjoxNzA2NzkwNDMxLCJpYXQiOjE3MDY3NDcyMzEsImp0aSI6IjgyYjBlNTg3LTk4MDUtNDUzNi1iYjRlLTFkZmZiZDE4YWRiYyJ9.9rCL1XXNU7NRq4Ph0YUxYrMbXChhXEmK__htXMVav1g`
+authorization = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwNjE5MiIsImFjY291bnRObyI6IjA2MTkyIiwiZXhwIjoxNzA5ODE1MTY0LCJpYXQiOjE3MDk3NzE5NjQsImp0aSI6IjM2ZDE1NjU5LWRkMjktNGE5Zi1hNGM0LWQxMmFjY2I1NTRiOSJ9.J9B_gk_bN5yLk2bXnFjNQP94Ev7fWI-4pmjhUUCVwDs`
 
 // request interceptor
 service.interceptors.request.use(

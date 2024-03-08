@@ -1,5 +1,7 @@
 export default {
   value: {
+    type: [String, Array],
+    default: () => ([])
   },
   optionsLabel: {
     type: String,
@@ -137,5 +139,17 @@ export default {
   selectedValueSet: {
     type: Set,
     default: () => (new Set())
+  },
+  searchPlaceholder: {
+    type: String,
+    default: '请输入内容'
+  },
+  showOptionsByTree: {
+    type: Boolean,
+    default: false,
+  },
+  treeData: {
+    type: Array,
+    default: () => ([]),
   }
 }

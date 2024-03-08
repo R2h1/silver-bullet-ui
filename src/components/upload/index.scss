@@ -27,6 +27,10 @@ $prefix: "yt-upload";
         border-bottom: none;
         .el-table__cell {
             padding: 6px 0;
+
+            .cell {
+                display: flex;
+            }
         }
         
         .#{$prefix}__file-ext-icon {

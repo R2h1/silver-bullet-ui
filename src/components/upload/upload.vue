@@ -2,6 +2,7 @@
   <div :class="`${prefixClass}`">
     <div :class="`${prefixClass}__triggers`">
       <el-upload
+        ref="upload"
         v-if="canUpload"
         :class="[customClass, `${prefixClass}__upload-op`]"
         :action="action"
@@ -36,8 +37,10 @@
             <ppt-icon :class="`${prefixClass}__file-ext-icon`" v-else-if="isFileExtension(scope.row.name, 'ppt')"/>
             <word-icon :class="`${prefixClass}__file-ext-icon`" v-else-if="isFileExtension(scope.row.name, 'word')"/>
             <zip-icon :class="`${prefixClass}__file-ext-icon`" v-else-if="isFileExtension(scope.row.name, 'zip')"/>
+            <img-icon :class="`${prefixClass}__file-ext-icon`" v-else-if="isFileExtension(scope.row.name, 'img')"/>
+            <txt-icon :class="`${prefixClass}__file-ext-icon`" v-else-if="isFileExtension(scope.row.name, 'txt')"/>
             <unknown-icon :class="`${prefixClass}__file-ext-icon`" v-else />
-            <span :style="{ color: getIsUploading(scope.row) ? 'rgba(0, 0, 0, 0.6)' : 'inherit' }" >{{ scope.row.name }}</span>
+            <span :style="{ color: getIsUploading(scope.row) ? 'rgba(0, 0, 0, 0.6)' : 'inherit' }" >{{ `${label}${scope.$index + 1}：${scope.row.name}` }}</span>
           </div>
         </template>
       </el-table-column>
@@ -48,7 +51,11 @@
       </el-table-column>
       <el-table-column width="235" v-if="showCreateTime">
         <template slot-scope="scope">
-          <el-progress text-color="rgba(0, 0, 0, 0.9)" v-if="getIsUploading(scope.row)" :percentage="scope.row.percentage" :format="formatPercentage"></el-progress>
+          <el-progress 
+            text-color="rgba(0, 0, 0, 0.9)" 
+            v-if="getIsUploading(scope.row)" 
+            :percentage="scope.row.percentage" 
+            :format="formatPercentage" />
           <span :class="`${prefixClass}__display-file-time`" v-else>{{ getUploadFinishTime(scope.row.data) }}</span>
         </template>
       </el-table-column>
@@ -57,13 +64,18 @@
           <div :class="`${prefixClass}__display-file-op`">
             <i v-if="canDownload" class="el-icon-download" @click="handleItemDownload(scope.row, scope.$index)"></i>
             <el-upload
-                v-if="canUpdate && !getIsUploading(scope.row)"
+                v-show="canUpdate && !getIsUploading(scope.row)"
+                :ref="`update-${scope.$index}`"
                 :action="action"
                 :headers="headers"
                 :data="extraData"
                 :show-file-list="false"
                 :auto-upload="autoUpload"
                 :on-change="handleItemChange(scope.row, scope.$index)"
+                :on-progress="handleProgress"
+                :on-success="handleSuccess"
+                :on-error="handleError"
+                :before-upload="handleBefore"
             >
               <svg :class="`${prefixClass}__upload-icon`" slot="trigger" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16px" height="16px" viewBox="0 0 16 16" version="1.1">
                   <g id="1.Base基础/3.Icon图标/操作/upload" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -75,7 +87,7 @@
             <el-popover
               placement="top"
               width="200"
-              v-model="visibleMap[scope.row.uid]">
+              v-model="scope.row.popover">
                 <div :class="`${prefixClass}__delete-popover-content`">
                   <div :class="`${prefixClass}__delete-tips`">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16px" height="16px" viewBox="0 0 16 16" version="1.1">
@@ -91,7 +103,6 @@
                     <yt-button :class="`${prefixClass}__delete-ok`" @click="handleItemDelete(scope.row, scope.$index)" variant="outline">确定</yt-button>
                   </div>
                 </div>
-                
                 <i slot="reference" v-if="canDelete" class="el-icon-delete"></i>
             </el-popover>
           </div>
@@ -102,6 +113,14 @@
 </template>
 
 <script>
+import { 
+  Upload as ElUpload, 
+  Table as ElTable, 
+  TableColumn as ElTableColumn,
+  Progress as ElProgress,
+  Popover as ElPopover
+} from "element-ui";
+import YtButton from '../../components/button';
 import props from './props';
 import { EXTENSIONS } from "./constant";
 import { 
@@ -110,18 +129,28 @@ import {
   UnknownIcon, 
   PdfIcon,
   ZipIcon,
-  WordIcon
+  WordIcon,
+  ImgIcon,
+  TxtIcon
 } from '../icons';
 
 export default {
   name: "yt-upload",
   components: {
+    ElPopover,
+    ElUpload,
+    ElTable,
+    YtButton,
+    ElTableColumn,
+    ElProgress,
     ExcelIcon,
     PptIcon,
     UnknownIcon,
     PdfIcon,
     ZipIcon,
     WordIcon,
+    ImgIcon,
+    TxtIcon
   },
   props: {
     ...props
@@ -130,15 +159,16 @@ export default {
     return {
       prefixClass: 'yt-upload',
       displayFlies: this.fileList,
-      visibleMap: this.fileList.reduce((acc, item) => {
-        acc[item.uid] = false;
-      }, {})
+      isUpdate: false,
     };
   },
   methods: {
+    handleAbort(instance) {
+      instance && instance.abort();
+    },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
-      this.$emit("remove", { file, fileList });
+      console.error(file, fileList);
+      this.$emit("remove", { file, fileList })
     },
     handleExceed(files, fileList) {
       this.$emit("exceed", { files, fileList });
@@ -148,24 +178,32 @@ export default {
       this.$emit("progress", { event, file, fileList });
     },
     handleBefore(file) {
+      const isSizeValid = file.size <= this.maxSize;
+      if (!isSizeValid) {
+        this.$emit("error", { err: `文件大小不得超过${this.maxSize / 1024 / 1024}MB`, file });
+      }
       this.$emit("before", file);
-      return true;
+      return isSizeValid;
     },
     handleSuccess(response, file, fileList) {
-      this.$emit("success", { response, file, fileList });
+      if (response.code === 0) {
+        this.$emit("success", { response, file, fileList });
+      } else {
+        this.$emit("error", { err: response.msg, file, fileList });
+      }
     },
     handleError(err, file, fileList) {
       this.$emit("error", { err, file, fileList });
     },
     handleChange(file, fileList ) {
+      console.error('file', file, fileList, this.fileList)
       if (file.status === 'ready') {
         this.displayFlies.push(file);
-        this.$set(this.visibleMap, file.uid, false);
       }
       this.$emit("change", { file, fileList });
     },
     getIsUploading(item) {
-      return item.percentage < 100;
+      return item.status === 'uploading' || item.status === 'ready';
     },
     formatPercentage(percentage){
       return `${Math.floor(percentage)}%`
@@ -186,23 +224,32 @@ export default {
       return (newFile) => {
         if (newFile.status === 'ready') {
           this.$emit("update", { oldFile, newFile, index });
-          this.$set(this.visibleMap, newFile.uid, false);
+          this.$set(newFile, 'isUpdate', true)
         }
       }
     },
     handleItemDelete(file, index) {
-      this.visibleMap[file.uid] = false;
+      if (file.status === 'uploading') {
+        if (!file.isUpdate) {
+          this.handleAbort(this.$refs.upload);
+        } else {
+          this.handleAbort(this.$refs[`update-${index}`])
+          file.isUpdate = false;
+        }
+      }
       this.$emit("delete", { file, index });
     },
-    handleCancelDelete(file) {
-      this.visibleMap[file.uid] = false;
+    handleCancelDelete(file, index) {
+      file.popover = false
     },
     handleItemDownload(file, index) {
-      // console.log('handleItemDownload', file, index)
       this.$emit('download', { file, index })
     },
     getWho(data) {
       if (data && data.createName) {
+        if (data.createId) {
+          return `上传人：${data.createName} ${data.createId}`;
+        }
         return `上传人：${data.createName}`;
       } 
       return ''

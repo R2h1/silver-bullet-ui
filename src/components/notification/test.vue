@@ -1,14 +1,14 @@
 <template>
-    <div>
+    <div >
         <div v-if="isShow" :class="`yt-notification-list__${position} is-designer`" :style="designerStyles" >
-            <yt-notification 
+            <Notification 
                 :styles="designerItemStyles" 
                 v-bind="$props"
             >
                 <slot v-for="(_, key) in $slots" :name="key" :slot="key"></slot>
-            </yt-notification>
+            </Notification>
         </div>
-        <span class="yt-notification-list__designer-show" @click="toggle">显示或隐藏编辑状态的消息通知</span>
+        <span class="yt-notification-list__designer-show" @dblclick="toggle">显示或隐藏编辑态的消息通知</span>
         <br/>
         <span class="yt-notification-list__designer-show" @click="close">关闭运行态的消息通知</span>
         <br/>
@@ -18,67 +18,51 @@
 
 <script>
 import props from './props';
-import YtNotification, { Notify  }  from ".";
-import NotificationList from './notificationList.jsx';
-
-const DEFAULT_OFFSET = {
-    'top-left': {
-        left: '16px',
-        top: '16px',
-    },
-    'top-right': {
-        right: '16px',
-        top: '16px',
-    },
-    'bottom-right': {
-        right: '16px',
-        bottom: '16px',
-    },
-    'bottom-left': {
-        left: '16px',
-        bottom:'16px',
-    },
-};
+import Notification, { Notify } from ".";
+import { DEFAULT_OFFSET, POSITION_OPTIONS, DEFAULT_Z_INDEX } from './constant'
 
 export default {
+    name: 'yt-notification',
     components: {
-        YtNotification,
-        NotificationList,
+        Notification,
     },
 
     props: {
         ...props,
         position: {
             type: String,
-            default: 'top-right',
+            default: POSITION_OPTIONS[0],
             validator(val) {
-                return ['top-left', 'top-right', 'bottom-left', 'bottom-right'].includes(val);
+                return POSITION_OPTIONS.includes(val);
             },
         },
         zIndex: {
             type: Number,
-            default: 7000,
+            default: DEFAULT_Z_INDEX,
         },
         attach: {
             type: String,
             default: 'body'
         },
-        offsetLeft: {
+        left: {
             type: Number,
             default: 0
         },
-        offsetLeft: {
-            type:Number,
+        top: {
+            type: Number,
             default: 0
         },
         width: {
             type: Number,
             default: 400
+        },
+        padding: {
+            type: Number,
+            default: 24, 
         }
     },
     data() {
         return {
-            item: null,
             isShow: false,
         }
     },
@@ -94,14 +78,15 @@ export default {
                 marginBottom: '16px',
             }
             if (this.width) {
-              styles.width = this. getOffset(this.width);
+                styles.width = this.getPx(this.width);
             }
-            if (this.offset) {
+            if (this.left || this.top) {
                 styles.position = 'relative';
-                styles.left = this.getOffset(this.offset[0]);
-                styles.top = this.getOffset(this.offset[1]);  
+                styles.left = this.getPx(this.left);
+                styles.top = this.getPx(this.top);
+                styles.padding = this.getPx(this.padding);
             }
-            if (this.zIndex)  styles['z-index'] = this.zIndex;
+            if (this.zIndex) styles['z-index'] = this.zIndex;
             return styles;
         }
     },
@@ -110,33 +95,34 @@ export default {
             this.isShow = !this.isShow;
         },
         open() {
-          if (this.notify) return;
-            this.notify = Notify(this.type, { 
-              ...this.$props,
-              width: this.getOffset(500),
-              slots: this.$slots,
-              onDurationEnd: () => {
-                this.$emit('close')
-                this.notify = null;
-              },
-              onCloseBtnClick: ({ event }) => {
-                if (event) {
-                this.$emit('close')
-                this.notify = null;
+            if (window.notify) return;
+                window.notify = Notify(this.type, { 
+                ...this.$props,
+                offset: [this.left, this.top],
+                width: this.width,
+                padding: this.padding,
+                slots: this.$slots,
+                onDurationEnd: () => {
+                    this.$emit('close')
+                    window.notify = null;
+                },
+                onCloseBtnClick: ({ event }) => {
+                    if (event) {
+                    this.$emit('close')
+                    window.notify = null;
+                    }
                 }
-              }
-            })
-          this.$emit('open');
+                })
+            this.$emit('open');
         },
         close() {
-          if (!this.notify) return;
-          Notify.close(this.notify);
-          this.notify = null
-          this.$emit('close');
+            if (!window.notify) return;
+            Notify.close(window.notify);
+            this.$emit('close');
         },
-        getOffset(val) {
-          if (!val) return;
-          return isNaN(Number(val)) ? val : `${val}px`;
+        getPx(val) {
+            if (!val) return;
+            return isNaN(Number(val)) ? val : `${val}px`;
         }
     }
 }

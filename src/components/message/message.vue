@@ -1,9 +1,11 @@
 <template>
   <div :class="`${prefixClass}`" @mouseenter="clearTimer" @mouseleave="setTimer">
-    <info-icon :class="`${prefixClass}__info-icon`" v-if="type === 'info'"/>
-    <success-icon :class="`${prefixClass}__success-icon`" v-else-if="type === 'success'"/>
-    <warning-icon :class="`${prefixClass}__warning-icon`" v-else-if="type === 'warning'"/>
-    <error-icon :class="`${prefixClass}__error-icon`" v-else-if="type === 'error'"/>
+    <tips-icon :class="[`${prefixClass}__icon`, {
+      'is-info': type === 'info',
+      'is-warning': type === 'warning',
+      'is-error': type === 'error',
+    }]" v-if="['info', 'warning', 'error'].includes(type)"/>
+    <success-icon :class="[`${prefixClass}__icon`, 'is-success']" v-else-if="type === 'success'"/>
     {{message}}
     <close-normal-icon @click.native="close($event)" :class="`${prefixClass}--close-icon`" v-if="closable" />
   </div>
@@ -12,20 +14,16 @@
 <script>
 import props from './props';
 import {
-  InfoIcon,
   SuccessIcon,
-  WarningIcon,
-  ErrorIcon,
+  TipsIcon,
   CloseNormalIcon
 } from '../icons'
 
 export default {
   name: 'yt-message',
   components: {
-    InfoIcon,
     SuccessIcon,
-    WarningIcon,
-    ErrorIcon,
+    TipsIcon,
     CloseNormalIcon
   },
   props: { ...props },

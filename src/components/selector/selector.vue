@@ -25,6 +25,7 @@
         :reserve-keyword="reserveKeyword"
         :size="size"
         :disabled="disabled"
+        @visible-change="handleVisibleChange"
         >
         <span v-if="showLabel && label" :class="`${prefixClass}__trigger-prefix`" slot="prefix" >{{ label }}</span>
         <div v-if="showPopperHeader" :class="`${prefixClass}__popper-header`">
@@ -36,7 +37,7 @@
           <el-input
             ref="search"
             v-if="showPopperSearchInput"
-            placeholder="请输入内容"
+            :placeholder="searchPlaceholder"
             v-model="searchValue"
             :class="`${prefixClass}__popper-input`"
           > 
@@ -63,17 +64,22 @@
           
           <el-checkbox-group v-if="showSelected && showSelectedList && selectedValues.length" :class="[`${prefixClass}__options-body`, `is-selected`]" v-model="selectedValues">
             <el-option v-for="item in displaySelectedOptions" :key="item[valueField]" :label="item.label" :value="item[valueField]">
-              <el-checkbox style="pointer-events: none" :label="item[valueField]">
-                <span> 
+              <el-tooltip :content="item.label" placement="top" :disabled="isShowTooltip(item)">
+                <el-checkbox @click.prevent.native 
+                  :label="item[valueField]"
+                  :style="{ color: itemType === 'tag' ? item.color : 'rgba(0, 0, 0, 0.9)'}">
                   <img v-if="item.prefix" :class="`${prefixClass}__option-item-prefix`" :src="item.prefix"/>
-                  <span v-if="itemType === 'tag'" :class="`${prefixClass}__option-item-label`" :style="`color: ${item.color}; background-color: ${item.bgColor}`">
-                    {{ item.label }}
-                  </span>
-                  <span v-else>
-                    {{ item.label }}
-                  </span>
-                </span>
-              </el-checkbox>
+                    <span 
+                      v-if="itemType === 'tag'" 
+                      :class="`${prefixClass}__option-item-label`" 
+                      :style="`color: ${item.color}; background-color: ${item.bgColor}`">
+                      {{ item.label }}
+                    </span>
+                    <span v-else>
+                      {{ item.label }}
+                    </span>
+                </el-checkbox>
+              </el-tooltip> 
             </el-option>
           </el-checkbox-group>
         </div>
@@ -82,41 +88,70 @@
             :class="`${prefixClass}__options-label`" 
             v-if="showOptionsLabel">{{ optionsLabel }}</span>
           <template v-if="multiple">
-            <el-checkbox-group :class="`${prefixClass}__options-body`" v-model="selectedValues " v-load-more="handleLoadMore">
+            <div :class="`${prefixClass}__options-body`" v-show="showTreeData">
+              <el-option value="none" style="display: none"></el-option>
+              <el-tree 
+                :data="treeData"
+                node-key="value"
+                ref="tree"
+                :props="defaultProps"
+                :render-after-expand="false"
+                :default-expanded-keys="defaultExpandedKeys"
+                :default-checked-keys="defaultCheckedKeys"
+                @check-change="handleCheckChange"
+                @node-expand="handleNodeExpand"
+                lazy
+                show-checkbox
+                check-strictly
+              ></el-tree>
+            </div>
+            <el-checkbox-group v-show="!showTreeData" :class="`${prefixClass}__options-body`" v-model="selectedValues " v-load-more="handleLoadMore">
               <el-option v-for="item in options" :key="item[valueField]" :label="item.label" :value="item[valueField]">
-                <el-checkbox  style="pointer-events: none" :label="item[valueField]">
-                  <span> 
-                    <img v-if="item.prefix" :class="`${prefixClass}__option-item-prefix`" :src="item.prefix"/>
-                    <span v-if="itemType === 'tag'" :class="`${prefixClass}__option-item-label`" :style="`color: ${item.color}; background-color: ${item.bgColor}`">
-                      {{ item.label }}
-                    </span>
-                    <span v-else>
-                      {{ item.label }}
-                    </span>
-                  </span>
-                </el-checkbox>
+                <el-tooltip :content="item.label" placement="top" :disabled="isShowTooltip(item)">
+                  <el-checkbox @click.prevent.native 
+                      :label="item[valueField]"
+                      :style="{ color: itemType === 'tag' ? item.color : 'rgba(0, 0, 0, 0.9)'}"
+                      >
+                        <img v-if="item.prefix" :class="`${prefixClass}__option-item-prefix`" :src="item.prefix"/>
+                        <span
+                            v-if="itemType === 'tag'" 
+                            :class="`${prefixClass}__option-item-label`" 
+                            :style="`color: ${item.color}; background-color: ${item.bgColor}`">{{ item.label }}</span>
+                        <span v-else>{{ item.label }}</span> 
+                        <span 
+                          v-if="item.subLabel"
+                          :class="`${prefixClass}__option-item-sub`"
+                          :style="`padding-left: ${item.prefix ? 40 : 22}px;`">{{ item.subLabel }}</span>
+                  </el-checkbox>
+                </el-tooltip>
               </el-option>
             </el-checkbox-group>
           </template>
           <template v-else>
             <div :class="`${prefixClass}__options-body`" v-load-more="handleLoadMore">
               <el-option :class="['is-radio', { 'is-disabled': item.disabled }]" v-for="item in options" :key="item[valueField]" :label="item.label" :value="item[valueField]" :disabled="item.disabled">
-                <span> 
-                  <img v-if="item.prefix" :class="`${prefixClass}__option-item-prefix`" :src="item.prefix"/>
-                  <span>
-                    {{ item.label }}
+                <el-tooltip :content="item.label" placement="top" :disabled="isShowTooltip(item)">
+                  <span> 
+                    <img v-if="item.prefix" :class="`${prefixClass}__option-item-prefix`" :src="item.prefix"/>
+                    <span>
+                      <span>{{ item.label }}</span>
+                      <span 
+                          v-if="item.subLabel"
+                          :class="`${prefixClass}__option-item-sub`"
+                          >{{ item.subLabel }}</span>
+                    </span>
                   </span>
-                </span>
+                </el-tooltip>
               </el-option>
             </div>
           </template>
         </div>
-        <div :class="`${prefixClass}__empty`" v-if="!options.length">暂无匹配内容</div>
+        <div :class="`${prefixClass}__empty`" v-if="!options.length && !showTreeData">暂无匹配内容</div>
         <div :class="[`${prefixClass}__popper-header`, `${prefixClass}__empty-wrapper`]" slot="empty">
           <el-input
             ref="search-empty"
             v-if="showPopperSearchInput"
-            placeholder="请输入内容"
+            :placeholder="searchPlaceholder"
             v-model="searchValue"
             :class="`${prefixClass}__popper-input`"
           > 
@@ -144,6 +179,14 @@
 </template>
 
 <script>
+import { 
+  Input as ElInput, 
+  Select as ElSelect, 
+  Option as ElOption,
+  Checkbox as ElCheckbox,
+  CheckboxGroup as ElCheckboxGroup,
+  Tooltip as ElTooltip,
+  Tree as ElTree  } from 'element-ui';
 import {
     LoadingIcon,
     SearchIcon,
@@ -160,7 +203,14 @@ export default {
     SearchIcon,
     ClearIcon,
     SuffixIcon,
-    RemoveAllIcon
+    RemoveAllIcon,
+    ElInput,
+    ElSelect,
+    ElOption,
+    ElCheckbox,
+    ElCheckboxGroup,
+    ElTooltip,
+    ElTree
   },
   model: {
     prop: 'value',
@@ -175,6 +225,12 @@ export default {
       searchValue: '',
       triggerPrefixWidth: '',
       clickUnSelect: false,
+      defaultProps: {
+        children: 'children',
+        label: 'label',
+        isLeaf: 'leaf',
+      },
+      checkChangeNode: null,
     }
   },
   computed: {
@@ -193,7 +249,7 @@ export default {
       return res;
     },
     validSelectedOptions() {
-      const res = this.options.filter(item => this.selectedValues.includes(item[this.valueField]))
+      const res = this.selectedList.filter(item => this.selectedValues.includes(item[this.valueField]))
       return res;
     },
     validSelectedValues() {
@@ -208,7 +264,7 @@ export default {
       }
       if (this.multiple) {
         const res = this.selectedValues.map((value) => {
-          const option = this.options.find(option => option[this.valueField] === value);
+          const option = this.selectedList.find(option => option[this.valueField] === value);
           return option && option[this.labelField];
         }).filter(item => item).join(',');
         return res || this.placeholder;
@@ -261,6 +317,25 @@ export default {
       }
       return true;
     },
+    defaultExpandedKeys() { // 默认展开第一级
+      if (!this.treeData.length) {
+        return [];
+      }
+      return this.treeData.map((item) => {
+        return item.value;
+      });
+    },
+    defaultCheckedKeys() {
+      if (!this.selectedList.length) {
+        return [];
+      }
+      return this.selectedList.map((item) => {
+        return item.value;
+      })
+    },
+    showTreeData() {
+      return this.showOptionsByTree && !this.searchValue
+    }
   },
   mounted() {
     this.triggerPrefixWidth = this.getTriggerPrefixWidth();
@@ -290,15 +365,10 @@ export default {
         if (!this.multiple) {
           return;
         };
-
+        
         this.changeSelectedList(newValues, oldValues);
         
-        // console.error('this.selectedList: ', {
-        //   selectedValueSet: this.selectedValueSet, 
-        //   selectedList: this.selectedList,
-        //   id: this.$attrs.id, newValues, oldValues,
-        //   label: this.label
-        // })
+        this.$emit('select-list-change', this.selectedList)
 
         this.$nextTick(() => {
           this.type === 'tag' && this.setTagsPrefix();
@@ -326,11 +396,21 @@ export default {
     },
     handleSelect(val) {
       this.clickUnSelect = false;
-      if (this.multiple) {
-        this.$emit('change', val)
-      } else {
-        this.$emit('change', val)
+      this.$emit('change', val)
+    },
+    handleCheckChange(data, checked, indeterminate) {
+      const values = this.$refs.tree.getCheckedNodes().map((item) => {
+        return item.value;
+      });
+      this.checkChangeNode = { 
+        ...data,
       }
+      delete this.checkChangeNode.children;
+      this.$emit('change', values)
+    },
+    handleNodeExpand(data, node, el) {
+      if (node.isLeaf || data.children.length) return;
+      this.$emit('load-node', { data, node });
     },
     handleClear() {
       this.selectedValues.splice(0, this.selectedValues.length);
@@ -377,7 +457,7 @@ export default {
       wrapperRef.style.setProperty('--select-input-inner-width', `${selectedTxtEl.offsetWidth}px`);
     },
     getActualWidthOfChars(text, options = {}) {
-      const { size = 13, family = "PingFang SC" } = options;
+      const { size = 14, family = "PingFang SC" } = options;
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
       ctx.font = `${size}px ${family}`;
@@ -389,10 +469,14 @@ export default {
       if (newValues.length === 0) { // 清空
         this.selectedList.splice(0, this.selectedList.length);
         this.selectedValueSet.clear();
+        this.$refs.tree.setCheckedKeys(newValues);
       } else if (newValues.length > oldValues.length ) { // 新增
         const value = newValues.find(value => !oldValues.includes(value)); // 新增的值
         if (value) {
-          const option = this.options.find(option => option[this.valueField] === value);
+          const option = this.showOptionsByTree && !this.searchValue
+            ? this.checkChangeNode
+            : this.options.find(option => option[this.valueField] === value);
+          this.$refs.tree.setCheckedKeys(newValues);
           if (option && !this.selectedValueSet.has(value)) {
                 this.selectedList.push(option);
                 this.selectedValueSet.add(value);
@@ -405,14 +489,36 @@ export default {
           if (index !== -1) {
             this.selectedList.splice(index, 1);
             this.selectedValueSet.delete(value);
+            this.$refs.tree.setCheckedKeys(newValues);
           }
+        }
+      }
+    },
+    isShowTooltip(item) {
+      if (this.popperAutoWidth) {
+        return true;
+      }
+      let maxWidth;
+      if (item.prefix) {
+        maxWidth = this.popperWidth - 70;
+      } else { 
+        maxWidth = this.popperWidth - 50;
+      }
+      if (!this.multiple) {
+        maxWidth += 38;
+      }
+      return this.getActualWidthOfChars(item.label) < maxWidth;
+    },
+    handleVisibleChange(visible) {
+      if (!visible) { // 下拉框隐藏时，清空搜索词
+        if (this.searchValue) {
+          this.searchValue = '';
         }
       }
     }
   },
 }
 </script>
-
 <style lang="scss">
 @import "./index.scss";
 </style>

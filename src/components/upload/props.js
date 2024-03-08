@@ -3,6 +3,10 @@ export default {
         type: String,
         default: '',
     },
+    maxSize: {
+        type: Number,
+        default: 20 * 1024 * 1024,
+    },
     limit: {
         type: Number,
         default: 0,

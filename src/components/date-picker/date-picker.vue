@@ -37,7 +37,7 @@
                     :clearable="clearable"
                     :placeholder="endPlaceholder"
                     :append-to-body="appendToBody"
-                    :popper-class="`${prefixClass}__popper ${prefixClass}__popper-end`"
+                    :popper-class="`${popperClass} ${prefixClass}__popper ${prefixClass}__popper-end`"
                     :picker-options="endPickerOptions"
                     @change="handleEndDateChange"
                     @focus="handleEndDateFocus"
@@ -51,6 +51,7 @@
 
 
 <script >
+import { DatePicker as ElDatePicker } from 'element-ui';
 import {
     ClearIcon,
     SuffixIcon,
@@ -64,6 +65,7 @@ export default {
         ClearIcon,
         SuffixIcon,
         PrefixIcon,
+        ElDatePicker
     },
     props: {
         ...props,
