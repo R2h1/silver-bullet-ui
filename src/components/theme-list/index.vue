@@ -11,6 +11,7 @@ const data = ref([{
 },{
   value: 'value3',
   label: 'label3',
+    disabled: true,
 },{
   value: 'value4',
   label: 'label4',
@@ -20,9 +21,12 @@ const data = ref([{
 },{
   value: 'value6',
   label: 'label6',
+  disabled: true,
 }
 ])
 const value = ref(data.value[0]);
+
+const values = ref([data.value[0]]);
 
 const colorInfo = ref({
   defaultColor: 'rgb(0, 0, 0, 0.9)',
@@ -34,7 +38,7 @@ const colorInfo = ref({
 });
 
 function handleChange(val) {
-  console.log('1111', val)
+  console.log('值改变: ', val)
 }
 </script>
 
@@ -42,17 +46,39 @@ function handleChange(val) {
   <div class='example-wrap'>
     <div>
       <span>active 只触发一次</span>
-      <span>当前值: {{ JSON.stringify(value) }}</span>
       <ThemeList style="height: 90px; overflow-y: scroll;" v-model="value" @change="handleChange" :data="data" :colorInfo="colorInfo" >
       </ThemeList>
+      <span>当前值: {{ JSON.stringify(value) }}</span>
     </div>
     <div>
       <span>active 可重复触发</span>
-      <span>当前值: {{ JSON.stringify(value) }}</span>
-      <ThemeList draggable :once="false" v-model="value" @change="handleChange" :data="data" :colorInfo="colorInfo" >
+      <ThemeList :once="false" v-model="value" @change="handleChange" :data="data" :colorInfo="colorInfo" >
       </ThemeList>
+      <span>当前值: {{ JSON.stringify(value) }}</span>
     </div>
-    
+
+    <div>
+      <span>可拖拽</span>
+      <ThemeList canDraggable v-model="value" @change="handleChange" :data="data" :colorInfo="colorInfo" >
+      </ThemeList>
+      <span>当前值: {{ JSON.stringify(value) }}</span>
+    </div>
+
+    <div>
+      <span>多选</span>
+      <ThemeList v-model="values" @change="handleChange" multiple :data="data" :colorInfo="colorInfo" >
+      </ThemeList>
+      <span>当前值: {{ JSON.stringify(values) }}</span>
+    </div>
+    <div>
+      <span> 多选可拖拽</span>
+      <ThemeList :data="data" :colorInfo="colorInfo" >
+      </ThemeList>
+      <ThemeList canDraggable v-model="values" @change="handleChange" multiple :data="data" :colorInfo="colorInfo" >
+      </ThemeList>
+      <span>当前值: {{ JSON.stringify(values) }}</span>
+    </div>
+
   </div>
 </template>
 

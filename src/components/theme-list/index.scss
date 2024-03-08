@@ -3,11 +3,14 @@
   flex-direction: column;
   padding: var(--sb-padding-3);
   gap: 6px;
+  margin: 0;
   list-style: none;
   box-shadow: 
     0 3px 12px 0 rgba(0,0,0,.12), 
     0 0.5px 1.5px 0 rgba(0,0,0,.08);
   & .sb-theme-list__item {
+    display: flex;
+    justify-content: space-between;
     padding: var(--sb-padding-2) var(--sb-padding-4);
     color: var(--sb-default-color);
     background-color: var(--sb-default-bg-color);
@@ -32,5 +35,10 @@
     &.drag-move {
       transition: .5s;
     }
+
+    &.is-disabled {
+      color: rgba(0,0,0,0.26);
+      pointer-events: none;
+  }
   }
 }

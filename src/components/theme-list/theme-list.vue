@@ -1,30 +1,39 @@
 <template>
+
   <transition-group
       name="drag"
       tag="ul"
       ref="theme-list" 
       :class="`${prefixClass}`"
-      @dragover.native="handle($event)"
-      @dragenter.native="handle($event)"
+      @dragover.native="handlePreventDefault($event)"
+      @dragenter.native="handlePreventDefault($event)"
     >
     <li
-      :draggable="draggable"
-      :class="[{ active: activeList[index], 'draggable': draggable }, `${prefixClass}__item`]" 
+      :draggable="canDraggable && !item.disabled"
+      :class="[{ 
+        active: activeList[index], 
+        'draggable': canDraggable, 
+        'is-disabled': item.disabled  }, `${prefixClass}__item`]" 
+      v-for="(item, index) in data" 
+      :key='item[valueField]'
       @click="handleClick(item, index)" 
-      v-for="(item, index) in data" :key='item[valueField]'
-      @drop="handleDrop($event, index)"
-      @dragstart="handleDragStart($event, index)"
-      @dragover="handleDragover($event)"
+      @drop="handleDrop($event, item, index)"
+      @dragstart="handleDragStart($event, item, index)"
+      @dragover="handleDragover($event, item)"
       >
         <slot :current="item" :index="index">
-          <slot v-if="draggable" name='reference'>
-            <span >
-              <i class="el-icon-rank"></i>
-            </span>
-          </slot>
-          {{ item.label }}
+          <span >
+            <i v-if="canDraggable && !item.disabled" class="el-icon-rank"></i>
+            {{ item.label }}
+          </span>
+          <el-switch 
+            v-if="multiple && !item.disabled"
+            :width="32"
+            :value="activeList[index]">
+          </el-switch>
         </slot>
-      </li>
+    </li>
+    
   </transition-group>
 </template>
 
@@ -53,15 +62,22 @@ export default {
   data() {
     return {
       prefixClass: 'sb-theme-list',
-      loading: false,
       draggingIndex: -1,
     }
   },
   computed: {
     activeList() {
-      return this.data.map((item) => {
+      if (this.multiple) {
+        const selectedValues = this.value.map(item => item[this.valueField]);
+        const res = this.data.map((item) => {
+          return selectedValues.includes(item[this.valueField]) ? true : false;
+        });
+        return res;
+      }
+      const res = this.data.map((item) => {
         return item[this.valueField] === this.value[this.valueField] ? true : false;
       });
+      return res;
     },
   },
   mounted() {
@@ -69,6 +85,16 @@ export default {
   },
   methods: {
     handleClick(value, index) {
+      if (this.multiple) { 
+        const isSelected = this.activeList[index];
+        if (isSelected) {
+          this.value.splice(this.value.findIndex((item) => item === value), 1)
+        } else {
+          this.value.push(value);
+        }
+        this.$emit('change', this.value);
+        return;
+      }
       if (this.once && value[this.valueField] === this.value[this.valueField]) return;
       this.$emit('change', value, index);
     },
@@ -78,7 +104,7 @@ export default {
     setTheme() {
       for (let key of COLOR_INFO_KEYS) {
         if (this.hasOwn(this.colorInfo, key)) {
-          this.$refs['theme-list'].style.setProperty(`--sb-${this.kebabCase(key)}`, this.colorInfo[key]);
+          this.$refs['theme-list'].$el.style.setProperty(`--sb-${this.kebabCase(key)}`, this.colorInfo[key]);
         }
       }
     },
@@ -88,28 +114,40 @@ export default {
       }
       return obj.hasOwnProperty(key);
     },
-    handleDragStart(event, index) {
+    handleDragStart(event, item, index) {
+      if (!this.canDraggable || item.disabled) {
+        return true;
+      }
       event.dataTransfer.effectAllowed = 'move';
       this.draggingIndex = index;
     },
-    handleDragover(event) {
+    handleDragover(event, item) {
+      if (!this.canDraggable || item.disabled) {
+        return true;
+      }
       event.preventDefault();
     },
-    handleDrop(event, index){
+    handleDrop(event, item, index){
+      if (!this.canDraggable || item.disabled) {
+        return true;
+      }
       event.preventDefault();
       // 排除自身
       if (this.draggingIndex === index) return;
       // 拖拽的元素
       const draggingItem = this.data[this.draggingIndex];
+      
       this.data.splice(this.draggingIndex, 1);
       this.data.splice(index, 0, draggingItem);
       // 更新为拖拽进入的 index
       this.draggingIndex = index;
     },
-    handle(event) {
-      console.log(11111)
+    handlePreventDefault(event) {
+      if (!this.canDraggable) {
+        return;
+      }
       event.preventDefault();
-    }
+    },
   }
 };
 

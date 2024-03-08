@@ -4,7 +4,7 @@ export default {
     default: () => ([])
   },
   value: {
-    type: Object,
+    type: [Object, Array],
     default: () => ({}),
   },
   colorInfo: {
@@ -19,7 +19,11 @@ export default {
     type: Boolean,
     default: true,
   },
-  draggable: {
+  canDraggable: {
+    type: Boolean,
+    default: false,
+  },
+  multiple: { // 可多选
     type: Boolean,
     default: false,
   }

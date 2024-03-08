@@ -22,5 +22,9 @@ export default {
     filterFieldConfig: { // 筛选字段配置
         type: Object,
         default: () => ({})
+    },
+    displaySettingConfig: { // 显示配置配置
+        type: Object,
+        default: () => ({}),
     }
 }

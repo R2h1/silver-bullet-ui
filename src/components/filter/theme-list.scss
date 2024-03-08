@@ -10,6 +10,7 @@
 
     @include element(item) {
         display: flex;
+        justify-content: space-between;
         position: relative;
         padding: 3px 8px;
         border-radius: 3px;
@@ -30,6 +31,19 @@
         &.active {
             color: var(--active-color);
             background-color: var(--active-bg-color);
+        }
+
+        &.draggable {
+            .el-icon-rank {
+                cursor: move;
+            }
+        }
+    
+        &.drag-move {
+            transition: .5s;
+        }
+        .el-switch {
+            transform: scale(0.8);
         }
     }
 }

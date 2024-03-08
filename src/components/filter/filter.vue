@@ -61,7 +61,9 @@
                         <suffix-icon />
                     </span>
                     <div :class="`${prefixClass}__sort-list`">
-                        <theme-list v-model="sortFieldConfig.value" @change="handleSortFieldChange"  v-bind="sortFieldConfig" />
+                        <theme-list 
+                            v-model="sortFieldConfig.value" 
+                            @change="handleSortFieldChange"  v-bind="sortFieldConfig" />
                     </div>
                 </el-popover>
                 <ascend-order-icon :class="`${prefixClass}__content-operate-item--icon`" @click.native="() => handleSortOrderChange(false)"  v-if="sortFieldConfig.ascend"/>
@@ -73,28 +75,26 @@
 
                 <slot>
                 </slot>
-
-                <!-- <span :class="`${prefixClass}__content-operate-item`" slot="reference" >
-                    <slot name="display-setting-content">
-                        <setting-icon class="prefix"/>
-                        {{ '显示设置' }} 
-                    </slot>
-                </span> -->
                 
-                <!-- <el-popover
+                <el-popover
                     :popper-class="`${prefixClass}__display-setting-popper`"
                     placement="bottom-start"
                     :visible-arrow="false"
+                    @show="handleShowDisplaySetting"
+                    @hide="handleSaveDisplaySetting"
                     v-model="popperVisible.displaySetting"
                 > 
                     <span :class="`${prefixClass}__content-operate-item`" slot="reference" >
                         <setting-icon class="prefix"/>
                         {{ '显示设置' }} 
                     </span>
-                    <div :class="`${prefixClass}__display-setting`">
-                        <slot name="display-setting-content"> </slot>
-                    </div>
-                </el-popover> -->
+                    <ThemeList :class="`${prefixClass}__display-setting`" 
+                        multiple
+                        canDraggable
+                        @change="handleDisplaySettingChange"
+                        v-bind="displaySettingConfig"
+                        v-model="displaySettingConfig.value"></ThemeList>
+                </el-popover>
             </div>
         </div>
         <div :class="`${prefixClass}__condition-list`">
@@ -123,6 +123,7 @@
                                 <Selector
                                     :class="`${prefixClass}__condition-config--item-front`"
                                     v-bind="filterFieldConfig"
+                                    :multiple="false"
                                     :append-to-body="true"
                                     @change="handleConditionChange(condition, index)"
                                     :data="displayFilterFieldConfigOptions"
@@ -139,9 +140,7 @@
                                     :popper-class="`${prefixClass}__condition-config--popper-back`"
                                     :popper-auto-width="false"
                                     :popper-width="354"
-                                    id="config"
                                     @focus="() => handleSelectorFocus('config', condition.fieldName)"
-                                    :remote="['projectManager','responsibleDepartment', 'responsibleGroup'].includes(condition.fieldName)"
                                     @remote-search="(keyword) => handleSelectorRemoteSearch(condition.fieldName, keyword)"
                                     />
                                 <DatePicker 
@@ -248,7 +247,9 @@ export default {
     data() {
         return {
             prefixClass: 'yt-filter',
-            filterFieldMap: this.filterFieldConfig.data ? new Map(this.filterFieldConfig.data.map(filterItem => [filterItem.fieldName, filterItem])) : new Map(),
+            filterFieldMap: this.filterFieldConfig.data 
+                ? new Map(this.filterFieldConfig.data.map(filterItem => [filterItem.fieldName, filterItem])) 
+                : new Map(),
             curDisplayFilter: null,
             popperVisible: {
                 sort: false,
@@ -256,6 +257,7 @@ export default {
                 filter: false,
                 displaySetting: false
             },
+            isDisplaySettingChange: false
         }
     },
     created() {
@@ -431,10 +433,9 @@ export default {
                     ...selectorConfig,
                     label: this.getLabel(filterContentItem),
                     sort: filterContentItem.sort,
-                    value: filterContentItem.value,
-                    // value: filterContentItem.value.map(item => item.value),
-                    // selectedValueSet: new Set(filterContentItem.value.map(item => item.value)),
-                    // selectedList: filterContentItem.value
+                    value: filterContentItem.value.map(item => item.value),
+                    selectedValueSet: new Set(filterContentItem.value.map(item => item.value)),
+                    selectedList: filterContentItem.value
                 }
             }),  this.filterFieldConfig.inputConfig]
         },
@@ -519,6 +520,18 @@ export default {
         handleSortOrderChange(isAscend) {
             this.sortFieldConfig.ascend = isAscend;
             this.$emit('change', this.curDisplayFilter, 'order-type')
+        },
+        handleDisplaySettingChange() {
+            this.isDisplaySettingChange = true;
+            this.$emit('change', this.curDisplayFilter, 'display-setting')
+        },
+        handleShowDisplaySetting() {
+            this.isDisplaySettingChange = false;
+        },
+        handleSaveDisplaySetting() {
+            if (this.isDisplaySettingChange) {
+                this.$emit('save', this.curDisplayFilter, 'display-setting')
+            }
         },
         handleFilterChange(filter, oldFilter) {
             this.popperVisible.filter = false;

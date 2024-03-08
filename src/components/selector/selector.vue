@@ -180,6 +180,9 @@ export default {
   computed: {
     selectedValues: {
       get() {
+        if (this.multiple) {
+          return this.value || [];
+        }
         return this.value;
       },
       set() {}

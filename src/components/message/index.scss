@@ -1,0 +1,56 @@
+@import "../common/bem.scss";
+@import "../common/mixins.scss";
+
+@include block(message-list) {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@include block(message) {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 12px 16px;
+  border-radius: 6px;
+  color: rgba(0, 0, 0, 0.9);
+  font: 14px / 22px PingFangSC-Regular;
+  gap: 8px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 30px 5px, 
+              rgba(0, 0, 0, 0.04) 0px 16px 24px 2px, 
+              rgba(0, 0, 0, 0.08) 0px 8px 10px -5px, 
+              rgb(220, 220, 220) 0px 0.5px 0px 0px inset, 
+              rgb(220, 220, 220) 0.5px 0px 0px 0px inset, 
+              rgb(220, 220, 220) 0px -0.5px 0px 0px inset, 
+              rgb(220, 220, 220) -0.5px 0px 0px 0px inset;
+
+  @include modifier(close-icon) {
+    margin-left: 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f3f3f3;
+    }
+  }
+
+  @include element(info-icon) {
+    font-size: 20px;
+    color: #0052d9;
+  }
+
+  @include element(success-icon) {
+    font-size: 20px;
+    color: #2ba471;
+  }
+
+  @include element(warning-icon) {
+    font-size: 20px;
+    color: #e37318;
+  }
+
+  @include element(error-icon) {
+    font-size: 20px;
+    color: #d54941;
+  }
+}

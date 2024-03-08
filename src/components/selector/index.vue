@@ -1,6 +1,6 @@
 <template>
     <div class="yt-selector-list">
-      <yt-selector />
+      <!-- <yt-selector /> -->
     <!-- <yt-selector 
       :data="data" 
       :loading="loading" 
@@ -104,19 +104,20 @@
         v-model="value"
       >
       </yt-selector>
-      </div>
+      </div> -->
     
     <div>
       <h6>固定popper宽度: 300</h6>
       <yt-selector 
         :data="data" 
         :loading="loading" 
-        label="项目经理1："
+        label="归口小组："
         placeholder="全部"
         type="txt"
         optionsLabel="搜索结果"
         showSelectAll
         remote
+        showLabel
         autoWidth
         :popperAutoWidth="false"
         :popperWidth="300"
@@ -150,7 +151,7 @@
         v-model="values"
       >
       </yt-selector>
-    </div> -->
+    </div>
     </div>
 </template>
 

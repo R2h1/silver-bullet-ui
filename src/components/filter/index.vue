@@ -8,6 +8,7 @@
           :filterFieldConfig="filterFieldConfig" 
           :sortFieldConfig="sortFieldConfig"
           :idSuffix="menuTabCode"
+          :displaySettingConfig="displaySettingConfig"
           @change="handleChange"
           @save="handleSave"
           @selector-data-change="handleSelectorDataChange"
@@ -16,8 +17,8 @@
         <div>排序字段：{{ sortFieldConfig.value.label }} - {{ sortFieldConfig.value.fieldName }}</div>
         <div>排序顺序：{{ sortFieldConfig.ascend ? "升序" : '降序' }}</div>
         <div>项目编号与名称：{{ filterFieldConfig.inputConfig.value }}</div>
+        <div>显示设置：{{ JSON.stringify(displaySettingConfig.value && displaySettingConfig.value.map(item => item.fieldName)) }}</div>
         <YtFilter 
-       
         />
     </div>
 
@@ -27,7 +28,8 @@
 import { YtFilter } from ".";
 import { 
   filterItemList, filterList, filterList2, sortFieldList, 
-  statusList, priorityList, categoryPrimaryList,categorySecondaryList,fixedTimeProjectFlagList  
+  statusList, priorityList, categoryPrimaryList,categorySecondaryList,fixedTimeProjectFlagList,
+  displaySettingList
 } from './mock';
 import request from "./request";
 
@@ -40,9 +42,6 @@ export default {
       menuTabCode: '0',
       filterList: filterList,
       filterFieldConfig: {
-          value: '',
-          placeholder: '请选择',
-          multiple: false,
           valueField: 'fieldName',
           data: filterItemList,
           selectorConfig: {
@@ -112,6 +111,7 @@ export default {
               labelField: 'fullName',
               fieldName: 'projectManager',
               loading: false,
+              remote: true,
               page: 1,
               componentType: 'selector'
             },
@@ -126,6 +126,7 @@ export default {
               fieldName: 'responsibleGroup',
               searchable: true,
               loading: false,
+              remote: true,
               page: 1,
               componentType: 'selector'
             },
@@ -140,6 +141,7 @@ export default {
               searchable: true,
               fieldName: ' responsibleDepartment',
               loading: false,
+              remote: true,
               page: 1,
               componentType: 'selector'
             },
@@ -162,12 +164,22 @@ export default {
           data: sortFieldList,
           valueField: 'fieldName',
       },
+      displaySettingConfig: {
+        value: [],
+        data: displaySettingList,
+        valueField: 'fieldName',
+        colorInfo: {
+          activeColor: 'rgb(0, 0, 0, 0.9)',
+          activeBgColor: 'rgb(255, 255, 255)',
+        },
+        showActiveStyle: false
+      },
       result: filterList.find((filter => filter.defaultFlag === '1')).filterContent,
       inputValue: '',
     }
   },
   mounted() {
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
   },
   watch: {
     menuTabCode(val) {
@@ -207,6 +219,9 @@ export default {
       if (type === 'rename') {
         filter.name =  `随机一个名字改一个${Date.now()}`
         console.log('重命名筛选器', filter, type, option);
+      }
+      if (type === 'display-setting') {
+        console.log('保存显示设置', this.displaySettingConfig.value);
       }
     },
     handleSelectorDataChange(type, option) {

@@ -99,7 +99,7 @@ export default {
     type: String,
     default: 'tag',
     validator(val) {
-      return ['tag', 'txt'].includes(val);
+      return ['tag', 'txt', 'tree'].includes(val);
     }
   },
   selectedLabel: {

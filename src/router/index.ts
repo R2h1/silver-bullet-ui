@@ -6,6 +6,8 @@ import Selector from "../components/selector/index.vue";
 import DatePicker from "../components/date-picker/date-picker.vue";
 import Notification from "../components/notification/index.vue";
 import Upload from "../components/upload/index.vue";
+import Flex from "../components/flex/index.vue";
+import Message from "../components/message/test.vue";
 
 Vue.use(VueRouter);
 
@@ -34,14 +36,24 @@ const router = new VueRouter({
       component: DatePicker,
     },
     {
-      path: './notification',
-      name: './notification',
+      path: '/notification',
+      name: 'notification',
       component: Notification,
     },
     {
-      path: './upload',
-      name: './upload',
+      path: '/upload',
+      name: 'upload',
       component: Upload,
+    },
+    {
+      path: '/flex',
+      name: 'flex',
+      component: Flex,
+    },
+    {
+      path: '/message',
+      name: 'message',
+      component: Message,
     }
   ],
 });
