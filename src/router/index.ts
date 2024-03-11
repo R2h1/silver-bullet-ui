@@ -9,6 +9,7 @@ import Upload from "../components/upload/index.vue";
 import Flex from "../components/flex/index.vue";
 import Message from "../components/message/test.vue";
 import SegmentedControl from "../components/segmented-control/index.vue";
+import Center from '../components/center/index.vue'
 
 Vue.use(VueRouter);
 
@@ -57,9 +58,14 @@ const router = new VueRouter({
       component: Message,
     },
     {
-      path: '/segmented-control',
-      name: 'segmented-control',
+      path: '/sc',
+      name: 'sc',
       component: SegmentedControl,
+    },
+    {
+      path: '/center',
+      name: 'center',
+      component: Center,
     },
     
   ],

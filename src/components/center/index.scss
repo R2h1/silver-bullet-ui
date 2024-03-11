@@ -1,0 +1,11 @@
+@import "../common/bem.scss";
+
+@include block(center) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &[data-inline] {
+    display: inline-flex;
+  }
+}
