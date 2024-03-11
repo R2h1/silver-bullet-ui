@@ -1,0 +1,10 @@
+@import "../common/bem.scss";
+
+@include block(container) {
+  box-sizing: border-box;
+  margin-inline: auto;
+  
+  &[data-fluid] {
+    max-width: 100%;
+  }
+}

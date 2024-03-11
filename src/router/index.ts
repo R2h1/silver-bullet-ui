@@ -10,6 +10,7 @@ import Flex from "../components/flex/index.vue";
 import Message from "../components/message/test.vue";
 import SegmentedControl from "../components/segmented-control/index.vue";
 import Center from '../components/center/index.vue'
+import Container from '../components/container/index.vue'
 
 Vue.use(VueRouter);
 
@@ -66,6 +67,11 @@ const router = new VueRouter({
       path: '/center',
       name: 'center',
       component: Center,
+    },
+    {
+      path: '/container',
+      name: 'container',
+      component: Container,
     },
     
   ],
