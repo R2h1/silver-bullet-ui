@@ -23,7 +23,7 @@
         :on-change="handleChange"
       >
         <slot name="trigger" slot="trigger">
-          <yt-button v-if="!drag" :class="`${prefixClass}__upload-trigger`" icon="el-icon-upload2" variant="outline">上传文件</yt-button>
+          <button v-if="!drag" :class="`${prefixClass}__upload-trigger`" icon="el-icon-upload2" variant="outline">上传文件</button>
         </slot>
       </el-upload>
       <slot></slot>
@@ -99,8 +99,8 @@
                     <span>确认删除{{label}}</span>
                   </div>
                   <div style="text-align: right; margin: 0">
-                    <yt-button :class="`${prefixClass}__delete-cancel`" @click="handleCancelDelete(scope.row, scope.$index)" variant="outline">取消</yt-button>
-                    <yt-button :class="`${prefixClass}__delete-ok`" @click="handleItemDelete(scope.row, scope.$index)" variant="outline">确定</yt-button>
+                    <button :class="`${prefixClass}__delete-cancel`" @click="handleCancelDelete(scope.row, scope.$index)" variant="outline">取消</button>
+                    <button :class="`${prefixClass}__delete-ok`" @click="handleItemDelete(scope.row, scope.$index)" variant="outline">确定</button>
                   </div>
                 </div>
                 <i slot="reference" v-if="canDelete" class="el-icon-delete"></i>
@@ -120,7 +120,6 @@ import {
   Progress as ElProgress,
   Popover as ElPopover
 } from "element-ui";
-import YtButton from '../../components/button';
 import props from './props';
 import { EXTENSIONS } from "./constant";
 import { 
@@ -140,7 +139,6 @@ export default {
     ElPopover,
     ElUpload,
     ElTable,
-    YtButton,
     ElTableColumn,
     ElProgress,
     ExcelIcon,

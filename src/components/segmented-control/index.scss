@@ -1,0 +1,63 @@
+@import "../common/bem.scss";
+@import "../common/mixins.scss";
+
+
+@include block(segmented-control) {
+  position: relative;
+  display: inline-flex;
+  line-height: 1.55;
+  font-size: 16px;
+  flex-direction: row;
+  width: auto;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 4px;
+  background-color: #f1f3f5;
+
+  @include element(indicator) {
+    position: absolute;
+    display: block;
+    z-index: 1;
+    border-radius: 4px;
+    width: var(--indicator-width);
+    height: var(--indicator-height);
+    transform: var(--indicator-transform);
+    background-color: #fff;
+    transition: transform 200ms ease, width 200ms ease;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  }
+
+  @include element(border) {
+    width: 0.5px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: #dee2e6;
+  }
+
+  @include element(item) {
+    position: relative;
+    flex: 1;
+    z-index: 2;
+  }
+
+  @include element(label) {
+    display: block;
+    padding: 5px 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 4px;
+    user-select: none;
+    cursor: pointer;
+    @include ellipsis;
+  }
+
+  &[data-orientation="vertical"] {
+    flex-direction: column;
+  }
+
+  &[data-full-width="true"] {
+    display: flex;
+  }
+}

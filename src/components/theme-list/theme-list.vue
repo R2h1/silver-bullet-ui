@@ -37,7 +37,7 @@
             @dragover="handleDragover($event, item)"
             >
                 <span :class="`${prefixClass}__item--can-drag`">
-                    <move-icon class="move-icon" v-if="canDraggable && !item.disabled"/>
+                    <!-- <move-icon class="move-icon" v-if="canDraggable && !item.disabled"/> -->
                     {{ item.label }}
                 </span>
                 <el-switch v-if="multiple && !item.disabled"
@@ -48,7 +48,6 @@
 </template>
 <script>
 import { Switch as ElSwitch } from 'element-ui';
-import { MoveIcon } from '../icons'
 
 const DEFAULT_COLOR_INFO = { 
     color: 'rgba(0, 0, 0, 0.9)', 
@@ -62,7 +61,7 @@ const DEFAULT_COLOR_INFO = {
 export default {
     name: 'yt-theme-list',
     components: {
-        MoveIcon,
+        // MoveIcon,
         ElSwitch
     },
     model: {

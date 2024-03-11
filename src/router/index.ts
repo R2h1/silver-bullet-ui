@@ -8,6 +8,7 @@ import Notification from "../components/notification/index.vue";
 import Upload from "../components/upload/index.vue";
 import Flex from "../components/flex/index.vue";
 import Message from "../components/message/test.vue";
+import SegmentedControl from "../components/segmented-control/index.vue";
 
 Vue.use(VueRouter);
 
@@ -54,7 +55,13 @@ const router = new VueRouter({
       path: '/message',
       name: 'message',
       component: Message,
-    }
+    },
+    {
+      path: '/segmented-control',
+      name: 'segmented-control',
+      component: SegmentedControl,
+    },
+    
   ],
 });
 

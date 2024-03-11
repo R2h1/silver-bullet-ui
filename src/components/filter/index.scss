@@ -1,7 +1,7 @@
 @import "../common/bem.scss";
 @import "../common/mixins.scss";
 @import "./theme-list.scss";
-@import "./remove.scss";
+@import "../remove/index.scss";
 
 @include block(filter) {
     display: flex;

@@ -156,7 +156,7 @@
                                     :data="displayFilterFieldConfigOptions"
                                     v-model="condition.fieldName"
                                 >
-                                    <chevron-down-icon slot="suffix" />
+                                    <!-- <chevron-down-icon slot="suffix" /> -->
                                 </Selector>
                                 <Selector 
                                     :class="`${prefixClass}__condition-config--item-back`" 
@@ -175,7 +175,7 @@
                                     @select-list-change="handleSelectedListChange"
                                     @load-node="handleLoadNode"
                                     >
-                                    <chevron-down-icon slot="suffix" />
+                                    <!-- <chevron-down-icon slot="suffix" /> -->
                                 </Selector>
                                 <DatePicker 
                                     :class="`${prefixClass}__condition-config--item-back`"
@@ -267,7 +267,7 @@ import {
     SettingIcon,
     CloudIcon,
     LoadingIcon,
-    ChevronDownIcon
+    // ChevronDownIcon
 } from '../icons';
 import Selector from '../selector';
 import DatePicker from '../date-picker';
@@ -291,7 +291,7 @@ export default {
         SettingIcon,
         CloudIcon,
         LoadingIcon,
-        ChevronDownIcon,
+        // ChevronDownIcon,
         Selector,
         DatePicker,
         ThemeList,
