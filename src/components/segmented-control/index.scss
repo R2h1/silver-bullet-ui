@@ -1,6 +1,4 @@
 @import "../common/bem.scss";
-@import "../common/mixins.scss";
-
 
 @include block(segmented-control) {
   position: relative;
@@ -9,30 +7,48 @@
   font-size: 16px;
   flex-direction: row;
   width: auto;
-  border-radius: 4px;
+  border-radius: var(--sc-border-radius);
   overflow: hidden;
   padding: 4px;
   background-color: #f1f3f5;
+
+  &.disabled {
+      cursor: not-allowed;
+  }
 
   @include element(indicator) {
     position: absolute;
     display: block;
     z-index: 1;
-    border-radius: 4px;
+    border-radius: var(--sc-border-radius);
     width: var(--indicator-width);
     height: var(--indicator-height);
     transform: var(--indicator-transform);
-    background-color: #fff;
+    background-color: var(--indicator-bg-color, rgb(255, 255, 255));
     transition: transform 200ms ease, width 200ms ease;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   }
 
   @include element(border) {
+    display: block;
     width: 0.5px;
+    inset-inline: 0;
     position: absolute;
     top: 0;
     bottom: 0;
     background-color: #dee2e6;
+    transition: background-color 200ms ease;
+
+    &.active {
+      background-color: transparent;
+    }
+
+    &.vertical {
+      top: 0;
+      bottom: auto;
+      height: 0.5px;
+      width: auto;
+    }
   }
 
   @include element(item) {
@@ -43,14 +59,26 @@
 
   @include element(label) {
     display: block;
-    padding: 5px 10px;
+    padding: var(--sc-padding);
     text-align: center;
     font-size: 14px;
     font-weight: 500;
     border-radius: 4px;
     user-select: none;
     cursor: pointer;
-    @include ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #495057;
+
+    &.active:not(.disabled) {
+      color: var(--sc-active-color);
+    }
+
+    &.disabled {
+      color: #adb5bd;
+      cursor: not-allowed;
+    }
   }
 
   &[data-orientation="vertical"] {
