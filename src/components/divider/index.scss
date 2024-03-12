@@ -1,0 +1,57 @@
+// @import "../../theme-chalk/src/common/bem.scss";
+@import "../common/bem.scss";
+
+@include block(my-divider) {
+    &[data-orientation="horizontal"] {
+        align-self: stretch;
+        border-top: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
+    }
+    &[data-orientation="vertical"] {
+        display: flex;
+        align-self: stretch;
+        border-inline-start: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
+    }
+
+    @include element(label) {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        color: #868e96;
+        white-space: nowrap;
+
+        @include when(vertical) {
+            writing-mode: vertical-lr;
+        }
+    }
+
+    @include element(before) {
+        display: block;
+        flex: 1;
+        height: 1px;
+        margin-inline-end: 10px;
+        border-top: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
+
+        @include when(vertical) {
+            border-top: none;
+            border-block-start: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
+        }
+
+    }
+
+    @include element(after) {
+        display: block;
+        flex: 1;
+        height: 1px;
+        margin-inline-start: 10px;
+        border-top: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
+
+        @include when(vertical) {
+            border-top: none;
+            border-block-start: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
+        }
+    }
+
+    &[data-with-label] {
+        border: none;
+    }
+}

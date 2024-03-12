@@ -11,6 +11,7 @@ import Message from "../components/message/test.vue";
 import SegmentedControl from "../components/segmented-control/index.vue";
 import Center from '../components/center/index.vue'
 import Container from '../components/container/index.vue'
+import Divider from '../components/divider/index.vue'
 
 Vue.use(VueRouter);
 
@@ -72,6 +73,11 @@ const router = new VueRouter({
       path: '/container',
       name: 'container',
       component: Container,
+    },
+    {
+      path: '/divider',
+      name: 'divider',
+      component: Divider,
     },
     
   ],
