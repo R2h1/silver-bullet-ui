@@ -17,4 +17,7 @@ export default {
       return ['xs', 'sm', 'md', 'lg', 'xl'].includes(val) || typeof val === 'number';
     }
   },
+  zIndex: {
+    
+  }
 }

@@ -1,6 +1,11 @@
 <template>
   <div class='example-wrap'>
-    <LoadingOverlay />
+      <img
+        style="width: 100%; height: 100%;"
+        src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-7.png"
+        alt="Demo"
+    />
+    <LoadingOverlay :visible="true" :overlayProps="{ radius: 4, blur: 2 }"/>
   </div>
 </template>
 
@@ -16,12 +21,10 @@ export default {
 
 <style scoped>
 .example-wrap {
-  width: 516px;
-  height: 200px;
+  position: relative;
+  width: 400px;
+  height: 403px;
   margin: 30px 0 10px 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: #dee2e6;
 }
 </style>

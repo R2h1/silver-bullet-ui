@@ -16,6 +16,7 @@
     border-style: solid;
     border-color: var(--loader-color) var(--loader-color) var(--loader-color) transparent;
     animation: oval 1s linear infinite;
+    box-sizing: border-box;
   }
 
   &[data-type='bars'] {
