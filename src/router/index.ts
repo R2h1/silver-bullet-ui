@@ -12,6 +12,9 @@ import SegmentedControl from "../components/segmented-control/index.vue";
 import Center from '../components/center/index.vue'
 import Container from '../components/container/index.vue'
 import Divider from '../components/divider/index.vue'
+import Loader from '../components/loader/index.vue'
+import Overlay from '../components/overlay/index.vue'
+import LoadingOverlay from '../components/loading-overlay/index.vue'
 
 Vue.use(VueRouter);
 
@@ -79,7 +82,21 @@ const router = new VueRouter({
       name: 'divider',
       component: Divider,
     },
-    
+    {
+      path: '/loader',
+      name: 'loader',
+      component: Loader,
+    },
+    {
+      path: '/overlay',
+      name: 'overlay',
+      component: Overlay,
+    },
+    {
+      path: '/loading-overlay',
+      name: 'loading-overlay',
+      component: LoadingOverlay,
+    },
   ],
 });
 

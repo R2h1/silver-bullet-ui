@@ -1,0 +1,92 @@
+// @import "../../theme-chalk/src/common/bem.scss";
+@import "../common/bem.scss";
+
+@include block(loader) {
+  display: inline-block;
+  height: var(--loader-size);
+  width: var(--loader-size);
+
+  &[data-type='oval']::after {
+    content: "";
+    height: var(--loader-size);
+    width: var(--loader-size);
+    display: block;
+    border-radius: 50%;
+    border-width: calc(var(--loader-size) / 8);
+    border-style: solid;
+    border-color: var(--loader-color) var(--loader-color) var(--loader-color) transparent;
+    animation: oval 1s linear infinite;
+  }
+
+  &[data-type='bars'] {
+    position: relative;
+    display: flex;
+    gap: calc(var(--loader-size) / 5);
+
+    span {
+      flex: 1;
+      background: var(--loader-color);
+      animation: bars 1s cubic-bezier(0,.5,.5,1) infinite;
+      border-radius: 2px;
+    }
+    span:nth-child(1) {
+      animation-delay: -.24s;
+    }
+    span:nth-child(2) {
+      animation-delay: -.12s;
+    }
+    span:nth-child(3) {
+      animation-delay: 0s;
+    }
+  }
+
+  &[data-type='dots'] {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: calc(var(--loader-size) / 10);
+
+    span {
+      width: calc(var(--loader-size) / 3 - var(--loader-size) / 15);
+      height: calc(var(--loader-size) / 3 - var(--loader-size) / 15);
+      border-radius: 50%;
+      background: var(--loader-color);
+      animation: dots .8s linear infinite;
+    }
+    span:nth-child(2) {
+      animation-delay: .4s;
+    }
+  }
+  
+  @keyframes oval {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(1turn);
+    }
+  }
+
+  @keyframes bars {
+    0% {
+      transform: scale(.6);
+      opacity: 0;
+    }
+    50%, 100% {
+      transform: scale(1);
+    }
+  }  
+
+  @keyframes dots {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  
+    50% {
+      transform: scale(.6);
+      opacity: .5;
+    }
+  }
+}

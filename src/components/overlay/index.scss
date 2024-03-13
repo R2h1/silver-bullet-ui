@@ -1,0 +1,12 @@
+// @import "../../theme-chalk/src/common/bem.scss";
+@import "../common/bem.scss";
+
+@include block(overlay) {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-bg, rgba(0, 0, 0, .6));
+  backdrop-filter: var(--overlay-filter);
+  -webkit-backdrop-filter: var(--overlay-filter);
+  border-radius: var(--overlay-radius, 0);
+  z-index: var(--overlay-z-index);
+}
