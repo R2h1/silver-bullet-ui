@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import ThemeList from "./theme-list.vue";
+import ThemeList from "../filter/theme-list.vue";
 import Vue, {ref, watch } from 'vue';
 
 const data = ref([{
   value: 'value1',
-  label: 'label1',
+  label: 'label',
+  canSwitch: false,
 }, {
   value: 'value2',
   label: 'label2',
+  canSwitch: false,
 },{
   value: 'value3',
   label: 'label3',
-    disabled: true,
+  canSwitch: false,
 },{
   value: 'value4',
   label: 'label4',
@@ -21,12 +23,12 @@ const data = ref([{
 },{
   value: 'value6',
   label: 'label6',
-  disabled: true,
+
 }
 ])
 const value = ref(data.value[0]);
 
-const values = ref([data.value[0]]);
+const values = ref([data.value[0], data.value[1]]);
 
 const colorInfo = ref({
   defaultColor: 'rgb(0, 0, 0, 0.9)',

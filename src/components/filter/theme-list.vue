@@ -9,7 +9,7 @@
             v-for="(item, index) in data"
             :key="item[valueField]"
         >
-            <slot :current="item" :index="index">
+            <slot name="default" :current="item" :index="index">
                 {{ item.label }}
             </slot>
         </li>
@@ -36,19 +36,19 @@
             @dragstart="handleDragStart($event, item, index)"
             @dragover="handleDragover($event, item)"
             >
-            <slot :current="item" :index="index">
-            <span >
-                <i v-if="canDraggable && !item.disabled" class="el-icon-rank"></i>
-                {{ item.label }}
-            </span>
-            <el-switch v-if="multiple && !item.disabled"
-                :value="activeList[index]">
-            </el-switch>
-            </slot>
+                <span :class="`${prefixClass}__item--can-drag`">
+                    <move-icon class="move-icon" v-if="canDraggable"/>
+                    {{ item.label }}
+                </span>
+                <el-switch v-if="multiple" :disabled="item.canSwitch === false"
+                    :value="activeList[index]">
+                </el-switch>
         </li>
     </transition-group>
 </template>
 <script>
+import { Switch as ElSwitch } from 'element-ui';
+import { MoveIcon } from '../icons'
 
 const DEFAULT_COLOR_INFO = { 
     color: 'rgba(0, 0, 0, 0.9)', 
@@ -61,6 +61,10 @@ const DEFAULT_COLOR_INFO = {
 
 export default {
     name: 'yt-theme-list',
+    components: {
+        MoveIcon,
+        ElSwitch
+    },
     model: {
         prop: 'value',
         event: 'change'
@@ -102,7 +106,6 @@ export default {
     data() { 
         return { 
             prefixClass: 'yt-theme-list',
-            draggingIndex: -1,
         } 
     },
     computed: { 
@@ -125,6 +128,9 @@ export default {
     },
     methods: {
         handleClick(value, index) {
+            if (value.canSwitch === false) {
+                return;
+            }
             if (this.multiple) { 
                 const isSelected = this.activeList[index];
                 if (isSelected) {
@@ -132,11 +138,11 @@ export default {
                 } else {
                     this.value.push(value);
                 }
-                this.$emit('change', this.value);
+                this.$emit('change', this.value, value);
                 return;
             }
             if (this.once && value[this.valueField] === this.value[this.valueField]) return;
-            this.$emit('change', value, index);
+            this.$emit('change', value, this.value, index);
         },
         kebabCase(str) { 
             return str.replace(/\B([A-Z])/g, '-$1').toLowerCase(); 
@@ -148,9 +154,9 @@ export default {
             }
             Object.entries(DEFAULT_COLOR_INFO).forEach(([key, value]) => {
                 el.style.setProperty( `--${this.kebabCase(key)}`, 
-                this.hasOwn(this.colorInfo, key) 
+                this.hasOwn(this.colorInfo, key) &&  this.colorInfo[key]
                     ? this.colorInfo[key] 
-                    : value ); 
+                    : value); 
             }); 
         }, 
         hasOwn(obj, key) { 
@@ -181,11 +187,14 @@ export default {
             if (this.draggingIndex === index) return;
             // 拖拽的元素
             const draggingItem = this.data[this.draggingIndex];
-            
+            const dropItem = this.data[index];
             this.data.splice(this.draggingIndex, 1);
             this.data.splice(index, 0, draggingItem);
             // 更新为拖拽进入的 index
             this.draggingIndex = index;
+            // 更新排序标识
+            [draggingItem.sort, dropItem.sort] = [dropItem.sort, draggingItem.sort]
+            this.$emit('drag-end', this.data);
         },
         handlePreventDefault(event) {
             if (!this.canDraggable) {
@@ -196,3 +205,7 @@ export default {
     } 
 };
 </script>
+
+<style lang="scss">
+@import './theme-list.scss';
+</style>

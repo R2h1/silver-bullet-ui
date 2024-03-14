@@ -1,4 +1,4 @@
-.sb-theme-list {
+.yt-theme-list {
   display: flex;
   flex-direction: column;
   padding: var(--sb-padding-3);
@@ -8,7 +8,7 @@
   box-shadow: 
     0 3px 12px 0 rgba(0,0,0,.12), 
     0 0.5px 1.5px 0 rgba(0,0,0,.08);
-  & .sb-theme-list__item {
+  & .yt-theme-list__item {
     display: flex;
     justify-content: space-between;
     padding: var(--sb-padding-2) var(--sb-padding-4);
@@ -38,7 +38,7 @@
 
     &.is-disabled {
       color: rgba(0,0,0,0.26);
-      pointer-events: none;
-  }
+      cursor: not-allowed;
+    }
   }
 }

@@ -22,7 +22,7 @@
 
         @include when(disabled) {
             color: rgba(0,0,0,0.26);
-            pointer-events: none;
+            cursor: not-allowed;
         }
 
         @include modifier(can-drag) {
@@ -35,7 +35,7 @@
             color: var(--hover-color);
             background-color: var(--hover-bg-color);
         }
-        &.active {
+        &.active:not(.is-disabled) {
             color: var(--active-color);
             background-color: var(--active-bg-color);
         }

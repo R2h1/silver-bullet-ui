@@ -24,7 +24,7 @@
         @dragenter.native="handlePreventDefault($event)"
     >
         <li
-            :draggable="canDraggable && !item.disabled"
+            :draggable="canDraggable && !item.disabled && !!item.draggable"
             :class="[{ 
                 active: showActiveStyle && activeList[index], 
                 'draggable': canDraggable, 
@@ -37,10 +37,10 @@
             @dragover="handleDragover($event, item)"
             >
                 <span :class="`${prefixClass}__item--can-drag`">
-                    <!-- <move-icon class="move-icon" v-if="canDraggable && !item.disabled"/> -->
+                    <move-icon class="move-icon" v-if="canDraggable && !item.disabled && !!item.draggable"/>
                     {{ item.label }}
                 </span>
-                <el-switch v-if="multiple && !item.disabled"
+                <el-switch v-if="multiple"
                     :value="activeList[index]">
                 </el-switch>
         </li>
@@ -48,6 +48,7 @@
 </template>
 <script>
 import { Switch as ElSwitch } from 'element-ui';
+import { MoveIcon } from '../icons'
 
 const DEFAULT_COLOR_INFO = { 
     color: 'rgba(0, 0, 0, 0.9)', 
@@ -61,7 +62,7 @@ const DEFAULT_COLOR_INFO = {
 export default {
     name: 'yt-theme-list',
     components: {
-        // MoveIcon,
+        MoveIcon,
         ElSwitch
     },
     model: {
@@ -162,20 +163,20 @@ export default {
             return obj.hasOwnProperty(key); 
         },
         handleDragStart(event, item, index) {
-            if (!this.canDraggable || item.disabled) {
+            if (!this.canDraggable || item.disabled || !item.draggable) {
                 return true;
             }
             event.dataTransfer.effectAllowed = 'move';
             this.draggingIndex = index;
         },
         handleDragover(event, item) {
-            if (!this.canDraggable || item.disabled) {
+            if (!this.canDraggable || item.disabled || !item.draggable) {
                 return true;
             }
             event.preventDefault();
         },
         handleDrop(event, item, index){
-            if (!this.canDraggable || item.disabled) {
+            if (!this.canDraggable || item.disabled || !item.draggable) {
                 return true;
             }
             event.preventDefault();

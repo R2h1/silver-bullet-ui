@@ -750,7 +750,8 @@ export const displaySettingList = [
         "sort": "6",
         "parentCategory": null,
         "isShow": true,
-        "draggable": true
+        "draggable": true,
+        "canSwitch": false,
     },
     {
         "type": "DISPLAY_ITEM",

@@ -15,6 +15,7 @@ import Divider from '../components/divider/index.vue'
 import Loader from '../components/loader/index.vue'
 import Overlay from '../components/overlay/index.vue'
 import LoadingOverlay from '../components/loading-overlay/index.vue'
+import Timeline from '../components/timeline/index.vue';
 
 Vue.use(VueRouter);
 
@@ -96,6 +97,11 @@ const router = new VueRouter({
       path: '/loading-overlay',
       name: 'loading-overlay',
       component: LoadingOverlay,
+    },
+    {
+      path: '/timeline',
+      name: 'timeline',
+      component: Timeline,
     },
   ],
 });

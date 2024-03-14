@@ -3,9 +3,9 @@ export default {
         type: String,
         default: 'fieldName',
     },
-    idSuffix: {
+    scene: {
         type: String,
-        default: '0',
+        default: '',
     },
     filterItemValueField: { // 筛选字段列表值字段
         type: String,
@@ -23,8 +23,12 @@ export default {
         type: Object,
         default: () => ({})
     },
-    displaySettingConfig: { // 显示配置配置
+    displaySettingConfig: { // 显示设置配置
         type: Object,
         default: () => ({}),
-    }
+    },
+    exportConfig: {
+        type: Object,
+        default: () => ({})
+    },
 }
