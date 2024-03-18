@@ -4,6 +4,6 @@ export const EXTENSIONS = {
     ppt: ['ppt', 'pptx'],
     excel: ['xls', 'xlsx'],
     zip: ['zip', '7z', 'rar', 'tgz'],
-    img: ['jgp', 'jpeg', 'png', 'svg', 'bmp', 'webp', 'gif'],
+    img: ['jpg', 'jpeg', 'png', 'svg', 'bmp', 'webp', 'gif'],
     txt: ['txt']
 }

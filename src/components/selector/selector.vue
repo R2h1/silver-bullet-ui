@@ -231,6 +231,7 @@ export default {
         isLeaf: 'leaf',
       },
       checkChangeNode: null,
+      checkChangeId: '',
     }
   },
   computed: {
@@ -367,7 +368,6 @@ export default {
         };
         
         this.changeSelectedList(newValues, oldValues);
-        
         this.$emit('select-list-change', this.selectedList)
 
         this.$nextTick(() => {
@@ -382,7 +382,7 @@ export default {
       inserted(el, binding) {
         const { value } = binding;
         el.addEventListener("scroll", function () {
-            const condition = this.scrollHeight - Math.ceil(this.scrollTop) <= this.clientHeight;
+            const condition = this.scrollHeight - Math.ceil(this.scrollTop) <= this.clientHeight + 2;
             if (condition && this.scrollTop !== 0 && typeof value === 'function') {
               value();
             }
@@ -399,6 +399,12 @@ export default {
       this.$emit('change', val)
     },
     handleCheckChange(data, checked, indeterminate) {
+      if (this.selectedValues.includes(data.value) && checked) {
+        return;
+      }
+      if (!this.selectedValues.includes(data.value) && !checked) {
+        return;
+      }
       const values = this.$refs.tree.getCheckedNodes().map((item) => {
         return item.value;
       });
@@ -406,7 +412,7 @@ export default {
         ...data,
       }
       delete this.checkChangeNode.children;
-      this.$emit('change', values)
+      this.$emit('change', values);
     },
     handleNodeExpand(data, node, el) {
       if (node.isLeaf || data.children.length) return;
@@ -486,10 +492,10 @@ export default {
         const value = oldValues.find(value => !newValues.includes(value)); // 取消的值
         if (value) {
           const index = this.selectedList.findIndex(option => option[this.valueField] === value);
+          this.$refs.tree.setCheckedKeys(newValues);
           if (index !== -1) {
             this.selectedList.splice(index, 1);
             this.selectedValueSet.delete(value);
-            this.$refs.tree.setCheckedKeys(newValues);
           }
         }
       }
@@ -519,6 +525,8 @@ export default {
   },
 }
 </script>
+
 <style lang="scss">
 @import "./index.scss";
 </style>
+
