@@ -1,5 +1,5 @@
 <template>
-    <div :class="`${prefixClass}`">
+    <div ref="filter" :class="`${prefixClass}`">
         <div :class="`${prefixClass}__header`">
             <div :class="`${prefixClass}__header--front`">
                 <el-popover
@@ -7,7 +7,7 @@
                     :popper-class="`${prefixClass}__filter-list-popper`"
                     placement="bottom-start"
                     :visible-arrow="false"
-                    v-model="popperVisible.filter"
+                    v-model="popperVisible.filter" 
                 >
                     <div :class="`${prefixClass}__title-wrap`" slot="reference">
                         <span :class="`${prefixClass}__title`">{{ curDisplayFilter.name }}</span>
@@ -22,9 +22,17 @@
                             valueField="id"
                         >
                             <template #default="{ current, index }">
-                                <span :class="`${prefixClass}__list--item-name`">
-                                    {{ current.name }}
-                                </span>
+                                <el-tooltip 
+                                    :content="current.name"
+                                    placement="right"
+                                    :popper-class="`${prefixClass}__item-name-tooltip`"
+                                    :disabled="current.isDisabledTooltip" >
+                                    <span :class="[`${prefixClass}__list--item-name`, {
+                                        'is-default': isDefaultFilter(current),
+                                    }] ">
+                                        {{ current.name }}
+                                    </span>
+                                </el-tooltip>
                                 <span :class="`${prefixClass}__list--item-default-tag`" v-if="isDefaultFilter(current)">默认</span>
                                 <el-popover
                                     :popper-class="`${prefixClass}__more-menu-popper`"
@@ -254,7 +262,12 @@
 </template>
 
 <script>
-import { Input as ElInput, Button as ElButton, Popover as ElPopover } from 'element-ui';
+import { 
+    Input as ElInput, 
+    Button as ElButton, 
+    Popover as ElPopover, 
+    Tooltip as ElTooltip 
+} from 'element-ui';
 import { 
     SuffixIcon,
     CloseNormalIcon,
@@ -268,14 +281,15 @@ import {
     CloudIcon,
     LoadingIcon,
     ChevronDownIcon
-} from '../icons';
+} from '../../complex-components/date-picker/icons';
 import Selector from '../selector';
-import DatePicker from '../date-picker';
+import DatePicker from '../../complex-components/date-picker';
 import ThemeList from './theme-list.vue';
-import Remove from '../remove/remove.vue';
+import Remove from './remove.vue';
 import props from './props';
 
 const DEFAULT_FILTER_FlAG = '1';
+const CHANGED_SELECTED_ID = 'yt-filter__' + Date.now();
 
 export default {
     name: 'yt-filter',
@@ -298,7 +312,8 @@ export default {
         Remove,
         ElInput,
         ElButton,
-        ElPopover 
+        ElPopover,
+        ElTooltip
     },
     props: {
         ...props
@@ -317,7 +332,7 @@ export default {
             isDisplaySettingChange: false,
             inputFocus: false,
             inputEnter: false,
-            changedSelectedId: '', // 避免共享数据的选择器重复触发 change
+            changedSelectedId: CHANGED_SELECTED_ID, // 避免共享数据的选择器重复触发 change
             canTriggerModifyBySelector: true, // 排除掉更改选择器已选列表之外的动作触发 select-list-change
         }
     },
@@ -325,6 +340,14 @@ export default {
         // 初始设置为默认筛选器
         this.curDisplayFilter = this.getDefaultFilter(this.filterList);
     },  
+    mounted() {
+        const root = this.$refs.filter;
+        const { left } = root.getBoundingClientRect();
+        document.body.style.setProperty('--yt-filter-name-tooltip-left', `${left + 280}px`);
+    },
+    beforeDestroy() {
+        document.body.style.removeProperty('--yt-filter-name-tooltip-left');
+    },
     computed: {
         displayFilterList() {
             const res = this.filterList.map(filter => {
@@ -421,7 +444,7 @@ export default {
         },
         scene: {
             handler() {
-                this.changedSelectedId = '';
+                this.changedSelectedId = CHANGED_SELECTED_ID;
                 this.canTriggerModifyBySelector = false;
                 this.sortFieldConfig.ascend = false;
                 this.sortFieldConfig.value = this.sortFieldConfig.data[0];
@@ -433,7 +456,7 @@ export default {
                     return;
                 }
                 if (oldId !== undefined) {  // 非初始化
-                    this.changedSelectedId = '';
+                    this.changedSelectedId = CHANGED_SELECTED_ID;
                     this.canTriggerModifyBySelector = false;
                     this.resetFilter(this.curDisplayFilter); // 重置当前筛选器
                 }
@@ -459,6 +482,7 @@ export default {
                 this.initIsModify(filter);
                 this.initFilterConditionList(filter);
             }
+            this.initIsDisabledTooltip(filter);
             this.initPopperVisible(filter);
             return filter;
         },
@@ -501,25 +525,29 @@ export default {
         parseFilterContent(filter) { // 解析得到初始筛选条件列表
             try {
                 const filterContent = JSON.parse(filter.filterContent);
-                return [...filterContent.map(filterContentItem => {
-                if (filterContentItem.fieldName === 'applicationDate') {
+                return [...filterContent.filter(filterContentItem => this.filterFieldMap.has(filterContentItem.fieldName)).map((filterContentItem, index) => {
+                    const selectorConfigMap = this.filterFieldConfig.selectorConfig;
+                    const datePickerFieldNames = Object.values(selectorConfigMap)
+                        .filter(item => item.componentType === 'date-picker')
+                        .map(item => item.fieldName);
+                    const selectorConfig = selectorConfigMap ? selectorConfigMap[filterContentItem.fieldName] : {};
+                    if (datePickerFieldNames.includes(filterContentItem.fieldName)) {
+                        return {
+                            ...selectorConfig,
+                            ...filterContentItem,
+                            sort: index + 1,
+                            label: this.getLabel(filterContentItem),
+                            value: { start: filterContentItem.value[0] || '', end: filterContentItem.value[1] || '' }
+                        };
+                    }
                     return {
-                        ...filterContentItem,
-                        label: '申请时间：',
-                        value: { start: filterContentItem.value[0] || '', end: filterContentItem.value[1] || '' },
-                        componentType: 'date-picker'
-                    };
-                }
-                const selectorConfig = this.filterFieldConfig.selectorConfig ? 
-                    this.filterFieldConfig.selectorConfig[filterContentItem.fieldName] : {};
-                return {
-                    ...selectorConfig,
-                    label: this.getLabel(filterContentItem),
-                    sort: filterContentItem.sort,
-                    value: filterContentItem.value.map(item => item.value),
-                    selectedValueSet: new Set(filterContentItem.value.map(item => item.value)),
-                    selectedList: filterContentItem.value
-                }
+                        ...selectorConfig,
+                        label: this.getLabel(filterContentItem),
+                        sort: index + 1,
+                        value: filterContentItem.value.map(item => item.value),
+                        selectedValueSet: new Set(filterContentItem.value.map(item => item.value)),
+                        selectedList: filterContentItem.value
+                    }
             }),  this.filterFieldConfig.inputConfig]
             } catch (e) {
                 return [];
@@ -533,17 +561,21 @@ export default {
             return '';
         },
         handleConditionChange(condition, index) {
+            const selectorConfigMap = this.filterFieldConfig.selectorConfig;
+            const datePickerFieldNames = Object.values(selectorConfigMap)
+                .filter(item => item.componentType === 'date-picker')
+                .map(item => item.fieldName);
+            const selectorConfig = selectorConfigMap[condition.fieldName];
             let filterCondition;
-            if (condition.fieldName === 'applicationDate') {
+            if (datePickerFieldNames.includes(condition.fieldName)) {
                 filterCondition = {
+                    ...selectorConfig,
                     fieldName: condition.fieldName,
                     sort: index + 1,
-                    label: '申请时间：',
-                    value: { start: '', end: '' }, 
-                    componentType: 'date-picker'
+                    label: this.getLabel(condition),
+                    value: { start: '', end: '' },
                 };
             } else {
-                const selectorConfig = this.filterFieldConfig.selectorConfig[condition.fieldName];
                 filterCondition = {
                     ...selectorConfig,
                     value: [],
@@ -577,7 +609,11 @@ export default {
             }
         },
         handleConditionRemove(index) { // 删除筛选条件
-            this.curDisplayFilter.filterConditionList.splice(index, 1);
+            const list = this.curDisplayFilter.filterConditionList;
+            list.splice(index, 1);
+            list.forEach((item, index) => {
+                item.sort = index + 1;
+            })
             this.curDisplayFilter.isModify = true;
             this.storageFilter(this.curDisplayFilter);
             this.$emit('change', {
@@ -586,7 +622,7 @@ export default {
             });
         },
         handleSaveNew() { // 将当前筛选器的更改保存为新筛选器
-            this.changedSelectedId = '';
+            this.changedSelectedId = CHANGED_SELECTED_ID;
             this.canTriggerModifyBySelector = false;
             this.removeStorageFilter(this.curDisplayFilter)
             this.$emit('save', {
@@ -602,23 +638,13 @@ export default {
             });
         },
         handleReset() { // 重置当前筛选器
-            const filterContent = JSON.stringify(this.curDisplayFilter.filterConditionList.filter(
-                filterConditionItem => filterConditionItem.componentType !== 'input' && filterConditionItem.fieldName).map((item) => {
-                return {
-                    fieldName: item.fieldName,
-                    sort: item.sort,
-                    value: item.fieldName === 'applicationDate' ? [item.value.start, item.value.end] : item.selectedList,
-                }
-            }))
+            this.changedSelectedId = CHANGED_SELECTED_ID;
             this.canTriggerModifyBySelector = false;
-            this.changedSelectedId = '';
-            if  (filterContent !== this.curDisplayFilter.filterContent) {
-                this.$emit('change', {
-                    filter: this.curDisplayFilter, 
-                    type: 'modify'
-                });
-            }
             this.resetFilter(this.curDisplayFilter);
+            this.$emit('change', {
+                filter: this.curDisplayFilter, 
+                type: 'modify'
+            });
             this.$emit('save', {
                 type: 'reset',
                 filter: this.curDisplayFilter, 
@@ -635,6 +661,21 @@ export default {
                     item.moreMenuPopperVisible = false;
                 }
             })
+        },
+        initIsDisabledTooltip(filter) {
+            const { name } = filter;
+            const maxWidth =  this.isDefaultFilter(filter) ? 186 : 200;
+            const textWidth = this.getActualWidthOfChars(name);
+            filter.isDisabledTooltip = textWidth < maxWidth;
+        },
+        getActualWidthOfChars(text, options = {}) {
+            const { size = 14, family = "PingFang SC" } = options;
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            ctx.font = `${size}px ${family}`;
+            const metrics = ctx.measureText(text);
+            const actual = Math.abs(metrics.actualBoundingBoxLeft) + Math.abs(metrics.actualBoundingBoxRight);
+            return Math.max(metrics.width, actual);
         },
         handleSortFieldChange() {
             this.popperVisible.sort = false;
@@ -682,7 +723,7 @@ export default {
             this.displayFilterList.forEach((item) => item.moreMenuPopperVisible = false);
             // 重置旧筛选器
             this.resetFilter(oldFilter);
-            this.changedSelectedId = '';
+            this.changedSelectedId = CHANGED_SELECTED_ID;
             this.canTriggerModifyBySelector = false;
             this.$emit('change', {
                 filter: filter, 
@@ -727,6 +768,7 @@ export default {
             const oldValue = this.changedSelectedId;
             this.changedSelectedId = JSON.stringify(value);
             if (this.changedSelectedId === oldValue) {
+                this.changedSelectedId = CHANGED_SELECTED_ID;
                 return;
             }
             this.curDisplayFilter.isModify = true;
@@ -743,6 +785,7 @@ export default {
             });
         },
         handleSelectorFocus(type, fieldName) {
+            this.popperVisible.filter = false;
             if (type === 'display') {
                 this.popperVisible.condition = false;
             }
@@ -800,7 +843,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-@import './index.scss';
-</style>

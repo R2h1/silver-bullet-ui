@@ -30,14 +30,14 @@
                 'draggable': canDraggable, 
                 'is-disabled': item.disabled  }, `${prefixClass}__item`]" 
             v-for="(item, index) in data" 
-            :key='item[valueField]'
+            :key="item[valueField]"
             @click="handleClick(item, index)" 
             @drop="handleDrop($event, item, index)"
             @dragstart="handleDragStart($event, item, index)"
             @dragover="handleDragover($event, item)"
             >
                 <span :class="`${prefixClass}__item--can-drag`">
-                    <move-icon class="move-icon" v-if="canDraggable"/>
+                    <move-icon class="move-icon" v-if="canDraggable && !item.disabled"/>
                     {{ item.label }}
                 </span>
                 <el-switch v-if="multiple" :disabled="item.canSwitch === false"

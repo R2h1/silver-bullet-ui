@@ -1,41 +1,46 @@
 <template>
+  <div class="wrapper">
+    <div style="width: 64px; height: 100%"> </div>
     <div class="yt-filter-list">
-        <el-tabs v-model="menuTabCode">
-          <el-tab-pane label="我的待办" name="0"></el-tab-pane>
-          <el-tab-pane label="我的已办" name="1"></el-tab-pane>
-        </el-tabs>
-        <YtFilter 
-          ref="filter"
-          :filterList="filterList"
-          @change="handleChange"
-          :filterFieldConfig="newFilterFieldConfig"
-          @selector-data-change="handleSelectorDataChange"
-          :sortFieldConfig="newSortFieldConfig"
-          :scene="`project_list_${menuTabCode}`"
-          @export="handleExport"
-          :exportConfig="exportConfig"
-          :displaySettingConfig="newDisplaySettingConfig"
-          @save="handleSave"
-          @display-setting="handleDisplaySettingChange"
-            />
-          <div>当前的 filterContent：{{ result }}</div>
-        <div>排序字段：{{ sortFieldConfig.value.label }} - {{ sortFieldConfig.value.fieldName }}</div>
-        <div>排序顺序：{{ sortFieldConfig.ascend ? "升序" : '降序' }}</div>
-        <div>项目编号与名称：{{ filterFieldConfig.inputConfig.value }}</div>
-        <div>显示设置：{{ JSON.stringify(displaySettingConfig.value && displaySettingConfig.value.map(item => item.fieldName)) }}</div>
-        <div>显示设置：{{ JSON.stringify(displaySettingConfig.data.map(item => ({ sort: item.sort, label: item.label}))) }}</div>
-    </div>
+    <el-tabs v-model="menuTabCode">
+      <el-tab-pane label="我的待办" name="0"></el-tab-pane>
+      <el-tab-pane label="我的已办" name="1"></el-tab-pane>
+    </el-tabs>
+    <YtFilter 
+      ref="filter"
+      :filterList="filterList"
+      @change="handleChange"
+      :filterFieldConfig="newFilterFieldConfig"
+      @selector-data-change="handleSelectorDataChange"
+      :sortFieldConfig="newSortFieldConfig"
+      :scene="`project_list_${menuTabCode}`"
+      @export="handleExport"
+      :exportConfig="exportConfig"
+      :displaySettingConfig="newDisplaySettingConfig"
+      @save="handleSave"
+      @display-setting="handleDisplaySettingChange"
+        />
+      <div>当前的 filterContent：{{ result }}</div>
+    <div>排序字段：{{ sortFieldConfig.value.label }} - {{ sortFieldConfig.value.fieldName }}</div>
+    <div>排序顺序：{{ sortFieldConfig.ascend ? "升序" : '降序' }}</div>
+    <div>项目编号与名称：{{ filterFieldConfig.inputConfig.value }}</div>
+    <div>显示设置：{{ JSON.stringify(displaySettingConfig.value && displaySettingConfig.value.map(item => item.fieldName)) }}</div>
+    <div>显示设置：{{ JSON.stringify(displaySettingConfig.data.map(item => ({ sort: item.sort, label: item.label}))) }}</div>
+</div>
+  </div>
+    
 
 </template>
 
 <script>
 import { YtFilter } from ".";
 import { 
-  
   filterItemList, newFilterList2, sortFieldList, saveTestFilterList,saveTestFilterList2,
   statusList, priorityList, categoryPrimaryList,categorySecondaryList,fixedTimeProjectFlagList,
   displaySettingList,
   newFilterList,
+  processTypeList,
+  nodeTypeList
 } from './mock';
 import request from "./request";
 
@@ -54,16 +59,17 @@ export default {
             status: {
               type: 'txt',
               data: statusList.map((item) => {
-                return {
+                  return {
                   ...item,
                   ...this.getStatusTagColor(item.value),
-                }
+                  }
               }),
               fieldName: 'status',
               placeholder: '全部',
               popperWidth: 200,
               componentType: 'selector',
               searchable: true,
+              searchPlaceholder: '输入状态'
             },
             projectPriority: {
               type: 'txt',
@@ -110,6 +116,7 @@ export default {
               type: 'txt',
               data: [],
               itemType: 'txt',
+              selectorType: 'person',
               placeholder: '全部',
               showSelectedList: true,
               popperWidth: 320,
@@ -127,6 +134,7 @@ export default {
               type: 'txt',
               data: [],
               itemType: 'txt',
+              selectorType: 'department',
               placeholder: '全部',
               showSelectedList: true,
               popperWidth: 320,
@@ -139,11 +147,13 @@ export default {
               componentType: 'selector',
               showOptionsByTree: true,
               treeData: [],
+              searchPlaceholder: '请输入部门名称'
             },
             responsibleDepartment: {
               type: 'txt',
               data: [],
               itemType: 'txt',
+              selectorType: 'department',
               placeholder: '全部',
               showSelectedList: true,
               popperWidth: 320,
@@ -156,7 +166,62 @@ export default {
               componentType: 'selector',
               showOptionsByTree: true,
               treeData: [],
+              searchPlaceholder: '请输入部门名称'
             },
+            createId: {
+              type: 'txt',
+              data: [],
+              selectorType: 'person',
+              itemType: 'txt',
+              placeholder: '全部',
+              showSelectedList: true,
+              popperWidth: 320,
+              optionsLabel: '搜索结果',
+              searchable: true,
+              labelField: 'fullName',
+              fieldName: 'createId',
+              loading: false,
+              remote: true,
+              page: 1,
+              componentType: 'selector',
+              searchPlaceholder: '请输入姓名、工号搜索'
+            },
+            workflowName: {
+              type: 'txt',
+              data: processTypeList,
+              itemType: 'txt',
+              placeholder: '全部',
+              fieldName: 'workflowName',
+              popperWidth: 158,
+              componentType: 'selector'
+            },
+            nodeType: {
+              type: 'txt',
+              data: nodeTypeList,
+              itemType: 'txt',
+              placeholder: '全部',
+              fieldName: 'nodeType',
+              popperWidth: 158,
+              componentType: 'selector'
+            },
+            applicationDate: {
+              fieldName: 'applicationDate',
+              label: '申请时间：',
+              value: { start: '', end: '' }, 
+              componentType: 'date-picker'
+            },
+            createTime: {
+              fieldName: 'createTime',
+              label: '发起时间：',
+              value: { start: '', end: '' }, 
+              componentType: 'date-picker'
+            },
+            receiveTime: {
+              fieldName: 'receiveTime',
+              label: '接收时间：',
+              value: { start: '', end: '' }, 
+              componentType: 'date-picker'
+            }
           },
           inputConfig: {
               label: '',
@@ -164,7 +229,8 @@ export default {
               placeholder: '项目编号或名称',
               value: '',
               componentType: 'input',
-          }
+          },
+          
       },
       count: 0,
       sortFieldConfig: {
@@ -178,9 +244,9 @@ export default {
           valueField: 'fieldName',
       },
       displaySettingConfig: {
-        value: [],
-        cannotHiddenColumnList: displaySettingList.filter(item => item.canHiddenFlag === '0'),
-        data: displaySettingList.filter(item => item.canHiddenFlag === '1'),
+        value: displaySettingList.filter(item => item.fixedFlag === '0' && item.hiddenFlag === '0'),
+        cannotHiddenColumnList: displaySettingList.filter(item => item.fixedFlag === '1'),
+        data: displaySettingList.filter(item => item.fixedFlag === '0'),
         colorInfo: {
           activeColor: 'rgb(0, 0, 0, 0.9)',
           activeBgColor: 'rgb(255, 255, 255)',
@@ -268,7 +334,7 @@ export default {
         console.log('设为默认筛选器', filter, type, defaultFilter);
       }
       if (type === 'rename') {
-        filter.name =  `随机一个名字改一个${Date.now()}`
+        filter.name =  `随机一个名字改一个很长的${Date.now()}`
         console.log('重命名筛选器', filter, type);
       }
       if (type === 'display') {
@@ -299,18 +365,25 @@ export default {
               return {
                 fieldName: item.fieldName,
                 sort: item.sort,
-                value: item.fieldName === 'applicationDate' ? [item.value.start, item.value.end] : item.selectedList,
+                value: item.componentType === 'date-picker' ? [item.value.start, item.value.end] : item.selectedList,
               }
         })
         this.result = JSON.stringify(filterContent);
         
         let result = {}
+        const selectorConfigMap = this.filterFieldConfig.selectorConfig;
+        const datePickerFieldNames = Object.values(selectorConfigMap)
+            .filter(item => item.componentType === 'date-picker')
+            .map(item => item.fieldName);
         const validFilterConditionList = filter.filterConditionList.filter(
           filterConditionItem => filterConditionItem.componentType !== 'input' && filterConditionItem.fieldName);
         validFilterConditionList.forEach((condition) => {
-          if (condition.fieldName === 'applicationDate') {
-            result['applicationStartDate'] = condition.value.start;
-            result['applicationEndDate'] = condition.value.end;
+          
+          if (datePickerFieldNames.includes(condition.fieldName)) {
+            const key = condition.fieldName.charAt(0).toUpperCase()
+  + condition.fieldName.slice(1);
+            result['start' + key] = condition.value.start;
+            result['end' + key] = condition.value.end;
           } else {
             result[condition.fieldName] = condition.value.join(',');
           }
@@ -393,7 +466,7 @@ export default {
     },
     handleSelectorFocus(fieldName) {
       const selectorConfig = this.filterFieldConfig.selectorConfig[fieldName];
-      if (fieldName === 'projectManager') {
+      if (selectorConfig.selectorType === 'person') {
         if (!selectorConfig.data.length && !selectorConfig.loading) {
           selectorConfig.loading = true;
           this.getEmployeeData().then((res) => {
@@ -411,7 +484,7 @@ export default {
           });
         }   
       }
-      if (fieldName === 'responsibleDepartment' || fieldName === 'responsibleGroup') {
+      if (selectorConfig.selectorType === 'department') {
         if (!selectorConfig.treeData.length && !selectorConfig.loading) {
           selectorConfig.loading = true;
           this.getDepartmentData('', '', null).then((res) => {
@@ -448,7 +521,7 @@ export default {
     },
     handleSelectorLoadMore(fieldName, keyword) {
       const selectorConfig = this.filterFieldConfig.selectorConfig[fieldName];
-      if (fieldName === 'projectManager') {
+      if (selectorConfig.selectorType === 'person') {
         if (selectorConfig.data.length < selectorConfig.total && !selectorConfig.loading) {
           selectorConfig.loading = true;
           this.getEmployeeData(keyword, selectorConfig.page).then((res) => {
@@ -465,7 +538,7 @@ export default {
           });
         }   
       }
-      if (fieldName === 'responsibleDepartment' || fieldName === 'responsibleGroup') {
+      if (selectorConfig.selectorType === 'department') {
         console.error('selectorConfig.page', selectorConfig.page)
         if (selectorConfig.data.length < selectorConfig.total && !selectorConfig.loading) {
           selectorConfig.loading = true;
@@ -487,7 +560,7 @@ export default {
     },
     handleSelectorRemoteSearch(fieldName, keyword) {
       const selectorConfig = this.filterFieldConfig.selectorConfig[fieldName];
-      if (fieldName === 'projectManager') {
+      if (selectorConfig.selectorType === 'person') {
         if (!selectorConfig.loading) {
           selectorConfig.loading = true;
           this.getEmployeeData(keyword).then((res) => {
@@ -505,7 +578,7 @@ export default {
           });
         }   
       }
-      if (fieldName === 'responsibleDepartment' || fieldName === 'responsibleGroup') {
+      if (selectorConfig.selectorType === 'department') {
         if (!selectorConfig.loading && keyword) {
           selectorConfig.loading = true;
           this.getDepartmentData(keyword).then((res) => {
@@ -561,6 +634,9 @@ export default {
 }
 </script>
 <style>
+.wrapper {
+  display: flex;
+}
 .yt-filter-list {
   display: flex;
   flex-direction: column;

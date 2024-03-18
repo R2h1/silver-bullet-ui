@@ -216,6 +216,10 @@
             width: 100%;
             max-width: 220px;
             @include yt-overflow-ellipsis;
+
+            @include when(default) {
+                max-width: 186px;
+            }
         }
         @include modifier(item-default-tag) {
             position: absolute;
@@ -357,8 +361,8 @@
         }
     }
 
-    @include element(popper) {
-
+    @include element(item-name-tooltip) {
+        left: var(--yt-filter-name-tooltip-left) !important;
     }
 }
 
