@@ -2,19 +2,13 @@
   <div 
     ref="root" 
     :class="`${prefixClass}`" 
-    :data-orientation="direction" 
-    :data-with-label="!!$slots.default" 
+    :data-orientation="orientation" 
+    :data-label="!!$slots.default" 
     :style="styles">
-    <span :class="[`${prefixClass}__label`, {
-      'is-vertical': direction === 'vertical'
-    }]" v-if="!!$slots.default" >
-      <span :class="[`${prefixClass}__before`, {
-      'is-vertical': direction === 'vertical'
-    }]" v-if="labelPosition !== 'left'"></span>
+    <span :class="`${prefixClass}__label`" v-if="!!$slots.default">
+      <span :class="`${prefixClass}__before`" v-if="labelPosition !== 'left'"></span>
       <slot />
-      <span :class="[`${prefixClass}__after`, {
-      'is-vertical': direction === 'vertical'
-    }]" v-if="labelPosition !== 'right'"></span>
+      <span :class="`${prefixClass}__after`" v-if="labelPosition !== 'right'"></span>
     </span>
   </div>
 </template>
@@ -49,9 +43,6 @@ export default {
       }
       return style;
     },
-    direction() {
-      return this.orientation
-    }
   },
   mounted() {
   },

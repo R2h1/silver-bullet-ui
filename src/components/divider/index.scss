@@ -3,13 +3,10 @@
 
 @include block(my-divider) {
     &[data-orientation="horizontal"] {
-        align-self: stretch;
         border-top: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
     }
     &[data-orientation="vertical"] {
-        display: flex;
-        align-self: stretch;
-        border-inline-start: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
+        border-left: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
     }
 
     @include element(label) {
@@ -18,10 +15,6 @@
         font-size: 12px;
         color: #868e96;
         white-space: nowrap;
-
-        @include when(vertical) {
-            writing-mode: vertical-lr;
-        }
     }
 
     @include element(before) {
@@ -29,13 +22,7 @@
         flex: 1;
         height: 1px;
         margin-inline-end: 10px;
-        border-top: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
-
-        @include when(vertical) {
-            border-top: none;
-            border-block-start: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
-        }
-
+        border-top: var(--divider-size) var(--divider-border-style, solid) var(--divider-color);
     }
 
     @include element(after) {
@@ -43,15 +30,10 @@
         flex: 1;
         height: 1px;
         margin-inline-start: 10px;
-        border-top: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
-
-        @include when(vertical) {
-            border-top: none;
-            border-block-start: var(--divider-size) var(--divider-border-style, solid) var(--divider-color, #dee2e6);
-        }
+        border-top: var(--divider-size) var(--divider-border-style, solid) var(--divider-color);
     }
 
-    &[data-with-label] {
+    &[data-label] {
         border: none;
     }
 }
