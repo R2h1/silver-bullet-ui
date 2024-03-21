@@ -281,11 +281,11 @@ import {
     CloudIcon,
     LoadingIcon,
     ChevronDownIcon
-} from '../../complex-components/date-picker/icons';
+} from '../icons';
 import Selector from '../selector';
-import DatePicker from '../../complex-components/date-picker';
+import DatePicker from '../date-picker';
 import ThemeList from './theme-list.vue';
-import Remove from './remove.vue';
+import Remove from '../remove/remove.vue';
 import props from './props';
 
 const DEFAULT_FILTER_FlAG = '1';

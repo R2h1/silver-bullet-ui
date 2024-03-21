@@ -16,6 +16,7 @@ import Loader from '../components/loader/index.vue'
 import Overlay from '../components/overlay/index.vue'
 import LoadingOverlay from '../components/loading-overlay/index.vue'
 import Timeline from '../components/timeline/index.vue';
+import AmountSelect from '../components/amount-select/amount-select.vue'
 
 Vue.use(VueRouter);
 
@@ -103,6 +104,12 @@ const router = new VueRouter({
       name: 'timeline',
       component: Timeline,
     },
+    {
+      path: '/amount-select',
+      name: 'amount-select',
+      component: AmountSelect,
+    },
+    
   ],
 });
 

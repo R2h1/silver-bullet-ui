@@ -141,6 +141,7 @@ export default {
                 this.$emit('change', this.value, value);
                 return;
             }
+            this.$emit('click-item', value, index);
             if (this.once && value[this.valueField] === this.value[this.valueField]) return;
             this.$emit('change', value, this.value, index);
         },
