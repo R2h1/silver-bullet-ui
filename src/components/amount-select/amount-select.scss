@@ -49,6 +49,18 @@ $prefix: 'yt-amount-select';
     background-color: var(--amount-select-trigger-bg, #F5F7FA);
     cursor: pointer;
 
+    @include modifier(wrap) {
+      display: inline-flex;
+    }
+
+    @include modifier(select-text) {
+      display: inline-block;
+      max-width: 322px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     &:hover {
       .#{$prefix}__trigger-suffix {
         opacity: 1;
@@ -143,7 +155,7 @@ $prefix: 'yt-amount-select';
     color: #f56c6c;
     font-size: 12px;
     line-height: 1;
-    padding-top: 4px;
+    padding-top: 6px;
     margin-left: 14px;
   }
 

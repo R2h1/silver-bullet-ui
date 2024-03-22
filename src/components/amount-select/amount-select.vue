@@ -13,9 +13,9 @@
       v-model="popperVisible.amountSelect"
     >
     <div ref="trigger" :class="`${prefixClass}__trigger`" slot="reference">
-        <span>
+        <span :class="`${prefixClass}__trigger--wrap`">
           <span v-if="showLabel" :class="`${prefixClass}__trigger-prefix`">{{ label }}</span>
-          <span :class="`${prefixClass}__select-text`">{{ selectedText }}</span>
+          <span :class="`${prefixClass}__trigger--select-text`">{{ selectedText }}</span>
         </span>
         <suffix-icon :class="`${prefixClass}__trigger-suffix`"/>
     </div>
@@ -83,6 +83,8 @@
 
 import { 
     Popover as ElPopover,
+    Input as ElInput,
+    Button as ElButton
 } from 'element-ui';
 import ThemeList from '../filter/theme-list.vue';
 import { 
@@ -99,17 +101,14 @@ const operatorList = [
   {
     value: 'exceed',
     label: '大于等于',
-    prefix: '大于等于',
   },
   {
     value: 'less',
     label: '小于等于',
-    prefix: '小于等于',
   },
   {
     value: 'equal',
     label: '等于',
-    prefix: '等于',
   },
 ]
 
@@ -117,6 +116,8 @@ export default {
   name: 'yt-amount-select',
   components: {
     ElPopover,
+    ElInput,
+    ElButton,
     ThemeList,
     SuffixIcon,
     ChevronDownIcon
@@ -215,7 +216,7 @@ export default {
         if (this.inputValue.start
           && this.inputValue.end
           && Number(this.inputValue.start) > Number(this.inputValue.end)) {
-            return '起始金额不得大于结束金额';
+            return '起始金额不能大于结束金额';
         }
       }
       return '';
@@ -246,9 +247,9 @@ export default {
         this.value.end =  Number(this.inputValue.end);
       } else if (operator === 'equal') {
         this.value.start = Number(this.inputValue.end);
-        this.value.end =  Number(this.inputValue.end);
+        this.value.end = Number(this.inputValue.end);
       } else if (operator === 'exceed') {
-        this.value.start =  Number(this.inputValue.end);
+        this.value.start = Number(this.inputValue.end);
         this.value.end = '';
       } else if (operator === 'less') {
         this.value.start = '';
@@ -270,7 +271,7 @@ export default {
         this.inputValue[key] = '';
       } else {
         const splitRes = res[0].split('.');
-        const integer = Number(splitRes[0]);
+        const integer = Number(splitRes[0]); // 去除前面的 0
         if (splitRes.length === 1) { // 没有小数点
           this.inputValue[key] = String(integer);
         } else {

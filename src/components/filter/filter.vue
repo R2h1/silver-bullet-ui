@@ -193,6 +193,16 @@
                                     v-bind="condition"
                                     @start-change="handleDateChange"
                                     @end-change="handleDateChange"/>
+                                <AmountSelect
+                                    v-else-if="condition.componentType === 'amount-select'"
+                                    :class="`${prefixClass}__condition-config--item-back`" 
+                                    v-bind="condition"
+                                    :showLabel="false"
+                                    :popper-width="354"
+                                    :full-width="true"
+                                    bg-color="transparent"
+                                    @change="handleAmountChange"
+                                />
                                 <clear-icon @click.native="handleConditionRemove(index)" :class="`${prefixClass}__condition-config--item-remove`"/>
                             </div>
                     </div>
@@ -236,6 +246,13 @@
                         v-bind="condition"
                         @start-change="handleDateChange"
                         @end-change="handleDateChange" />
+                </Remove>
+                <Remove @remove="handleConditionRemove(index)" v-else-if="condition.componentType === 'amount-select'" :key="`${condition.fieldName}`">
+                    <AmountSelect 
+                        :class="`${prefixClass}__condition-amount-select-item`"
+                        v-bind="condition"
+                        @change="handleAmountChange"
+                        />
                 </Remove>
                 <el-input 
                     ref="elInput"
@@ -285,8 +302,9 @@ import {
 import Selector from '../selector';
 import DatePicker from '../date-picker';
 import ThemeList from './theme-list.vue';
-import Remove from '../remove/remove.vue';
+import Remove from './remove.vue';
 import props from './props';
+import AmountSelect from '../amount-select/amount-select.vue';
 
 const DEFAULT_FILTER_FlAG = '1';
 const CHANGED_SELECTED_ID = 'yt-filter__' + Date.now();
@@ -294,27 +312,29 @@ const CHANGED_SELECTED_ID = 'yt-filter__' + Date.now();
 export default {
     name: 'yt-filter',
     components: {
-        SuffixIcon,
-        CloseNormalIcon,
-        AscendOrderIcon,
-        DescendOrderIcon,
-        ClearIcon,
-        MoreIcon,
-        FilterIcon,
-        SearchIcon,
-        SettingIcon,
-        CloudIcon,
-        LoadingIcon,
-        ChevronDownIcon,
-        Selector,
-        DatePicker,
-        ThemeList,
-        Remove,
-        ElInput,
-        ElButton,
-        ElPopover,
-        ElTooltip
-    },
+    SuffixIcon,
+    CloseNormalIcon,
+    AscendOrderIcon,
+    DescendOrderIcon,
+    ClearIcon,
+    MoreIcon,
+    FilterIcon,
+    SearchIcon,
+    SettingIcon,
+    CloudIcon,
+    LoadingIcon,
+    ChevronDownIcon,
+    Selector,
+    DatePicker,
+    ThemeList,
+    AmountSelect,
+    Remove,
+    ElInput,
+    ElButton,
+    ElPopover,
+    ElTooltip,
+    AmountSelect
+},
     props: {
         ...props
     },
@@ -446,8 +466,6 @@ export default {
             handler() {
                 this.changedSelectedId = CHANGED_SELECTED_ID;
                 this.canTriggerModifyBySelector = false;
-                this.sortFieldConfig.ascend = false;
-                this.sortFieldConfig.value = this.sortFieldConfig.data[0];
             },
         },
         defaultFilterId: {
@@ -531,7 +549,7 @@ export default {
                         .filter(item => item.componentType === 'date-picker')
                         .map(item => item.fieldName);
                     const selectorConfig = selectorConfigMap ? selectorConfigMap[filterContentItem.fieldName] : {};
-                    if (datePickerFieldNames.includes(filterContentItem.fieldName)) {
+                    if (datePickerFieldNames.includes(filterContentItem.fieldName) || selectorConfig.componentType === 'amount-select') {
                         return {
                             ...selectorConfig,
                             ...filterContentItem,
@@ -567,7 +585,7 @@ export default {
                 .map(item => item.fieldName);
             const selectorConfig = selectorConfigMap[condition.fieldName];
             let filterCondition;
-            if (datePickerFieldNames.includes(condition.fieldName)) {
+            if (datePickerFieldNames.includes(condition.fieldName) || selectorConfig.componentType === 'amount-select') {
                 filterCondition = {
                     ...selectorConfig,
                     fieldName: condition.fieldName,
@@ -664,9 +682,9 @@ export default {
         },
         initIsDisabledTooltip(filter) {
             const { name } = filter;
-            const maxWidth =  this.isDefaultFilter(filter) ? 186 : 200;
+            const maxWidth =  this.isDefaultFilter(filter) ? 186 : 220;
             const textWidth = this.getActualWidthOfChars(name);
-            filter.isDisabledTooltip = textWidth < maxWidth;
+            filter.isDisabledTooltip = Math.floor(textWidth) <= maxWidth;
         },
         getActualWidthOfChars(text, options = {}) {
             const { size = 14, family = "PingFang SC" } = options;
@@ -751,6 +769,14 @@ export default {
             })
         },
         handleDateChange() {
+            this.curDisplayFilter.isModify = true;
+            this.storageFilter(this.curDisplayFilter);
+            this.$emit('change', {
+                filter: this.curDisplayFilter, 
+                type: 'modify'
+            });
+        },
+        handleAmountChange() {
             this.curDisplayFilter.isModify = true;
             this.storageFilter(this.curDisplayFilter);
             this.$emit('change', {
