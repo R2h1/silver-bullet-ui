@@ -19,6 +19,7 @@ import Timeline from '../components/timeline/index.vue';
 import AmountSelect from '../components/amount-select/amount-select.vue'
 import ThemeIcon from '../components/theme-icon/index.vue'
 import NumberFormatter from '../components/number-formatter/index.vue'
+import Text from '../components/text/index.vue'
 
 Vue.use(VueRouter);
 
@@ -120,6 +121,11 @@ const router = new VueRouter({
       path: '/number-formatter',
       name: 'number-formatter',
       component: NumberFormatter,
+    },
+    {
+      path: '/text',
+      name: 'text',
+      component: Text,
     },
   ],
 });
