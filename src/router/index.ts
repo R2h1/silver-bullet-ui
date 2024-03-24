@@ -17,6 +17,8 @@ import Overlay from '../components/overlay/index.vue'
 import LoadingOverlay from '../components/loading-overlay/index.vue'
 import Timeline from '../components/timeline/index.vue';
 import AmountSelect from '../components/amount-select/amount-select.vue'
+import ThemeIcon from '../components/theme-icon/index.vue'
+import NumberFormatter from '../components/number-formatter/index.vue'
 
 Vue.use(VueRouter);
 
@@ -109,7 +111,16 @@ const router = new VueRouter({
       name: 'amount-select',
       component: AmountSelect,
     },
-    
+    {
+      path: '/theme-icon',
+      name: 'theme-icon',
+      component: ThemeIcon,
+    },
+    {
+      path: '/number-formatter',
+      name: 'number-formatter',
+      component: NumberFormatter,
+    },
   ],
 });
 

@@ -2,5 +2,17 @@
 @import "../common/bem.scss";
 
 @include block(theme-icon) {
-
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--theme-icon-size);
+  height: var(--theme-icon-size);
+  min-width: var(--theme-icon-size);
+  min-height: var(--theme-icon-size);
+  user-select: none;
+  background: var(--theme-icon-bg-color);
+  border-radius: var(--theme-icon-radius);
+  color: var(--theme-icon-color);
+  border: var(--theme-icon-border);
 }

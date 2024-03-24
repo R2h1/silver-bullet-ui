@@ -302,7 +302,7 @@ import {
 import Selector from '../selector';
 import DatePicker from '../date-picker';
 import ThemeList from './theme-list.vue';
-import Remove from './remove.vue';
+import Remove from '../remove/remove.vue';
 import props from './props';
 import AmountSelect from '../amount-select/amount-select.vue';
 
@@ -869,3 +869,7 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+@import "./index.scss";
+</style>
