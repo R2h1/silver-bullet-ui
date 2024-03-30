@@ -4,7 +4,7 @@
 @include block(text) {
   display: block;
   font-size: var(--text-font-size, 16px);
-  line-height: var(--text-line-height, 1.4);
+  line-height: var(--text-line-height, 1.55);
   margin: 0;
   padding: 0;
   color: var(--text-color);
@@ -12,6 +12,7 @@
   font-weight: var(--font-weight, none);
   text-decoration: var(--text-decoration, none);
   text-align: var(--text-align, left);
+  font-family: sans-serif;
 
   &[data-inline] {
     display: inline;
@@ -33,6 +34,7 @@
   &[data-line-clamp] {
     overflow: hidden;
     text-overflow: ellipsis;
+    word-break: break-all;
     display: -webkit-box;
     -webkit-line-clamp: var(--text-line-clamp);
     -webkit-box-orient: vertical;

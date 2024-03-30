@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div style="width: 64px; height: 100%"> </div>
     <div class="yt-filter-list">
-    <el-tabs v-model="menuTabCode">
+    <el-tabs v-model="menuTabCode" @tab-click="handleTabChange">
       <el-tab-pane label="我的待办" name="0"></el-tab-pane>
       <el-tab-pane label="我的已办" name="1"></el-tab-pane>
     </el-tabs>
@@ -283,12 +283,12 @@ export default {
           } else {
             this.filterList = newFilterList.sort((a, b) => Number(b.defaultFlag) - Number(a.defaultFlag));
           }
-    }, 1000)
+    }, 100)
 
       } else {
         setTimeout(() => {
           this.filterList = newFilterList2.sort((a, b) => Number(b.defaultFlag) - Number(a.defaultFlag));
-    }, 500)
+    }, 100)
       }
     },
   },
@@ -388,7 +388,7 @@ export default {
             result[condition.fieldName] = condition.value.join(',');
           }
         })
-        console.log('当前筛选器发生更改', filter, type, filterContent, this.filterFieldConfig.inputConfig.value);
+        // console.log('当前筛选器发生更改', filter, type, filterContent, this.filterFieldConfig.inputConfig.value);
       }
       if (type === 'sort-field') {
         console.log('排序字段改变', filter, type);
@@ -419,13 +419,13 @@ export default {
     },
     getPriorityIcon(value) {
       if (value === '0') {
-        return 'https://minio-api.web.guosen.com.cn/lowcode-static/user/defaulttenant/1704339280803_%E4%BD%8E.svg';
+        return '';
       }
       if (value === '1') {
-        return 'https://minio-api.web.guosen.com.cn/lowcode-static/user/defaulttenant/1704339287807_%E4%B8%AD.svg';
+        return '';
       }
       if (value === '2') {
-        return 'https://minio-api.web.guosen.com.cn/lowcode-static/user/defaulttenant/1704339274041_%E7%B4%A7%E6%80%A5.svg';
+        return '';
       }
     },
     // 获取员工数据
@@ -629,6 +629,22 @@ export default {
           node.loading = false;
         });
       }
+    },
+    async task(num = 1) {
+      await new Promise((resolve) => {
+        const list = [];
+        for (let i = 1; i < 100000 * num; i++) {
+          list.push(i);
+        }
+        resolve();
+      });
+    },
+    async handleTabChange() {
+      console.time('11111');
+      await this.task(100)
+await this.task(100)
+await this.task(100)
+      console.timeEnd('11111');
     }
   }
 }

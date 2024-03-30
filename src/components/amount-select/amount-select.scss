@@ -125,31 +125,35 @@ $prefix: 'yt-amount-select';
     gap: 8px;
     flex: 1;
 
-    @include modifier(start) {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      flex: 0.9;
-
-      .el-input__inner {
-        height: 32px;
-        padding-left: 8px;
-        padding-right: 8px;
+    @each $input in start, end {
+      @include modifier($input) {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        
+        .el-input__inner {
+          height: 32px;
+          padding-left: 8px;
+          padding-right: 8px;
+        }
+        .el-input__suffix,
+        .el-input__suffix-inner {
+            display: flex;
+            align-items: center;
+        }
       }
     }
-
+    
+    @include modifier(start) {
+      flex: 0.9;
+    }
+  
     @include modifier(end) {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
       flex: 1;
-      .el-input__inner {
-        height: 32px;
-        padding-left: 8px;
-        padding-right: 8px;
-      }
     }
   }
+
+
 
   @include element(error) {
     color: #f56c6c;

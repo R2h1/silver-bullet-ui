@@ -9,7 +9,7 @@
       placement="bottom-start"
       :append-to-body="false"
       :visible-arrow="false"
-      @hide="handleClear"
+      @hide="clearInputs"
       v-model="popperVisible.amountSelect"
     >
     <div ref="trigger" :class="`${prefixClass}__trigger`" slot="reference">
@@ -50,7 +50,8 @@
     </el-popover>
     <div :class="`${prefixClass}__input-area`">
       <div v-if="operatorConfig.value.value === 'range'" :class="`${prefixClass}__input-area--start`">
-        <el-input 
+        <el-input
+          clearable
           :class="`${prefixClass}__input`"
           placeholder="请输入" 
           v-model="inputValue.start"
@@ -60,6 +61,7 @@
       </div>
       <div :class="`${prefixClass}__input-area--end`">
         <el-input 
+          clearable
           :class="`${prefixClass}__input`"
           placeholder="请输入"
           v-model="inputValue.end"
@@ -161,7 +163,6 @@ export default {
   data() {
     return {
       prefixClass: 'yt-amount-select',
-      preValue: this.value, // 上一个值，如果没确认则保持不变
       operatorConfig: {
         value: operatorList[0],
         data: operatorList
@@ -194,7 +195,10 @@ export default {
       return '全部';
     },
     showClearBtn() {
-      return this.inputValue.start || this.inputValue.end;
+      if (this.value.start === '' && this.value.end === '') { // 两个都为空，展示全部
+        return false;
+      }
+      return true;
     },
     isDisabledConfirm() { 
       // 前提是 handleInputChange 已对输入值做处理为字符串：this.inputValue 里的值只可能是有效的数字字符串或者空字符串
@@ -229,11 +233,6 @@ export default {
   beforeDestroy() {
     window.removeEventListener('click', this.popperVisibleHandler, true);
   },
-  watch: {
-    value(newVal) {
-      this.preValue = newVal;
-    }
-  },
   methods: {
     clearInputs() {
       this.inputValue.start = '';
@@ -255,7 +254,6 @@ export default {
         this.value.start = '';
         this.value.end = Number(this.inputValue.end);
       }
-      this.clearInputs();
       this.$emit('change', this.value);
     },
     handleCancel() {
@@ -263,7 +261,9 @@ export default {
       this.clearInputs();
     },
     handleClear() {
-      this.clearInputs();
+      this.value.start = '';
+      this.value.end = '';
+      this.$emit('change', this.value)
     },
     handleInputChange(value, key='start') {
       const res = value.match(new RegExp(`^\\d+(?:\\.\\d{0,${parseInt(this.digit)}})?`));
