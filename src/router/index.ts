@@ -22,6 +22,8 @@ import NumberFormatter from '../components/number-formatter/index.vue'
 import Text from '../components/text/index.vue'
 import Progress from '../components/progress/index.vue'
 import Spoiler from "../components/spoiler/index.vue"
+import Mark from "../components/mark/index.vue"
+import Highlight from "../components/highlight/highlight.vue"
 
 Vue.use(VueRouter);
 
@@ -138,6 +140,16 @@ const router = new VueRouter({
       name: 'spoiler',
       path: '/spoiler',
       component: Spoiler,
+    },
+    {
+      name: 'mark',
+      path: '/mark',
+      component: Mark,
+    },
+    {
+      name: 'highlight',
+      path: '/highlight',
+      component: Highlight,
     }
   ],
 });
