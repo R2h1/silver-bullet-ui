@@ -1,0 +1,45 @@
+// @import "../../theme-chalk/src/common/bem.scss"; 
+@import "../common/bem.scss";
+
+@include block(spoiler) { 
+  position: relative;
+  margin-bottom: 20px;
+  @include element(content) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: height var(--spoiler-transition-duration, 0.2s) ease;
+  }
+  @include element(trigger) {
+    position: absolute;
+    bottom: -20px;
+    line-height: 20px;
+    color: #228be6;
+    cursor: pointer;
+
+    &[data-position="left"] {
+      left: 0;
+    }
+    &[data-position="right"] {
+      right: 0;
+    }
+    &[data-position="center"] {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  @include element(mask) {
+    position: absolute;
+    height: var(--spoiler-mask-height, 20px);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0.5) 100%);
+    transition: height var(--spoiler-transition-duration, 0.2s) ease;
+
+    &[data-visible] {
+      height: 0;
+    }
+  }
+}

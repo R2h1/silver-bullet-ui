@@ -2,7 +2,7 @@ import Notification from "./notification.vue";
 import Notify from './plugin'
 import Vue from 'vue';
 
-Notification.install = () => {
+Notification.install = (Vue) => {
     Vue.component(Notification.name, Notification);
 };
 

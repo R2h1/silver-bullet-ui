@@ -22,11 +22,11 @@ export default {
         default: 200
     },
     blur: {
-        type: Number | String,
+        type: [String, Number],
         default: 0
     },
     radius: {
-        type: Number | String,
+        type: [String, Number],
         default: 0
     },
     opacity: {

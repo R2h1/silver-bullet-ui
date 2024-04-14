@@ -20,6 +20,8 @@ import AmountSelect from '../components/amount-select/amount-select.vue'
 import ThemeIcon from '../components/theme-icon/index.vue'
 import NumberFormatter from '../components/number-formatter/index.vue'
 import Text from '../components/text/index.vue'
+import Progress from '../components/progress/index.vue'
+import Spoiler from "../components/spoiler/index.vue"
 
 Vue.use(VueRouter);
 
@@ -127,6 +129,16 @@ const router = new VueRouter({
       name: 'text',
       component: Text,
     },
+    {
+      path: '/progress',
+      name: 'progress',
+      component: Progress,
+    },
+    {
+      name: 'spoiler',
+      path: '/spoiler',
+      component: Spoiler,
+    }
   ],
 });
 

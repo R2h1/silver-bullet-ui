@@ -1,6 +1,6 @@
 import ThemeIcon from "./theme-icon.vue";
 
-ThemeIcon.install = () => {
+ThemeIcon.install = (Vue) => {
     Vue.component(ThemeIcon.name, ThemeIcon);
 };
 

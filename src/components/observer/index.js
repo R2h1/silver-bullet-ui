@@ -1,6 +1,6 @@
 import Observer from "./observer.vue";
 
-Observer.install = () => {
+Observer.install = (Vue) => {
     Vue.component(Observer.name, Observer);
 };
 

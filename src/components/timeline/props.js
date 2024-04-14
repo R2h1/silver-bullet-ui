@@ -33,7 +33,7 @@ export default {
     type: String,
   },
   nodeRadius: {
-    type: String | Number,
+    type: [String, Number],
     default: 'xl',
     validator(val) {
       return ['xs', 'sm', 'md', 'lg', 'xl'].includes(val) || typeof val === 'number';

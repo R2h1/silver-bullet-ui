@@ -14,7 +14,7 @@ export default {
     type: Number,
   },
   size: {
-    type: Number | String,
+    type: [String, Number],
     default: 'xs',
     validator(val) {
       return ['xs', 'sm', 'md', 'lg', 'xl'].includes(val) || typeof val === 'number';

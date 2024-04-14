@@ -1,6 +1,6 @@
 import Divider from "./divider.vue";
 
-Divider.install = () => {
+Divider.install = (Vue) => {
     Vue.component(Divider.name, Divider);
 };
 

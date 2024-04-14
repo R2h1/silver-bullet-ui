@@ -1,6 +1,6 @@
 import Upload from "./upload.vue";
 
-Upload.install = () => {
+Upload.install = (Vue) => {
     Vue.component(Upload.name, Upload);
 };
 

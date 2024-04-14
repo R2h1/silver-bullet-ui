@@ -10,7 +10,7 @@ export default {
     }
   },
   size: { // 控制字体大小和行高，默认为 md
-    type: String | Number,
+    type: [String, Number],
     default: 'md',
     validator(val) {
       return ['xs', 'sm', 'md', 'lg', 'xl'].includes(val) || typeof val === 'number';
@@ -51,7 +51,7 @@ export default {
     }
   },
   weight: {
-    type: String | Number,
+    type: [String, Number],
     default: 400,
     validator(val) {
       return ['normal', 'bold'].includes(val) || typeof val === 'number';

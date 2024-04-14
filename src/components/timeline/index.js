@@ -1,6 +1,6 @@
 import Timeline from "./timeline.vue";
 
-Timeline.install = () => {
+Timeline.install = (Vue) => {
     Vue.component(Timeline.name, Timeline);
 };
 

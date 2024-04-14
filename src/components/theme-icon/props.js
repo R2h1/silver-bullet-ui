@@ -7,14 +7,14 @@ export default {
     }
   },
   radius: {
-    type: String | Number,
+    type: [String, Number],
     default: 'sm',
     validator(val) {
       return ['xs', 'sm', 'md', 'lg', 'xl'].includes(val) || typeof val === 'number';
     }
   },
   size: {
-    type: String | Number,
+    type: [String, Number],
     default: 'md',
     validator(val) {
       return ['xs', 'sm', 'md', 'lg', 'xl'].includes(val) || typeof val === 'number';

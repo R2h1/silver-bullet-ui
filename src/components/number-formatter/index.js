@@ -1,6 +1,6 @@
 import NumberFormatter from "./number-formatter.vue";
 
-NumberFormatter.install = () => {
+NumberFormatter.install = (Vue) => {
     Vue.component(NumberFormatter.name, NumberFormatter);
 };
 

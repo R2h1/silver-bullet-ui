@@ -1,0 +1,57 @@
+// @import "../../theme-chalk/src/common/bem.scss"; 
+@import "../common/bem.scss";
+
+@include block(progress) { 
+  position: relative; 
+  display: flex; 
+  width: 100%; 
+  height: var(--progress-size); 
+  border-radius: var(--progress-radius); 
+  overflow: hidden; 
+  background-color: var(--progress-track-color, #e9ecef);
+
+  @include element(section) { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    height: 100%; 
+    width: var(--progress-section-width); 
+    overflow: hidden; 
+    background-color: var(--progress-section-color); 
+    background-size: 20px 20px; 
+    transition: width 0.1s ease; 
+    border-start-start-radius: var(--progress-radius); 
+    border-end-start-radius: var(--progress-radius);
+  
+    &[data-animated] { 
+      animation: progress 1s linear infinite; 
+    } 
+    
+    &[data-striped] { 
+      background-image: linear-gradient(45deg, hsla(0, 0%, 100%, .15) 25%, transparent 0, transparent 50%, hsla(0, 0%, 100%, .15) 0, hsla(0, 0%, 100%, .15) 75%, transparent 0, transparent); 
+    }
+  }
+  .percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 700;
+    user-select: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--progress-label-color, rgb(255, 255, 255));
+    font-size: min(calc(var(--progress-size)* .65), 18px);
+    line-height: 1;
+  }
+} 
+
+@keyframes progress {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 0;
+  }
+}

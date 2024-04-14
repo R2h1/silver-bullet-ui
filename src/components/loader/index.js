@@ -1,6 +1,6 @@
 import Loader from "./loader.vue";
 
-Loader.install = () => {
+Loader.install = (Vue) => {
     Vue.component(Loader.name, Loader);
 };
 

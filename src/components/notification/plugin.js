@@ -107,7 +107,7 @@ Object.keys(extraApi).forEach((funcName) => {
   Notification[funcName] = extraApi[funcName];
 });
 
-Notification.install = () => {
+Notification.install = (Vue) => {
   Vue.prototype.$notify = Notification;
 };
 

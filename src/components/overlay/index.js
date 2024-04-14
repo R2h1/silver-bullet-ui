@@ -1,6 +1,6 @@
 import Overlay from "./overlay.vue";
 
-Overlay.install = () => {
+Overlay.install = (Vue) => {
     Vue.component(Overlay.name, Overlay);
 };
 

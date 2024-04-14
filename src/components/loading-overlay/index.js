@@ -1,6 +1,6 @@
 import LoadingOverlay from "./loading-overlay.vue";
 
-LoadingOverlay.install = () => {
+LoadingOverlay.install = (Vue) => {
     Vue.component(LoadingOverlay.name, LoadingOverlay);
 };
 

@@ -1,6 +1,6 @@
 import Center from "./center.vue";
 
-Center.install = () => {
+Center.install = (Vue) => {
     Vue.component(Center.name, Center);
 };
 

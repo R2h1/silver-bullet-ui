@@ -93,7 +93,7 @@ Object.keys(extraApi).forEach((funcName) => {
   Message[funcName] = extraApi[funcName];
 });
 
-Message.install = () => {
+Message.install = (Vue) => {
   // 这样定义后，可以通过 this.$message 调用插件
   Vue.prototype.$message = Message;
 };

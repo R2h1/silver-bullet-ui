@@ -1,6 +1,6 @@
 import Text from "./text.vue";
 
-Text.install = () => {
+Text.install = (Vue) => {
     Vue.component(Text.name, Text);
 };
 

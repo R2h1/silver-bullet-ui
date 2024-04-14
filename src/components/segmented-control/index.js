@@ -1,6 +1,6 @@
 import SegmentedControl from "./segmented-control.vue";
 
-SegmentedControl.install = () => {
+SegmentedControl.install = (Vue) => {
     Vue.component(SegmentedControl.name, SegmentedControl);
 };
 
