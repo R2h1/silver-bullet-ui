@@ -25,6 +25,7 @@ import Spoiler from "../components/spoiler/index.vue"
 import Mark from "../components/mark/index.vue"
 import Highlight from "../components/highlight/index.vue"
 import Blockquote from "../components/blockquote/index.vue"
+import Code from "../components/code/index.vue"
 
 Vue.use(VueRouter);
 
@@ -156,6 +157,11 @@ const router = new VueRouter({
       name: 'blockquote',
       path: '/blockquote',
       component: Blockquote,
+    },
+    {
+      name: 'code',
+      path: '/code',
+      component: Code,
     }
   ],
 });
