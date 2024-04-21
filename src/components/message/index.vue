@@ -3,17 +3,23 @@
 </template>
 
 <script>
-import { YtMessage } from ".";
+import MessageList from './messageList.vue';
+
 export default {
+  components: {
+    MessageList
+  },
   data() {
     return {
     }
   },
   methods: {
     handleClick() {
-      YtMessage('success', {
+      this.$message.success({
         message: '发布成功',
-      }, 0)
+        duration: 0,
+        closable: true,
+      })
     }
   }
 }

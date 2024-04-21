@@ -1,0 +1,10 @@
+export default {
+  bgColor: {
+    type: String,
+    default: '#ffec99'
+  },
+  color: {
+    type: String,
+    default: 'rgb(0, 0, 0)'
+  },
+}

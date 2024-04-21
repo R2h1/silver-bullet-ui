@@ -7,7 +7,7 @@ import DatePicker from "../components/date-picker/date-picker.vue";
 import Notification from "../components/notification/index.vue";
 import Upload from "../components/upload/index.vue";
 import Flex from "../components/flex/index.vue";
-import Message from "../components/message/test.vue";
+import Message from "../components/message/index.vue";
 import SegmentedControl from "../components/segmented-control/index.vue";
 import Center from '../components/center/index.vue'
 import Container from '../components/container/index.vue'
@@ -24,6 +24,7 @@ import Progress from '../components/progress/index.vue'
 import Spoiler from "../components/spoiler/index.vue"
 import Mark from "../components/mark/index.vue"
 import Highlight from "../components/highlight/index.vue"
+import Blockquote from "../components/blockquote/index.vue"
 
 Vue.use(VueRouter);
 
@@ -150,6 +151,11 @@ const router = new VueRouter({
       name: 'highlight',
       path: '/highlight',
       component: Highlight,
+    },
+    {
+      name: 'blockquote',
+      path: '/blockquote',
+      component: Blockquote,
     }
   ],
 });
