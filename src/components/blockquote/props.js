@@ -1,10 +1,20 @@
 export default {
-  bgColor: {
-    type: String,
-    default: '#ffec99'
-  },
   color: {
     type: String,
-    default: 'rgb(0, 0, 0)'
+    default: '#228be6'
+  },
+  iconSize: {
+    type: [String, Number],
+    default: 'md',
+    validator(val) {
+      return ['xs', 'sm', 'md', 'lg', 'xl'].includes(val) || typeof val === 'number';
+    }
+  },
+  radius: {
+    type: [String, Number],
+    default: 'md',
+    validator(val) {
+      return ['xs', 'sm', 'md', 'lg', 'xl'].includes(val) || typeof val === 'number';
+    }
   },
 }

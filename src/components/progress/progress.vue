@@ -7,6 +7,7 @@
 
 <script>
 import props from './props.js';
+import { RADIUS_MAP } from '../../core';
 
 const SIZE_MAP = {
   'xs': 3,
@@ -14,14 +15,6 @@ const SIZE_MAP = {
   'md': 8,
   'lg': 12,
   'xl': 16
-}
-
-const RADIUS_MAP = {
-  'xs': 2,
-  'sm': 4,
-  'md': 8,
-  'lg': 16,
-  'xl': 32
 }
 
 export default {

@@ -23,15 +23,10 @@
 
 <script>
 import props from './props.js';
+import { RADIUS_MAP } from '../../core';
 
 const DEFAULT_PADDING = 4;
-const RADIUS_MAP = {
-  'xs': 2,
-  'sm': 4,
-  'md': 8,
-  'lg': 16,
-  'xl': 32
-}
+
 const PADDING_MAP = {
   'xs': '3px 6px' ,
   'sm': '5px 10px',

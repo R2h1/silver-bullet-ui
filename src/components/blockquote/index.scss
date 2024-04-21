@@ -2,4 +2,32 @@
 @import "../common/bem.scss";
 
 @include block(blockquote) { 
+  position: relative;
+  margin: 0;
+  border-inline-start: 3px solid var(--blockquote-border-color);
+  border-start-end-radius: var(--blockquote-radius);
+  border-end-end-radius: var(--blockquote-radius);
+  padding: 32px 38px;
+  background-color: var(--blockquote-background-color);
+
+  @include element(icon) {
+    position: absolute;
+    color: var(--blockquote-border-color);;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: calc(var(--blockquote-icon-size) / -2);
+    inset-inline-start: calc(var(--blockquote-icon-size) / -2);
+    width: var(--blockquote-icon-size);
+    height: var(--blockquote-icon-size);
+    border-radius: var(--blockquote-icon-size);
+  }
+
+  @include element(cite) {
+    display: block;
+    margin-top: 16px;
+    opacity: .6;
+    font-size: 85%;
+  }
 }
