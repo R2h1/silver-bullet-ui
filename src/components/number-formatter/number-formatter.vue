@@ -6,13 +6,13 @@
 import props from './props.js';
 
 export default {
-  name: 'yt-number-formatter',
+  name: 'sb-number-formatter',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-number-formatter',
+      prefixClass: 'sb-number-formatter',
     }
   },
   computed: {

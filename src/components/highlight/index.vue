@@ -1,6 +1,8 @@
 <template>
   <div class='example-wrap'>
-    <Highlight ></Highlight>
+    <Highlight :highlight="highlight" :highlightStyles="highlightStyles">  
+      You can change styles of highlighted part if you do not like default styles
+    </Highlight>
   </div>
 </template>
 
@@ -13,7 +15,14 @@ export default {
   },
   data() {
     return {
-      visible: false,
+      highlight: ['highlighted', 'default'],
+      highlightStyles: {
+        backgroundImage:
+          'linear-gradient(45deg, #22b8cf, #5c7cfa)',
+        fontWeight: 700,
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+      }
     }
   },
 }
@@ -22,9 +31,6 @@ export default {
 <style scoped>
 .example-wrap {
   position: relative;
-  width: 278px;
   margin: 30px 0 10px 10px;
-  display: flex;
-  align-items: center;
 }
 </style>

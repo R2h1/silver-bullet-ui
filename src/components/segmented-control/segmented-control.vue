@@ -41,13 +41,13 @@ const PADDING_MAP = {
 }
 
 export default {
-  name: 'yt-segmented-control',
+  name: 'sb-segmented-control',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-segmented-control',
+      prefixClass: 'sb-segmented-control',
       list: this.data.map(item => {
         if (typeof item === 'string') {
           return { label: item, value: item }

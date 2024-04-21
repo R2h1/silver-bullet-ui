@@ -1,15 +1,17 @@
 <template>
-  <div class='example-wrap'>
-    <Mark ></Mark>
-  </div>
+  <SbText>
+    Highlight <Mark >this chunk</Mark> of the text
+  </SbText>
 </template>
 
 <script>
 import Mark from "./mark.vue";
+import SbText from '../text/index.js';
 
 export default {
   components: {
-    Mark
+    Mark,
+    SbText
   },
   data() {
     return {
@@ -19,11 +21,4 @@ export default {
 </script>
 
 <style scoped>
-.example-wrap {
-  position: relative;
-  width: 278px;
-  margin: 30px 0 10px 10px;
-  display: flex;
-  align-items: center;
-}
 </style>

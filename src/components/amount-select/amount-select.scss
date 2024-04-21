@@ -1,6 +1,6 @@
 @import "../common/bem.scss";
 
-$prefix: 'yt-amount-select';
+$prefix: 'sb-amount-select';
 
 @include block(amount-select) {
   display: inline-flex;

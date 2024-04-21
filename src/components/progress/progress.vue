@@ -25,13 +25,13 @@ const RADIUS_MAP = {
 }
 
 export default {
-  name: 'yt-progress',
+  name: 'sb-progress',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-progress',
+      prefixClass: 'sb-progress',
     }
   },
   computed: {

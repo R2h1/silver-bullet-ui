@@ -23,7 +23,7 @@ import Text from '../components/text/index.vue'
 import Progress from '../components/progress/index.vue'
 import Spoiler from "../components/spoiler/index.vue"
 import Mark from "../components/mark/index.vue"
-import Highlight from "../components/highlight/highlight.vue"
+import Highlight from "../components/highlight/index.vue"
 
 Vue.use(VueRouter);
 

@@ -197,7 +197,7 @@ import {
 import props from './props';
 
 export default {
-  name: 'yt-selector',
+  name: 'sb-selector',
   components: {
     LoadingIcon,
     SearchIcon,
@@ -221,7 +221,7 @@ export default {
   },
   data() {
     return {
-      prefixClass: 'yt-selector',
+      prefixClass: 'sb-selector',
       searchValue: '',
       triggerPrefixWidth: '',
       clickUnSelect: false,

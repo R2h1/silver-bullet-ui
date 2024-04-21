@@ -33,10 +33,10 @@
   }
 }
 
-@mixin yt-black-opacity($opacity) {
+@mixin sb-black-opacity($opacity) {
   color: rgba(0, 0, 0, $opacity);
 }
-@mixin yt-overflow-ellipsis {
+@mixin sb-overflow-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

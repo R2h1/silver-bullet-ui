@@ -8,7 +8,7 @@
 import props from './props.js';
 
 export default {
-  name: 'yt-timeline-item',
+  name: 'sb-timeline-item',
   props: { 
     title: {
       type: String,
@@ -16,7 +16,7 @@ export default {
   },
   data() {
     return {
-      prefixClass: 'yt-timeline-item',
+      prefixClass: 'sb-timeline-item',
     }
   },
   computed: {

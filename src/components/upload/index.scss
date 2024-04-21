@@ -1,4 +1,4 @@
-$prefix: "yt-upload";
+$prefix: "sb-upload";
 
 .#{$prefix} {
     display: flex;
@@ -8,7 +8,7 @@ $prefix: "yt-upload";
     font-size: 14px;
     color: rgba(0,0,0,0.60);
     letter-spacing: 0;
-    --yt-upload-file-ext-icon-size: 24px;
+    --sb-upload-file-ext-icon-size: 24px;
 
     .#{$prefix}__triggers {
         display: flex;
@@ -35,9 +35,9 @@ $prefix: "yt-upload";
         
         .#{$prefix}__file-ext-icon {
             align-self: center;
-            width: var(--yt-upload-file-ext-icon-size);
-            height: var(--yt-upload-file-ext-icon-size);
-            min-width: var(--yt-upload-file-ext-icon-size);
+            width: var(--sb-upload-file-ext-icon-size);
+            height: var(--sb-upload-file-ext-icon-size);
+            min-width: var(--sb-upload-file-ext-icon-size);
         }
 
         .#{$prefix}__display-file-name,

@@ -57,20 +57,4 @@ export default {
       return ['normal', 'bold'].includes(val) || typeof val === 'number';
     }
   },
-  tipPosition: {
-    type: String,
-    default: 'bottom',
-    validator(val) {
-      return ['top', 'left', 'right', 'bottom'].includes(val);
-    }
-  },
-  tipText: {
-    type: String,
-    default: ''
-  },
-  showTips: {
-    type: Boolean,
-    default: true,
-  }
-  
 }

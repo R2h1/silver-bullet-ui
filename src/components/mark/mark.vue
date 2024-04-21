@@ -1,25 +1,29 @@
 <template>
-  <div :class="`${prefixClass}`" :style="styles"></div>
+  <span :class="`${prefixClass}`" :style="styles">
+    <slot></slot>
+  </span>
 </template>
 
 <script>
 import props from './props.js';
 
 export default {
-  name: 'yt-mark',
+  name: 'sb-mark',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-mark',
+      prefixClass: 'sb-mark',
     }
   },
   computed: {
     styles() {
       const style = {
+        '--mark-background-color': this.bgColor,
+        '--mark-color': this.color
       }
-      return style
+      return style;
     },
   },
 }

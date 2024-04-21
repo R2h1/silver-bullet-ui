@@ -51,11 +51,11 @@ import Vue from 'vue';
 import props from './props';
 
 export default Vue.extend({
-  name: 'yt-notification',
+  name: 'sb-notification',
   props: { ...props },
   data() {
     return {
-      prefixClass: 'yt-notification',
+      prefixClass: 'sb-notification',
       timer: null,
     }
   },

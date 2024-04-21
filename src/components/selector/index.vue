@@ -1,9 +1,9 @@
 <template>
-    <div class="yt-selector-list">
+    <div class="sb-selector-list">
 
     <!-- <div>
       <h6>单选</h6>
-      <yt-selector 
+      <sb-selector 
         :data="data" 
         :loading="loading" 
         label=""
@@ -21,12 +21,12 @@
         @focus="handleFocus"
         v-model="value"
       >
-      </yt-selector>
+      </sb-selector>
       </div>
 
     <div>
       <h6>单选不可搜索</h6>
-      <yt-selector 
+      <sb-selector 
         :data="data" 
         :loading="loading" 
         label=""
@@ -42,12 +42,12 @@
         @focus="handleFocus"
         v-model="value"
       >
-      </yt-selector>
+      </sb-selector>
       </div>
     
     <div>
       <h6>固定popper宽度: 300</h6>
-      <yt-selector 
+      <sb-selector 
         :data="data" 
         :loading="loading" 
         label="项目经理1："
@@ -66,11 +66,11 @@
         v-model="values"
         @change="handleChange"
       >
-      </yt-selector>
+      </sb-selector>
     </div> -->
     <div>
       <h6>item 标签样式</h6>
-      <yt-selector 
+      <sb-selector 
         :data="data" 
         :loading="loading" 
         label="归口小组："
@@ -90,7 +90,7 @@
         v-model="values"
         @change="handleChange"
       >
-      </yt-selector>
+      </sb-selector>
     </div>
     </div>
 </template>
@@ -185,7 +185,7 @@ export default {
 </script>
 <style>
 
-.yt-selector-list {
+.sb-selector-list {
   display: flex;
   flex-direction: row;
   gap: 20px;

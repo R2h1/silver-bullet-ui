@@ -12,7 +12,7 @@ import Overlay from '../overlay';
 import props from './props.js';
 
 export default {
-  name: 'yt-loading-overlay',
+  name: 'sb-loading-overlay',
   components: {
     Overlay,
     Loader
@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      prefixClass: 'yt-loading-overlay',
+      prefixClass: 'sb-loading-overlay',
     }
   },
   computed: {

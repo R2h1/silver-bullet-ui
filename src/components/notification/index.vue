@@ -1,6 +1,6 @@
 <template>
     <div>
-        <yt-notification title="重要提醒" content="您尚未发起立项流程，请尽快准备好相关材料，并发起立项流程" closeable showIcon ></yt-notification>
+        <sb-notification title="重要提醒" content="您尚未发起立项流程，请尽快准备好相关材料，并发起立项流程" closeable showIcon ></sb-notification>
         <br />
         <button @click="handleClick">3s后消失</button>
         <Test  duration="0" ref="notice" :width="500" title="重要提" content="您尚未发起立项流程，请尽快准备好相关材料，并发起" closeable showIcon :duration="0">

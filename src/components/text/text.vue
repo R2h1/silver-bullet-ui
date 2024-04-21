@@ -1,27 +1,16 @@
 <template>
-  <el-tooltip 
-    :content="displayTipsText" 
-    :disabled="isDisabledTooltip"
-    :placement="tipPosition"
-  >
-    <span
-      ref='text'
+  <span
       :style="styles" 
       :data-gradient="isGradient" 
       :data-inherit='inherit'
       :data-inline="inline"
       :data-line-clamp="isLineClamp"
       :class="`${prefixClass}`"
-      @mouseenter="handleMouseenter" 
-    >
-        <slot> {{ tipText }}</slot>
-      </span>
-  </el-tooltip>
+    ><slot></slot></span>
 </template>
 
 <script>
 import props from './props.js';
-import { Tooltip as ElTooltip } from 'element-ui';
 
 const SIZE_MAP = {
   'xs': 12,
@@ -40,19 +29,16 @@ const LINE_HEIGHT_MAP = {
 }
 
 export default {
-  name: 'yt-text',
+  name: 'sb-text',
   components: {
-    ElTooltip
   },
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-text',
+      prefixClass: 'sb-text',
       parentNode: null,
-      textWidth: 0,
-      textOverflow: false,
     }
   },
   computed: {
@@ -88,41 +74,10 @@ export default {
     isLineClamp() {
       return this.lineClamp > 0;
     },
-    isDisabledTooltip() {
-      return !this.showTips || !this.displayTipsText || !this.textOverflow;
-    },
-    displayTipsText() {
-      return this.tipText || this.$slots.default[0].text || '';
-    }
   },
   watch: {
   },
   methods: {
-    handleMouseenter() {
-      if (!this.showTips || !this.displayTipsText) {
-        this.textOverflow = false;
-        return;
-      }
-      const parent = this.$refs.text.parentElement.cloneNode(true);
-      const text = parent.querySelector('.yt-text');
-      parent.style.position = 'fixed';
-      parent.style.left = '-9999px';
-      parent.style.opacity = '0';
-      text.style.display = this.inline ? 'inline' : 'block';
-      const lineHeight = this.getPxValue(window.getComputedStyle(this.$refs.text).getPropertyValue('line-height'), 16);
-      document.body.appendChild(parent);
-      const textHeight = text.offsetHeight;
-      document.body.removeChild(parent);
-      if (textHeight > lineHeight * this.lineClamp) {
-          this.textOverflow = true;
-      } else {
-        this.textOverflow = false;
-      }
-    },
-    getPxValue(value, defaultPaddingValue) {
-      const val = parseFloat(value.replace('px', ''));
-      return Number.isNaN(val) ? defaultPaddingValue : val;
-    },
   }
 }
 </script>

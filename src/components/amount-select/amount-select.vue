@@ -115,7 +115,7 @@ const operatorList = [
 ]
 
 export default {
-  name: 'yt-amount-select',
+  name: 'sb-amount-select',
   components: {
     ElPopover,
     ElInput,
@@ -162,7 +162,7 @@ export default {
   },
   data() {
     return {
-      prefixClass: 'yt-amount-select',
+      prefixClass: 'sb-amount-select',
       operatorConfig: {
         value: operatorList[0],
         data: operatorList

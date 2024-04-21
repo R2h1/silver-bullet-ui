@@ -1,6 +1,6 @@
 <template>
     <div >
-        <div v-if="isShow" :class="`yt-notification-list__${position} is-designer`" :style="designerStyles" >
+        <div v-if="isShow" :class="`sb-notification-list__${position} is-designer`" :style="designerStyles" >
             <Notification 
                 :styles="designerItemStyles" 
                 v-bind="$props"
@@ -8,11 +8,11 @@
                 <slot v-for="(_, key) in $slots" :name="key" :slot="key"></slot>
             </Notification>
         </div>
-        <span class="yt-notification-list__designer-show" @dblclick="toggle">显示或隐藏编辑态的消息通知</span>
+        <span class="sb-notification-list__designer-show" @dblclick="toggle">显示或隐藏编辑态的消息通知</span>
         <br/>
-        <span class="yt-notification-list__designer-show" @click="close">关闭运行态的消息通知</span>
+        <span class="sb-notification-list__designer-show" @click="close">关闭运行态的消息通知</span>
         <br/>
-        <span class="yt-notification-list__designer-show" @click="open">打开运行态的消息通知</span>
+        <span class="sb-notification-list__designer-show" @click="open">打开运行态的消息通知</span>
     </div>
 </template>
 
@@ -22,7 +22,7 @@ import Notification, { Notify } from ".";
 import { DEFAULT_OFFSET, POSITION_OPTIONS, DEFAULT_Z_INDEX } from './constant'
 
 export default {
-    name: 'yt-notification',
+    name: 'sb-notification',
     components: {
         Notification,
     },
@@ -129,7 +129,7 @@ export default {
 </script>
 
 <style>
-.yt-notification-list__designer-hide {
+.sb-notification-list__designer-hide {
     align-self: flex-end;
     padding: 3px 5px;
     background-color: rgba(51, 132, 246);
@@ -140,7 +140,7 @@ export default {
     display: flex;
     flex-direction: column;
 }
-.yt-notification-list__designer-show {
+.sb-notification-list__designer-show {
     background-color: rgba(35, 37, 39, 0.5);
     cursor: pointer;
     color: #fff;

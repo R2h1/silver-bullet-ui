@@ -60,7 +60,7 @@ const DEFAULT_COLOR_INFO = {
 }
 
 export default {
-    name: 'yt-theme-list',
+    name: 'sb-theme-list',
     components: {
         MoveIcon,
         ElSwitch
@@ -105,7 +105,7 @@ export default {
     },
     data() { 
         return { 
-            prefixClass: 'yt-theme-list',
+            prefixClass: 'sb-theme-list',
         } 
     },
     computed: { 

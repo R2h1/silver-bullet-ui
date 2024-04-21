@@ -8,13 +8,13 @@
 import props from './props.js';
 
 export default {
-  name: 'yt-container',
+  name: 'sb-container',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-container',
+      prefixClass: 'sb-container',
     }
   },
   computed: {

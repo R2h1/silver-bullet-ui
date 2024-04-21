@@ -16,13 +16,13 @@
 import props from './props.js';
 
 export default {
-  name: 'yt-spoiler',
+  name: 'sb-spoiler',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-spoiler',
+      prefixClass: 'sb-spoiler',
       showed: false,
     }
   },

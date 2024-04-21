@@ -43,7 +43,7 @@ export default {
 }
 .item1 {
     --input-inner-height: 22px;
-    --yt-date-picker-range-prefix-display: none;
+    --sb-date-picker-range-prefix-display: none;
 }
 .item2 {
     background-color: #fff;
@@ -55,6 +55,6 @@ export default {
     align-items: center;
     height: 32px;
     --input-inner-height: 32px;
-    --yt-date-picker-range-prefix-display: none;
+    --sb-date-picker-range-prefix-display: none;
 }
 </style>

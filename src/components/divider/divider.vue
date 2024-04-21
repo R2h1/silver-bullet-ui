@@ -25,13 +25,13 @@ const SIZE_MAP = {
 }
 
 export default {
-  name: 'yt-my-divider',
+  name: 'sb-my-divider',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-my-divider',
+      prefixClass: 'sb-my-divider',
     }
   },
   computed: {

@@ -1,8 +1,8 @@
 @import "../common/var.scss";
 @import "../common/variables.scss";
 
-$prefix: "yt-notification";
-$prefixList: "yt-notification-list";
+$prefix: "sb-notification";
+$prefixList: "sb-notification-list";
 
 @keyframes slidein-top-left {
     0% {
@@ -105,19 +105,19 @@ $prefixList: "yt-notification-list";
 }
 
 .#{$prefix} {
-    color: $--yt-font-gray-1;
+    color: $--sb-font-gray-1;
     margin: 0;
     list-style: none;
-    font: $--yt-font-body-medium;
+    font: $--sb-font-body-medium;
     outline: 0;
     border: 0;
-    background-color: $--yt-notification-bg-color;
+    background-color: $--sb-notification-bg-color;
     display: flex;
-    box-shadow: $--yt-notification-box-shadow;
+    box-shadow: $--sb-notification-box-shadow;
     box-sizing: border-box;
-    border-radius: $--yt-notification-border-radius;
-    width: $--yt-notification-width;
-    padding: $--yt-notification-padding-TB-m $--yt-notification-padding-LR-m;
+    border-radius: $--sb-notification-border-radius;
+    width: $--sb-notification-width;
+    padding: $--sb-notification-padding-TB-m $--sb-notification-padding-LR-m;
     .#{$prefix}__icon {
         text-align: center;
         margin-right: 8px;
@@ -128,16 +128,16 @@ $prefixList: "yt-notification-list";
             height: 1em;
             font-size: 24px;
             &.is-info{
-                color: $--yt-brand-color-8;
+                color: $--sb-brand-color-8;
             }
             &.is-success {
-                color: $--yt-success-color-8;
+                color: $--sb-success-color-8;
             }
             &.is-warning {
-                color: $--yt-warning-color-8;
+                color: $--sb-warning-color-8;
             }
             &.is-error {
-                color: $--yt-error-color-8;
+                color: $--sb-error-color-8;
             }
         }
     }
@@ -150,16 +150,16 @@ $prefixList: "yt-notification-list";
         align-items: center;
     }
     .#{$prefix}__title {
-        font: $--yt-font-body-large;
-        color: $--yt-font-gray-1;
+        font: $--sb-font-body-large;
+        color: $--sb-font-gray-1;
         font-weight: 600;
     }
     .#{$prefix}__close{
         cursor: pointer;
     }
     .#{$prefix}__content {
-        font: $--yt-font-body-medium;
-        color: $--yt-font-gray-2;
+        font: $--sb-font-body-medium;
+        color: $--sb-font-gray-2;
         margin-top: 8px;
         max-height: 66px;
         padding-right: 10px;

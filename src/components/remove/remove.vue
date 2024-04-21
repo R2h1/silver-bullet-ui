@@ -9,13 +9,13 @@
 import { ClearIcon } from '../icons';
 
 export default {
-  name: 'yt-remove',
+  name: 'sb-remove',
   components: {
     ClearIcon
   },
   data() {
     return {
-      prefixClass: 'yt-remove',
+      prefixClass: 'sb-remove',
       show: false,
       create: true,
     }

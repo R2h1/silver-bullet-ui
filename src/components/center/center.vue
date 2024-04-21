@@ -8,13 +8,13 @@
 import props from './props.js';
 
 export default {
-  name: 'yt-center',
+  name: 'sb-center',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-center',
+      prefixClass: 'sb-center',
     }
   },
   computed: {

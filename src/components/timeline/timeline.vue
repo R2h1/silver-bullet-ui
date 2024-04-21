@@ -14,13 +14,13 @@ const RADIUS_MAP = {
 }
 
 export default {
-  name: 'yt-timeline',
+  name: 'sb-timeline',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-timeline',
+      prefixClass: 'sb-timeline',
     }
   },
   computed: {

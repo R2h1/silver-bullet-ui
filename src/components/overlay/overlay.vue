@@ -6,13 +6,13 @@
 import props from './props.js';
 
 export default {
-  name: 'yt-overlay',
+  name: 'sb-overlay',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-overlay',
+      prefixClass: 'sb-overlay',
     }
   },
   computed: {

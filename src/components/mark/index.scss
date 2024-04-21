@@ -2,5 +2,6 @@
 @import "../common/bem.scss";
 
 @include block(mark) { 
-  
+  color: var(--mark-color, rgb(0, 0, 0));
+  background-color: var(--mark-background-color, #ffec99);
 }

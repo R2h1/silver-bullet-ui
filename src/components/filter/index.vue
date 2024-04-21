@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div style="width: 64px; height: 100%"> </div>
-    <div class="yt-filter-list">
+    <div class="sb-filter-list">
     <el-tabs v-model="menuTabCode" @tab-click="handleTabChange">
       <el-tab-pane label="我的待办" name="0"></el-tab-pane>
       <el-tab-pane label="我的已办" name="1"></el-tab-pane>
@@ -653,7 +653,7 @@ await this.task(100)
 .wrapper {
   display: flex;
 }
-.yt-filter-list {
+.sb-filter-list {
   display: flex;
   flex-direction: column;
   gap: 20px;

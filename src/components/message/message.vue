@@ -20,7 +20,7 @@ import {
 } from '../icons'
 
 export default {
-  name: 'yt-message',
+  name: 'sb-message',
   components: {
     SuccessIcon,
     TipsIcon,
@@ -29,7 +29,7 @@ export default {
   props: { ...props },
   data() {
     return {
-      prefixClass: 'yt-message',
+      prefixClass: 'sb-message',
       timer: null,
     }
   },

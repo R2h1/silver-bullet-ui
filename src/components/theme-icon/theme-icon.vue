@@ -24,13 +24,13 @@ const SIZE_MAP = {
 }
 
 export default {
-  name: 'yt-theme-icon',
+  name: 'sb-theme-icon',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-theme-icon',
+      prefixClass: 'sb-theme-icon',
     }
   },
   computed: {

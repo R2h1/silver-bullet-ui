@@ -20,13 +20,13 @@ const SIZE_MAP = {
 }
 
 export default {
-  name: 'yt-loader',
+  name: 'sb-loader',
   props: { 
     ...props 
   },
   data() {
     return {
-      prefixClass: 'yt-loader',
+      prefixClass: 'sb-loader',
     }
   },
   computed: {

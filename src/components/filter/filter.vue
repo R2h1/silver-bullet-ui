@@ -307,10 +307,10 @@ import props from './props';
 import AmountSelect from '../amount-select/amount-select.vue';
 
 const DEFAULT_FILTER_FlAG = '1';
-const CHANGED_SELECTED_ID = 'yt-filter__' + Date.now();
+const CHANGED_SELECTED_ID = 'sb-filter__' + Date.now();
 
 export default {
-    name: 'yt-filter',
+    name: 'sb-filter',
     components: {
     SuffixIcon,
     CloseNormalIcon,
@@ -340,7 +340,7 @@ export default {
     },
     data() {
         return {
-            prefixClass: 'yt-filter',
+            prefixClass: 'sb-filter',
             curDisplayFilter: null,
             filterStore: new Map(),
             popperVisible: {
@@ -363,10 +363,10 @@ export default {
     mounted() {
         const root = this.$refs.filter;
         const { left } = root.getBoundingClientRect();
-        document.body.style.setProperty('--yt-filter-name-tooltip-left', `${left + 280}px`);
+        document.body.style.setProperty('--sb-filter-name-tooltip-left', `${left + 280}px`);
     },
     beforeDestroy() {
-        document.body.style.removeProperty('--yt-filter-name-tooltip-left');
+        document.body.style.removeProperty('--sb-filter-name-tooltip-left');
     },
     computed: {
         displayFilterList() {

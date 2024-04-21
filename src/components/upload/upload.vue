@@ -134,7 +134,7 @@ import {
 } from '../icons';
 
 export default {
-  name: "yt-upload",
+  name: "sb-upload",
   components: {
     ElPopover,
     ElUpload,
@@ -155,7 +155,7 @@ export default {
   },
   data() {
     return {
-      prefixClass: 'yt-upload',
+      prefixClass: 'sb-upload',
       displayFlies: this.fileList,
       isUpdate: false,
     };

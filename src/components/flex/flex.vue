@@ -20,7 +20,7 @@
 <script>
 import props from './props';
 
-const componentName = 'yt-flex';
+const componentName = 'sb-flex';
 
 export default {
   name: componentName,

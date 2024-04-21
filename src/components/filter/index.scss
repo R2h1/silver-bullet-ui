@@ -124,8 +124,8 @@
         align-items: center;
         flex-wrap: wrap;
         gap: 8px;
-        --yt-date-picker-range-popper-start-bottom-margin-top: 3px;
-        --yt-date-picker-range-popper-end-bottom-margin-top: 3px;
+        --sb-date-picker-range-popper-start-bottom-margin-top: 3px;
+        --sb-date-picker-range-popper-end-bottom-margin-top: 3px;
     }
 
     @include element(condition-config-trigger) {
@@ -215,7 +215,7 @@
             display: inline-block;
             width: 100%;
             max-width: 220px;
-            @include yt-overflow-ellipsis;
+            @include sb-overflow-ellipsis;
 
             @include when(default) {
                 max-width: 186px;
@@ -349,8 +349,8 @@
     }
 
     @include element(date-popper) {
-        --yt-date-picker-range-popper-start-bottom-margin-top: 5px;
-        --yt-date-picker-range-popper-end-bottom-margin-top: 5px;
+        --sb-date-picker-range-popper-start-bottom-margin-top: 5px;
+        --sb-date-picker-range-popper-end-bottom-margin-top: 5px;
     }
 
     @include element(condition-selector-item) {
@@ -362,7 +362,7 @@
     }
 
     @include element(item-name-tooltip) {
-        left: var(--yt-filter-name-tooltip-left) !important;
+        left: var(--sb-filter-name-tooltip-left) !important;
     }
 }
 

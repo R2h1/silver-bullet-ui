@@ -60,7 +60,7 @@ import {
 import props from './props';
 
 export default {
-    name: 'yt-date-picker-range',
+    name: 'sb-date-picker-range',
     components: {
         ClearIcon,
         SuffixIcon,
@@ -72,7 +72,7 @@ export default {
     },
     data() {
         return {
-            prefixClass: 'yt-date-picker-range',
+            prefixClass: 'sb-date-picker-range',
             isModifyStartMonthCell: false,
             isModifyEndMonthCell: false,
             mouseenterStart: false,

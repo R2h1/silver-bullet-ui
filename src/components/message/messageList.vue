@@ -35,7 +35,7 @@ const POSITION_OFFSET =  {
 }
 
 export default {
-  name: 'yt-message-list',
+  name: 'sb-message-list',
   components: {
     Message
   },
@@ -54,7 +54,7 @@ export default {
   },
   data() {
     return {
-      prefixClass: 'yt-message-list',
+      prefixClass: 'sb-message-list',
       list: [],
     }
   },

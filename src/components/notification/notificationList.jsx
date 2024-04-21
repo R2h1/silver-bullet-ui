@@ -18,7 +18,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      prefixClass: 'yt-notification-list',
+      prefixClass: 'sb-notification-list',
       list: []
     }
   },
@@ -63,7 +63,7 @@ export default Vue.extend({
     return (
       <div class={`${this.prefixClass}__${this.position}`} style={this.styles}>
         {this.list.map((item, index) => (
-          <yt-notification
+          <sb-notification
             key={item.id}
             style={item.styles}
             {...{ props: item }}
@@ -76,7 +76,7 @@ export default Vue.extend({
                 </template>
               ))
             }
-          </yt-notification>
+          </sb-notification>
         ))}
       </div>
     );
