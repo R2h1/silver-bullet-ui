@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+
 import Filter from "../components/filter/index.vue";
 import ThemeList from "../components/theme-list/index.vue";
 import Selector from "../components/selector/index.vue";
@@ -26,6 +27,8 @@ import Mark from "../components/mark/index.vue"
 import Highlight from "../components/highlight/index.vue"
 import Blockquote from "../components/blockquote/index.vue"
 import Code from "../components/code/index.vue"
+import List from "../components/list/index.vue"
+import Table from "../components/table/index.vue"
 
 Vue.use(VueRouter);
 
@@ -162,6 +165,16 @@ const router = new VueRouter({
       name: 'code',
       path: '/code',
       component: Code,
+    },
+    {
+      name: 'list',
+      path: '/list',
+      component: List,
+    },
+    {
+      name: 'table',
+      path: '/table',
+      component: Table,
     }
   ],
 });

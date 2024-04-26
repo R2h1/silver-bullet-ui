@@ -1,0 +1,52 @@
+@import "../common/bem.scss";
+
+@include block(list) {
+  font-size: var(--list-font-size);
+  line-height: var(--list-line-height);
+  margin: 0;
+  padding: 0;
+  list-style-position: inside;
+
+  &[data-with-padding] {
+    padding-inline-start: 16px;
+  }
+}
+
+@include block(list-item) {
+  white-space: nowrap;
+  line-height: var(--list-line-height);
+  
+  &[data-with-icon] {
+    list-style: none;
+
+    .sb-list-item__wrapper {
+      --list-item-direction: row;
+      --list-item-align: center;
+    }
+  }
+
+  &[data-with-center] {
+    line-height: 1;
+  }
+
+  &:not(:first-of-type) {
+    margin-top: 10px;
+  }
+  
+
+  @include element(wrapper) {
+    display: inline-flex;
+    flex-direction: var(--list-item-direction, column);
+    align-items: var(--list-item-align, flex-start);
+    white-space: normal;
+  }
+
+  @include element(icon) {
+    display: inline-block;
+    vertical-align: middle;
+    margin-inline-end: 12px;
+  }
+
+  @include element(label) {
+  }
+}
