@@ -1,5 +1,77 @@
 @import "../common/bem.scss";
 
 @include block(table) {
-  
+  width: 100%;
+  border-collapse: collapse;
+  line-height: 22px;
+  font-size: 14px;
+  table-layout: var(--table-layout, auto);
+  caption-side: var(--table-caption-side, bottom);
+  border: none;
+
+  &[data-with-table-border] {
+    border: 1px solid var(--table-border-color, #dee2e6);
+  }
+
+  @include element(caption) {
+    color: #868e96;
+
+    &[data-with-side="bottom"] {
+      margin-top: 10px;
+    }
+  }
+
+  @include element(thead) {
+    top: var(--table-sticky-header-offset, 0);
+    z-index: 1;
+
+    &[data-with-sticky] {
+      position: sticky;
+      background-color: #fff;
+    }
+  }
+
+  @include element(tfoot) {
+
+  }
+
+  @include element(tbody) {
+    tr {
+      background-color: transparent;
+      &[data-with-row-border]:last-of-type {
+        border-bottom: none;
+      }
+
+      &:hover {
+        &[data-hover] {
+          background-color: #f1f3f5;
+        }
+      }
+
+      &[data-striped]:nth-of-type(odd) {
+        background-color: var(--table-striped-color, #f8f9fa);
+      }
+    }
+  }
+
+  @include element(tr) {
+    &[data-with-row-border] {
+      border-bottom: 1px solid var(--table-border-color, #dee2e6);
+    }
+  }
+
+  @include element(th) {
+    padding: var(--table-vertical-spacing) var(--table-horizontal-spacing, 10px);
+    text-align: left;
+    &[data-with-column-border] {
+      border-inline-end: 1px solid var(--table-border-color, #dee2e6);
+    }
+  }
+
+  @include element(td) {
+    padding: var(--table-vertical-spacing) var(--table-horizontal-spacing, 10px);
+    &[data-with-column-border] {
+      border-inline-end: 1px solid var(--table-border-color, #dee2e6);
+    }
+  }
 }
