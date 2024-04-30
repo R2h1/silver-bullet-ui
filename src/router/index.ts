@@ -30,6 +30,7 @@ import Code from "../components/code/index.vue"
 import List from "../components/list/index.vue"
 import Table from "../components/table/index.vue"
 import Title from "../components/title/index.vue"
+import Accordion from "../components/accordion/index.vue"
 
 Vue.use(VueRouter);
 
@@ -181,6 +182,11 @@ const router = new VueRouter({
       name: 'title',
       path: '/title',
       component: Title
+    },
+    {
+      name: 'accordion',
+      path: '/accordion',
+      component: Accordion
     }
   ],
 });

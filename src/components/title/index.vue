@@ -1,11 +1,11 @@
 <template>
   <div class='example-wrap'>
-    <Title >1</Title>
-    <Title :order="2" >2</Title>
-    <Title :order="3" >3</Title>
-    <Title :order="4" >4</Title>
-    <Title :order="5" >5</Title>
-    <Title :order="6" >6`</Title>
+    <Title >这是一个h1标题</Title>
+    <Title :order="2" >这是一个h2标题</Title>
+    <Title :order="3" >这是一个h3标题</Title>
+    <Title :order="4" >这是一个h4标题</Title>
+    <Title :order="5" >这是一个h5标题</Title>
+    <Title :order="6" >这是一个h6标题`</Title>
 
     <Title :order="3" size="h1" >H3 heading with h1 font-size</Title>
     <Title :order="3" :textWrap="'wrap'">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quasi voluptatibus inventore iusto cum dolore molestiae perspiciatis! Totam repudiandae impedit maxime!</Title>
