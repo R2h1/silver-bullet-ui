@@ -29,6 +29,7 @@ import Blockquote from "../components/blockquote/index.vue"
 import Code from "../components/code/index.vue"
 import List from "../components/list/index.vue"
 import Table from "../components/table/index.vue"
+import Title from "../components/title/index.vue"
 
 Vue.use(VueRouter);
 
@@ -175,6 +176,11 @@ const router = new VueRouter({
       name: 'table',
       path: '/table',
       component: Table,
+    },
+    {
+      name: 'title',
+      path: '/title',
+      component: Title
     }
   ],
 });
