@@ -31,6 +31,9 @@ import List from "../components/list/index.vue"
 import Table from "../components/table/index.vue"
 import Title from "../components/title/index.vue"
 import Accordion from "../components/accordion/index.vue"
+import Avatar from "../components/avatar/index.vue"
+import BackgroundImage from "../components/background-image/index.vue"
+import Badge from "../components/badge/index.vue"
 
 Vue.use(VueRouter);
 
@@ -187,6 +190,21 @@ const router = new VueRouter({
       name: 'accordion',
       path: '/accordion',
       component: Accordion
+    },
+    {
+      name: 'avatar',
+      path: '/avatar',
+      component: Avatar
+    },
+    {
+      name: 'background-image',
+      path: '/background-image',
+      component: BackgroundImage
+    },
+    {
+      name: 'badge',
+      path: '/badge',
+      component: Badge
     }
   ],
 });

@@ -1,15 +1,15 @@
 <template>
   <div class='example-wrap'>
-    <Accordion>这是一个 accordion 组件</Accordion>
+    <Avatar>这是一个 avatar 组件</Avatar>
   </div>
 </template>
 
 <script>
-import Accordion from "./accordion.vue";
+import Avatar from "./avatar.vue";
 
 export default {
   components: {
-    Accordion,
+    Avatar,
   },
   data() {
     return {

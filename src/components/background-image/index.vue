@@ -1,15 +1,15 @@
 <template>
   <div class='example-wrap'>
-    <Accordion>这是一个 accordion 组件</Accordion>
+    <BackgroundImage >这是一个 background-image标题</BackgroundImage>
   </div>
 </template>
 
 <script>
-import Accordion from "./accordion.vue";
+import BackgroundImage from "./background-image.vue";
 
 export default {
   components: {
-    Accordion,
+    BackgroundImage,
   },
   data() {
     return {

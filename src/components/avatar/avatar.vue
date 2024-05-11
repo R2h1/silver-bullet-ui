@@ -1,5 +1,6 @@
 <template>
   <div :class="`${prefixClass}`" :style="styles" >
+    <slot></slot>
   </div>
 </template>
 
@@ -7,13 +8,13 @@
 import props from './props.js';
 
 export default {
-  name: 'sb-accordion',
+  name: 'sb-avatar',
   props: { 
     ...props
   },
   data() {
     return {
-      prefixClass: 'sb-accordion',
+      prefixClass: 'sb-avatar',
     }
   },
   computed: {
