@@ -1,5 +1,87 @@
 @import "../common/bem.scss";
 
 @include block(accordion) {
-  
+
+
+}
+
+@include block(accordion-item) {
+
+  border-bottom: 1px solid #dee2e6;
+
+  &:first-of-type,
+  &:last-of-type {
+    border-start-start-radius: var(--accordion-radius);
+    border-start-end-radius: var(--accordion-radius);
+
+    &>[data-accordion-control] {
+      border-start-start-radius: var(--accordion-radius);
+      border-start-end-radius: var(--accordion-radius);
+    }
+  }
+
+  @include element(control) {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    padding-inline: 16px;
+    opacity: 1;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    appearance: none;
+    font-size: 16px;
+    text-align: left;
+    text-decoration: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+
+    @include modifier(label) {
+      color: inherit;
+      font-weight: 400;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+
+    @include modifier(icon) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-inline-end: 12px;
+    }
+
+    @include modifier(chevron) {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      transition: transform .2s ease;
+      width: 15px;
+      min-width: 15px;
+      transform: rotate(0deg);
+
+      &[data-rotate] {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  @include element(panel) {
+    box-sizing: border-box;
+    transition: height .2s ease 0s, opacity .2s ease 0s;
+    word-break: break-word;
+    overflow: hidden;
+
+    @include modifier(content) {
+      padding: 16px;
+      padding-top: 5px;
+    }
+  }
 }
