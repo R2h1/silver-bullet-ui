@@ -5,28 +5,28 @@
 </template>
 
 <script>
-import props from './props.js';
+import props from "./props.js";
 
 export default {
-  name: 'sb-mark',
-  props: { 
-    ...props 
+  name: "sb-mark",
+  props: {
+    ...props,
   },
   data() {
     return {
-      prefixClass: 'sb-mark',
-    }
+      prefixClass: "sb-mark",
+    };
   },
   computed: {
     styles() {
       const style = {
-        '--mark-background-color': this.bgColor,
-        '--mark-color': this.color
-      }
+        "--mark-background-color": this.bgColor,
+        "--mark-color": this.color,
+      };
       return style;
     },
   },
-}
+};
 </script>
 
 <style lang="scss">

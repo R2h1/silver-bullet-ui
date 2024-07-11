@@ -1,5 +1,27 @@
 @import "../common/bem.scss";
 
 @include block(avatar) {
+  --avatar-size-xs: calc(1rem * var(--mantine-scale));
+  --avatar-size-sm: calc(1.625rem * var(--mantine-scale));
+  --avatar-size-md: calc(2.375rem * var(--mantine-scale));
+  --avatar-size-lg: calc(3.5rem * var(--mantine-scale));
+  --avatar-size-xl: calc(5.25rem * var(--mantine-scale));
+  --avatar-size: var(--avatar-size-md);
+  --avatar-radius: calc(62.5rem * var(--mantine-scale));
+  --avatar-bg: var(--mantine-color-gray-light);
+  --avatar-bd: calc(0.0625rem * var(--mantine-scale)) solid transparent;
+  --avatar-color: var(--mantine-color-gray-light-color);
+  --avatar-placeholder-fz: calc(var(--avatar-size) / 2.5);
   
+  position: relative;
+  display: block;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  min-width: var(--avatar-size);
+  padding: 0;
+  user-select: none;
+  overflow: hidden;
+  border-radius: var(--avatar-radius);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
 }
