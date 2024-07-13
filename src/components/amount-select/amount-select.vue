@@ -67,7 +67,7 @@
           v-model="inputValue.end"
           @input="(value) => handleInputChange(value, 'end')"
         />
-        <span :class="`${prefixClass}__unit`">万元</span>
+        <span :class="`${prefixClass}__unit`">this.unit</span>
       </div>
       
     </div>
@@ -158,6 +158,10 @@ export default {
       validator(val) {
         return val >= 0;
       }
+    },
+    unit: {
+      type: String,
+      default: '万元',
     }
   },
   data() {
@@ -183,14 +187,14 @@ export default {
         return '全部';
       }
       if (this.value.start !== '' && this.value.end !== '') {
-        if (this.value.start === this.value.end) return '等于' + this.value.end + '万元';
-        return this.value.start + '至' + this.value.end + '万元 之间';
+        if (this.value.start === this.value.end) return '等于' + this.value.end + this.unit;
+        return this.value.start + '至' + this.value.end + 'this.unit 之间';
       } 
       if (this.value.start === '') {
-        return '小于等于' + this.value.end + '万元';
+        return '小于等于' + this.value.end + this.unit;
       }
       if (this.value.end === '') {
-        return '大于等于' + this.value.start + '万元';
+        return '大于等于' + this.value.start + this.unit;
       }
       return '全部';
     },
