@@ -1,6 +1,6 @@
 /**
  * 字符串大数相加（支持小数）
- * @param {*} params 
+ * @param {*} params
  */
 export function addHuge(num1, num2, digit) {
   // 1. 将整数部分和小数部分分离
@@ -11,9 +11,10 @@ export function addHuge(num1, num2, digit) {
   const [integer2, decimal2] = figure2.split(".");
   let integer = String(BigInt(integer1) + BigInt(integer2));
   let decimal = String(BigInt(decimal1) + BigInt(decimal2));
-  if (decimal1.length === Math.max(decimal1.length, decimal2.length) + 1) { // 小数部分存在进位
+  if (decimal1.length === Math.max(decimal1.length, decimal2.length) + 1) {
+    // 小数部分存在进位
     decimal = String(BigInt(decimal)).slice(1);
-    integer = BigInt(integer) + BigInt('1n');
+    integer = BigInt(integer) + BigInt("1n");
   }
   return `${integer}.${decimal}`;
 }
