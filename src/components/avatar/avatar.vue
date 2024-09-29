@@ -1,5 +1,5 @@
 <template>
-  <div :class="`${prefixClass}`" :style="styles">
+  <div :class="`${prefixClass}`" :style="styles" :data-with-group="withGroup">
     <span v-if="!src" :class="`${prefixClass}__placeholder`">
       <slot>
         <AvatarDefault />
@@ -30,6 +30,7 @@ export default {
   data() {
     return {
       prefixClass: "sb-avatar",
+      withGroup: false,
     };
   },
   computed: {
@@ -45,6 +46,11 @@ export default {
       }
       return style;
     },
+  },
+  mounted() {
+    if (this.$parent.name === 'sb-with-group') {
+      this.withGroup = true;
+    }
   },
   methods: {
     hex2rgba(hex, opacity) {

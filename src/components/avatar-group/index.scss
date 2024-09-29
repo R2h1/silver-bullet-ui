@@ -1,5 +1,8 @@
 @import "../common/bem.scss";
 
 @include block(avatar-group) {
-  
+    --ag-spacing: 12px;
+    --ag-offset: calc(var(--ag-spacing)* -1);
+    display: flex;
+    padding-inline-start: var(--ag-spacing);
 }

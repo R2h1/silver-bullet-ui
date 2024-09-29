@@ -29,6 +29,13 @@
     height: 100%;
     display: block;
   }
+
+  [data-with-group] {
+    margin-inline-start: var(--ag-offset);
+    border: 2px solid #fff;
+    background: #fff;
+  }
+
   @include element(placeholder) {
     font-weight: 700;
     display: flex;
@@ -41,5 +48,6 @@
     font-size: var(--avatar-placeholder-fz);
     background: var(--avatar-bg);
     border: var(--avatar-bd);
-    color: var(--avatar-color);  }
+    color: var(--avatar-color);  
+  }
 }
