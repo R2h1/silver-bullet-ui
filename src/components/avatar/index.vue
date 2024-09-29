@@ -1,6 +1,6 @@
 <template>
   <div class='example-wrap'>
-    <Avatar>这是一个 avatar 组件</Avatar>
+    <Avatar alt="its me" variant="outline" color="#fa5252" >MK</Avatar>
   </div>
 </template>
 

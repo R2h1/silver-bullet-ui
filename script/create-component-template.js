@@ -34,7 +34,7 @@ ${componentName}.install = (Vue) => {
     Vue.component(${componentName}.name, ${componentName});
 };
 
-export const Yt${componentName} = ${componentName};
+export const Sb${componentName} = ${componentName};
 
 export default ${componentName};
 

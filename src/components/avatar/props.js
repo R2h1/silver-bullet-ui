@@ -41,15 +41,13 @@ export default {
   },
   color: {
     type: [String, "initials"],
-    default: "gray",
+    default: "#868e96",
   },
   radius: {
     type: [String, Number],
-    default: "sm",
+    default: "100%",
     validator(val) {
-      return (
-        ["xs", "sm", "md", "lg", "xl"].includes(val) || typeof val === "number"
-      );
+      return ["xs", "sm", "md", "lg", "xl"].includes(val) || ['number', 'string'].includes(typeof val);
     },
   },
 };
