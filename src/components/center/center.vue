@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { PADDING_MAP } from '../../core';
 import props from './props.js';
 
 export default {
@@ -25,6 +26,9 @@ export default {
       }
       if (this.h !== undefined) {
          style['height'] = `${this.h}px`;
+      }
+      if (this.p !== undefined) {
+        style.padding = `${PADDING_MAP[this.p] || this.p}px`;
       }
       return style;
     }

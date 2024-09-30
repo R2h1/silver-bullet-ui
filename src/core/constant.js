@@ -5,3 +5,11 @@ export const RADIUS_MAP = {
   'lg': 16,
   'xl': 32
 }
+
+export const PADDING_MAP = {
+  'xs': 12,
+  'sm': 14,
+  'md': 16,
+  'lg': 18,
+  'xl': 20
+}

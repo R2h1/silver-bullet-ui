@@ -1,8 +1,8 @@
 <template>
   <div class='example-wrap'>
-    <center inline> 
+    <Center :maw="400" :h="100"> 
       <div style="background: rgba(34, 139, 230, .1)">All elements inside Center are centered</div>
-    </center>
+    </Center>
   </div>
 </template>
 
