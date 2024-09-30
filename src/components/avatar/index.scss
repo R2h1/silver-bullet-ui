@@ -30,7 +30,7 @@
     display: block;
   }
 
-  [data-with-group] {
+  &[data-with-group] {
     margin-inline-start: var(--ag-offset);
     border: 2px solid #fff;
     background: #fff;

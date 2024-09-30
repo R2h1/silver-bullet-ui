@@ -48,7 +48,7 @@ export default {
     },
   },
   mounted() {
-    if (this.$parent.name === 'sb-with-group') {
+    if (this.$parent.$options.name === 'sb-avatar-group') {
       this.withGroup = true;
     }
   },
