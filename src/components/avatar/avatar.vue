@@ -14,11 +14,6 @@ import props from "./props.js";
 import { RADIUS_MAP } from "../../core";
 import AvatarDefault from '../icons/avatar-default.vue'
 
-const bgColorMap = {
-  'filled': 0.7,
-  'light': 0.2,
-}
-
 export default {
   name: "sb-avatar",
   props: {
