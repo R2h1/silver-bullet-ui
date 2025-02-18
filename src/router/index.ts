@@ -34,6 +34,7 @@ import Accordion from "../components/accordion/index.vue";
 import Avatar from "../components/avatar/index.vue";
 import BackgroundImage from "../components/background-image/index.vue";
 import Badge from "../components/badge/index.vue";
+import Cascader from "@/components/cascader/index.vue";
 
 Vue.use(VueRouter);
 
@@ -205,6 +206,11 @@ const router = new VueRouter({
       name: "badge",
       path: "/badge",
       component: Badge,
+    },
+    {
+      name: "cascader",
+      path: "/cascader",
+      component: Cascader,
     },
   ],
 });
