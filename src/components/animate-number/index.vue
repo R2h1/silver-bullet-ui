@@ -1,11 +1,17 @@
 <template>
   <div class="example-wrap">
-    <AnimateNumber>这是一个 animateNumber 组件</AnimateNumber>
+    <AnimateNumber
+      :start="0"
+      :end="10000"
+      :duration="2000"
+      :decimals="2"
+      easing="bounceOut"
+    />
   </div>
 </template>
 
 <script>
-import AnimateNumber from "./animateNumber.vue";
+import AnimateNumber from "./animate-number.vue";
 
 export default {
   components: {

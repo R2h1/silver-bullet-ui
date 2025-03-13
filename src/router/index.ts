@@ -35,6 +35,7 @@ import Avatar from "../components/avatar/index.vue";
 import BackgroundImage from "../components/background-image/index.vue";
 import Badge from "../components/badge/index.vue";
 import Cascader from "@/components/cascader/index.vue";
+import AnimateNumber from "@/components/animate-number/index.vue";
 
 Vue.use(VueRouter);
 
@@ -211,6 +212,11 @@ const router = new VueRouter({
       name: "cascader",
       path: "/cascader",
       component: Cascader,
+    },
+    {
+      name: "animate-number",
+      path: "/animate-number",
+      component: AnimateNumber,
     },
   ],
 });
