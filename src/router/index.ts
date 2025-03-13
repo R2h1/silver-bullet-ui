@@ -4,7 +4,7 @@ import VueRouter from "vue-router";
 import Filter from "../components/filter/index.vue";
 import ThemeList from "../components/theme-list/index.vue";
 import Selector from "../components/selector/index.vue";
-import DatePicker from "../components/date-picker/date-picker.vue";
+import DatePicker from "../components/date-picker/index.vue";
 import Notification from "../components/notification/index.vue";
 import Upload from "../components/upload/index.vue";
 import Flex from "../components/flex/index.vue";
