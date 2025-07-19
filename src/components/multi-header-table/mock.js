@@ -8,7 +8,7 @@ export const tableData = [
         year: "2025",
         month: "05",
         oldActualInvestmentDays: 9,
-        actualInvestmentDays: 9,
+        actualInvestmentDays: 10,
         oldActualLeaveDays: 2,
         actualLeaveDays: 2,
       },
@@ -17,7 +17,7 @@ export const tableData = [
         month: "06",
         oldActualInvestmentDays: 8,
         actualInvestmentDays: 8,
-        oldActualLeaveDays: 5,
+        oldActualLeaveDays: 4,
         actualLeaveDays: 5,
       },
     ],
@@ -77,6 +77,29 @@ export const tableData = [
         year: "2025",
         month: "05",
         oldActualInvestmentDays: 10,
+        actualInvestmentDays: 4,
+        oldActualLeaveDays: 8,
+        actualLeaveDays: 3,
+      },
+      {
+        year: "2025",
+        month: "06",
+        oldActualInvestmentDays: 15,
+        actualInvestmentDays: 15,
+        oldActualLeaveDays: 4,
+        actualLeaveDays: 4,
+      },
+    ],
+  },
+  {
+    accountNo: "12375",
+    accountName: "张三",
+    memberType: "1",
+    actualInvestmentDetail: [
+      {
+        year: "2025",
+        month: "05",
+        oldActualInvestmentDays: 10,
         actualInvestmentDays: 10,
         oldActualLeaveDays: 3,
         actualLeaveDays: 3,
@@ -87,6 +110,29 @@ export const tableData = [
         oldActualInvestmentDays: 15,
         actualInvestmentDays: 15,
         oldActualLeaveDays: 4,
+        actualLeaveDays: 4,
+      },
+    ],
+  },
+  {
+    accountNo: "12375",
+    accountName: "张三",
+    memberType: "1",
+    actualInvestmentDetail: [
+      {
+        year: "2025",
+        month: "05",
+        oldActualInvestmentDays: 10,
+        actualInvestmentDays: 10,
+        oldActualLeaveDays: 3,
+        actualLeaveDays: 4,
+      },
+      {
+        year: "2025",
+        month: "06",
+        oldActualInvestmentDays: 15,
+        actualInvestmentDays: 15,
+        oldActualLeaveDays: 1,
         actualLeaveDays: 4,
       },
     ],
@@ -146,7 +192,7 @@ export const tableData = [
         year: "2025",
         month: "05",
         oldActualInvestmentDays: 10,
-        actualInvestmentDays: 10,
+        actualInvestmentDays: 1,
         oldActualLeaveDays: 3,
         actualLeaveDays: 3,
       },
@@ -155,53 +201,7 @@ export const tableData = [
         month: "06",
         oldActualInvestmentDays: 15,
         actualInvestmentDays: 15,
-        oldActualLeaveDays: 4,
-        actualLeaveDays: 4,
-      },
-    ],
-  },
-  {
-    accountNo: "12375",
-    accountName: "张三",
-    memberType: "1",
-    actualInvestmentDetail: [
-      {
-        year: "2025",
-        month: "05",
-        oldActualInvestmentDays: 10,
-        actualInvestmentDays: 10,
-        oldActualLeaveDays: 3,
-        actualLeaveDays: 3,
-      },
-      {
-        year: "2025",
-        month: "06",
-        oldActualInvestmentDays: 15,
-        actualInvestmentDays: 15,
-        oldActualLeaveDays: 4,
-        actualLeaveDays: 4,
-      },
-    ],
-  },
-  {
-    accountNo: "12375",
-    accountName: "张三",
-    memberType: "1",
-    actualInvestmentDetail: [
-      {
-        year: "2025",
-        month: "05",
-        oldActualInvestmentDays: 10,
-        actualInvestmentDays: 10,
-        oldActualLeaveDays: 3,
-        actualLeaveDays: 3,
-      },
-      {
-        year: "2025",
-        month: "06",
-        oldActualInvestmentDays: 15,
-        actualInvestmentDays: 15,
-        oldActualLeaveDays: 4,
+        oldActualLeaveDays: 0,
         actualLeaveDays: 4,
       },
     ],
@@ -263,15 +263,33 @@ export const tableColumnList = [
           {
             label: "当前值",
             field: "oldActualInvestmentDays",
-            colMinW: 120,
+            colMinW: 110,
+            highlight: (row, column, leafCol) => {
+              if (row.totalFlag) return false;
+              const key = leafCol.field.replace("old", "");
+              const firstLetter = key.charAt(0);
+              const otherLetterStr = key.slice(1);
+              const oldKey = `old${firstLetter.toUpperCase()}${otherLetterStr}`;
+              const newKey = `${firstLetter.toLowerCase()}${otherLetterStr}`;
+              return row[column.field][oldKey] !== row[column.field][newKey];
+            },
           },
           {
             label: "变更后的值",
             field: "actualInvestmentDays",
-            colMinW: 134,
+            colMinW: 110,
             maxValue: 31,
             required: true,
             columnIndex: 4,
+            highlight: (row, column, leafCol) => {
+              if (row.totalFlag) return false;
+              const key = leafCol.field.replace("old", "");
+              const firstLetter = key.charAt(0);
+              const otherLetterStr = key.slice(1);
+              const oldKey = `old${firstLetter.toUpperCase()}${otherLetterStr}`;
+              const newKey = `${firstLetter.toLowerCase()}${otherLetterStr}`;
+              return row[column.field][oldKey] !== row[column.field][newKey];
+            },
           },
         ],
       },
@@ -283,15 +301,24 @@ export const tableColumnList = [
           {
             label: "当前值",
             field: "oldActualLeaveDays",
-            colMinW: 120,
+            colMinW: 110,
           },
           {
             label: "变更后的值",
             field: "actualLeaveDays",
-            colMinW: 134,
+            colMinW: 110,
             maxValue: 31,
             required: true,
             columnIndex: 6,
+            highlight: (row, column, leafCol) => {
+              if (row.totalFlag) return false;
+              const key = leafCol.field.replace("old", "");
+              const firstLetter = key.charAt(0);
+              const otherLetterStr = key.slice(1);
+              const oldKey = `old${firstLetter.toUpperCase()}${otherLetterStr}`;
+              const newKey = `${firstLetter.toLowerCase()}${otherLetterStr}`;
+              return row[column.field][oldKey] !== row[column.field][newKey];
+            },
           },
         ],
       },
@@ -310,15 +337,24 @@ export const tableColumnList = [
           {
             label: "当前值",
             field: "oldActualInvestmentDays",
-            colMinW: 120,
+            colMinW: 110,
           },
           {
             label: "变更后的值",
             field: "actualInvestmentDays",
-            colMinW: 134,
+            colMinW: 110,
             maxValue: 31,
             required: true,
             columnIndex: 8,
+            highlight: (row, column, leafCol) => {
+              if (row.totalFlag) return false;
+              const key = leafCol.field.replace("old", "");
+              const firstLetter = key.charAt(0);
+              const otherLetterStr = key.slice(1);
+              const oldKey = `old${firstLetter.toUpperCase()}${otherLetterStr}`;
+              const newKey = `${firstLetter.toLowerCase()}${otherLetterStr}`;
+              return row[column.field][oldKey] !== row[column.field][newKey];
+            },
           },
         ],
       },
@@ -330,15 +366,24 @@ export const tableColumnList = [
           {
             label: "当前值",
             field: "oldActualLeaveDays",
-            colMinW: 120,
+            colMinW: 110,
           },
           {
             label: "变更后的值",
             field: "actualLeaveDays",
             maxValue: 31,
-            colMinW: 134,
+            colMinW: 110,
             required: true,
             columnIndex: 10,
+            highlight: (row, column, leafCol) => {
+              if (row.totalFlag) return false;
+              const key = leafCol.field.replace("old", "");
+              const firstLetter = key.charAt(0);
+              const otherLetterStr = key.slice(1);
+              const oldKey = `old${firstLetter.toUpperCase()}${otherLetterStr}`;
+              const newKey = `${firstLetter.toLowerCase()}${otherLetterStr}`;
+              return row[column.field][oldKey] !== row[column.field][newKey];
+            },
           },
         ],
       },

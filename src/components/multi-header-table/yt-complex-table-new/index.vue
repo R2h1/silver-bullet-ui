@@ -57,37 +57,49 @@
                   scope.row.editableCellType[leafCol.field] === 'input'
                 "
               >
-                <el-input
-                  :ref="`${scope.row.number}_${column.field}_${[
-                    leafCol.field,
-                  ]}`"
-                  v-model="scope.row[column.field][leafCol.field]"
-                  @input="() => handleCellInput(scope.row, column, leafCol)"
-                  placeholder="请输入"
-                  @blur="() => hanldeCellBlur(scope.row, column, leafCol)"
-                  size="small"
-                  :class="{
-                    error:
+                <div class="cell-wrapper">
+                  <el-input
+                    :ref="`${scope.row.number}_${column.field}_${[
+                      leafCol.field,
+                    ]}`"
+                    v-model="scope.row[column.field][leafCol.field]"
+                    @input="() => handleCellInput(scope.row, column, leafCol)"
+                    placeholder="请输入"
+                    @blur="() => hanldeCellBlur(scope.row, column, leafCol)"
+                    size="mini"
+                    :class="{
+                      error:
+                        scope.row[column.field].validResult &&
+                        scope.row[column.field].validResult[leafCol.field] &&
+                        scope.row[column.field].validResult[leafCol.field].msg,
+                    }"
+                  />
+                  <span
+                    v-if="
                       scope.row[column.field].validResult &&
                       scope.row[column.field].validResult[leafCol.field] &&
-                      scope.row[column.field].validResult[leafCol.field].msg,
-                  }"
-                />
-                <span
-                  v-if="
-                    scope.row[column.field].validResult &&
-                    scope.row[column.field].validResult[leafCol.field] &&
-                    scope.row[column.field].validResult[leafCol.field].msg
-                  "
-                  class="error-msg"
-                  >{{
-                    scope.row[column.field].validResult[leafCol.field].msg
-                  }}</span
-                >
+                      scope.row[column.field].validResult[leafCol.field].msg
+                    "
+                    class="error-msg"
+                    >{{
+                      scope.row[column.field].validResult[leafCol.field].msg
+                    }}</span
+                  >
+                </div>
               </template>
-              <span v-else>
-                {{ scope.row[column.field][leafCol.field] }}
-              </span>
+              <div
+                v-else
+                :class="{
+                  'cell-wrapper': true,
+                  highlight:
+                    leafCol.highlight &&
+                    leafCol.highlight(scope.row, column, leafCol),
+                }"
+              >
+                <span class="text">
+                  {{ scope.row[column.field][leafCol.field] }}
+                </span>
+              </div>
             </template>
           </el-table-column>
         </el-table-column>
@@ -107,9 +119,11 @@
           <span class="required-mark" v-if="column.required">*</span>
         </template>
         <template slot-scope="scope">
-          <span>
-            {{ scope.row[column.field] }}
-          </span>
+          <div class="cell-wrapper">
+            <span class="text">
+              {{ scope.row[column.field] }}
+            </span>
+          </div>
         </template>
       </el-table-column>
     </template>
@@ -381,24 +395,39 @@ export default {
     .el-table__body-wrapper,
     .el-table__fixed-body-wrapper {
       .el-table__cell .cell {
-        padding: 12px;
-        line-height: 22px;
+        padding: 0px;
+        .cell-wrapper {
+          width: 100%;
+          padding: 12px;
+          display: inline-flex;
+          align-items: center;
+          height: 52px;
+          &.highlight {
+            background-color: rgb(223, 199, 179);
+            .text {
+              color: #fff;
+            }
+          }
+          .text {
+            line-height: 22px;
+          }
 
-        .el-input__inner {
-          padding: 0 8px;
-        }
+          .el-input__inner {
+            padding: 0 8px;
+          }
 
-        .error .el-input__inner {
-          border-color: #f24957;
-        }
+          .error .el-input__inner {
+            border-color: #f24957;
+          }
 
-        .error-msg {
-          color: #f24957;
-          font-size: 12px;
-          position: absolute;
-          bottom: -2px;
-          left: 12px;
-          line-height: 16px;
+          .error-msg {
+            color: #f24957;
+            font-size: 12px;
+            position: absolute;
+            bottom: -2px;
+            left: 12px;
+            line-height: 16px;
+          }
         }
       }
     }
