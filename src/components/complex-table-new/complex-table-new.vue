@@ -1,101 +1,96 @@
 <template>
-  <el-table
-    :key="tableKey"
-    :data="tableData"
-    :maxHeight="maxHeight"
-    border
+  <el-table 
+    :key="tableKey" 
+    :data="tableData" 
+    :maxHeight="maxHeight" 
+    border 
     ref="complexTable"
-    class="yt-comple-table-new"
+    class="yt-complex-table-new"
   >
     <template v-for="column in columnList">
       <!-- 多级表头 -->
-      <el-table-column
-        v-if="column.subColumnList"
-        :key="column.field"
-        :prop="column.field"
-        :fixed="column.fixed"
-        :min-width="column.colMinW || 150"
-      >
+      <el-table-column v-if="column.subColumnList" :key="column.field" :prop="column.field" :fixed="column.fixed"
+        :min-width="column.colMinW || 150">
         <template slot="header">
           <span>
             {{ column.label }}
           </span>
           <span class="required-mark" v-if="column.required">*</span>
+          <el-tooltip 
+            v-if="column.tipText" 
+            class="header-tip" 
+            effect="dark" 
+            placement="top" 
+          >
+              <div slot="content">{{ column.tipText }}</div>
+              <help-icon></help-icon>
+          </el-tooltip>
         </template>
-        <el-table-column
-          v-for="subCol in column.subColumnList"
-          :key="subCol.field"
-          :label="subCol.label"
-          :prop="subCol.field"
-          :fixed="subCol.fixed"
-          :min-width="subCol.colMinW || 150"
-        >
+        <el-table-column v-for="subCol in column.subColumnList" :key="subCol.field" :label="subCol.label"
+          :prop="subCol.field" :fixed="subCol.fixed" :min-width="subCol.colMinW || 150">
           <template slot="header">
             <span>
               {{ subCol.label }}
             </span>
             <span class="required-mark" v-if="subCol.required">*</span>
+            <el-tooltip 
+              v-if="subCol.tipText" 
+              class="header-tip" 
+              effect="dark" 
+              placement="top" 
+            >
+                <div slot="content" v-html="getTipContent(subCol.tipText)"></div>
+                <help-icon></help-icon>
+            </el-tooltip>
           </template>
-          <el-table-column
-            v-for="leafCol in subCol.subColumnList"
-            :key="leafCol.field"
-            :label="leafCol.label"
-            :prop="leafCol.field"
-            :fixed="leafCol.fixed"
-            :min-width="leafCol.colMinW || 150"
-          >
+          <el-table-column v-for="leafCol in subCol.subColumnList" :key="leafCol.field" :label="leafCol.label"
+            :prop="leafCol.field" :fixed="leafCol.fixed" :min-width="leafCol.colMinW || 150">
             <template slot="header">
               <span>
                 {{ leafCol.label }}
               </span>
               <span class="required-mark" v-if="leafCol.required">*</span>
+              <el-tooltip 
+                v-if="leafCol.tipText" 
+                class="header-tip" 
+                effect="dark" 
+                placement="top" 
+              >
+                  <div slot="content">{{ leafCol.tipText }}</div>
+                  <help-icon></help-icon>
+          </el-tooltip>
             </template>
             <template slot-scope="scope">
-              <template
-                v-if="
-                  scope.row.editableCellType &&
-                  scope.row.editableCellType[leafCol.field] === 'input'
-                "
-              >
+              <template v-if="
+                  leafCol.editable &&
+                  leafCol.editable(scope.row, column, leafCol)
+              ">
                 <div class="cell-wrapper">
-                  <el-input
-                    :ref="`${scope.row.number}_${column.field}_${[
-                      leafCol.field,
-                    ]}`"
-                    v-model="scope.row[column.field][leafCol.field]"
-                    @input="() => handleCellInput(scope.row, column, leafCol)"
-                    placeholder="请输入"
-                    @blur="() => hanldeCellBlur(scope.row, column, leafCol)"
-                    size="mini"
-                    :class="{
+                  <el-input :ref="`${scope.row.number}_${column.field}_${[
+                    leafCol.field,
+                  ]}`" v-model="scope.row[column.field][leafCol.field]"
+                    @input="() => handleCellInput(scope.row, column, leafCol)" placeholder="请输入"
+                    @blur="() => handleCellBlur(scope.row, column, leafCol)" size="mini" :class="{
                       error:
                         scope.row[column.field].validResult &&
                         scope.row[column.field].validResult[leafCol.field] &&
                         scope.row[column.field].validResult[leafCol.field].msg,
-                    }"
-                  />
-                  <span
-                    v-if="
-                      scope.row[column.field].validResult &&
-                      scope.row[column.field].validResult[leafCol.field] &&
-                      scope.row[column.field].validResult[leafCol.field].msg
-                    "
-                    class="error-msg"
-                    >{{
-                      scope.row[column.field].validResult[leafCol.field].msg
-                    }}</span
-                  >
+                    }" />
+                  <span v-if="
+                    scope.row[column.field].validResult &&
+                    scope.row[column.field].validResult[leafCol.field] &&
+                    scope.row[column.field].validResult[leafCol.field].msg
+                  " class="error-msg">{{
+  scope.row[column.field].validResult[leafCol.field].msg
+}}</span>
                 </div>
               </template>
-              <div
-                v-else
-                :class="{
-                  'cell-wrapper': true,
-                  highlight:
-                    leafCol.highlight &&
-                    leafCol.highlight(scope.row, column, leafCol),
-                }"
-              >
+              <div v-else :class="{
+                'cell-wrapper': true,
+                highlight:
+                  leafCol.highlight &&
+                  leafCol.highlight(scope.row, column, leafCol),
+              }">
                 <span class="text">
                   {{ scope.row[column.field][leafCol.field] }}
                 </span>
@@ -106,17 +101,20 @@
       </el-table-column>
 
       <!-- 普通列 -->
-      <el-table-column
-        v-else
-        :key="`${column.field}_leaf`"
-        :prop="column.field"
-        :label="column.label"
-        :fixed="column.fixed"
-        :min-width="column.colMinW || 150"
-      >
+      <el-table-column v-else :key="`${column.field}_leaf`" :prop="column.field" :label="column.label"
+        :fixed="column.fixed" :min-width="column.colMinW || 150">
         <template slot="header">
           <span>{{ column.label }}</span>
           <span class="required-mark" v-if="column.required">*</span>
+          <el-tooltip 
+            v-if="column.tipText" 
+            class="header-tip" 
+            effect="dark" 
+            placement="top" 
+          >
+              <div slot="content">{{ column.tipText }}</div>
+              <help-icon></help-icon>
+          </el-tooltip>
         </template>
         <template slot-scope="scope">
           <div class="cell-wrapper">
@@ -128,11 +126,8 @@
       </el-table-column>
     </template>
     <div class="yt-comple-table__empty" slot="empty">
-      <img
-        class="loading"
-        v-show="loading"
-        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Ni5Ob3RpZmljYXRpb27mtojmga/mj5DphpIvNC5Mb2FkaW5n5Yqg6L295LitLzEu5LuF5Zu+5qCH5Yqg6L29LzE2KjE2PC90aXRsZT4KICAgIDxkZWZzPgogICAgICAgIDxwYXR0ZXJuIGlkPSJwYXR0ZXJuLTEiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHBhdHRlcm5Vbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giPgogICAgICAgICAgICA8dXNlIHhsaW5rOmhyZWY9IiNpbWFnZS0yIj48L3VzZT4KICAgICAgICA8L3BhdHRlcm4+CiAgICAgICAgPGltYWdlIGlkPSJpbWFnZS0yIiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQTRBQUFBT0NBWUFBQUFmU0MzUkFBQUFBWE5TUjBJQXJzNGM2UUFBQUVSbFdFbG1UVTBBS2dBQUFBZ0FBWWRwQUFRQUFBQUJBQUFBR2dBQUFBQUFBNkFCQUFNQUFBQUJBQUVBQUtBQ0FBUUFBQUFCQUFBQURxQURBQVFBQUFBQkFBQUFEZ0FBQUFDOThEbjZBQUFCcFVsRVFWUW9GVFdTVFhZVU1ReUV5ei9kSWNNcVlaT1hPM0E2THNCTk9CUXZGOGlDRldUSFpLWnQyWHpsTVBQR2JWbFdxVXFTMDlPMytVTkpKVTNWS1cwcGFadFR1NlFkZThlM2M3ZFAvRW5FRU1kZHJUaURTd0ZPbXNwWUdXc1F0TnczSCtkeUE1R3cxSkhWODlURVNieklzOEFEd0hReWZCbTJ3cjZZY0ppMVZCeU5pOFd3d0daTjZpeERiUnRrK1phNmtiZ3NSaHdOZlpZN25JQmcvd3Byc0RKbjEzdEhBdGRyY0RHNGdqNEF1N2JPeDg1WTRLVDcvd3duUUtjYm0wSFl5Ym9QRHNuUU5KUnhYamkvRzh6L0t6ZVBCaEZYY0xpRjdvUGMxUU5XZW91MnZHcDF2UTBWUDltL3R6ZTkvUjVxQ0E0OUUvZmlmSjRMakdRWkNkQ0NaeFFNblFIKzZVVmZ0Z2ZwNmRENVV0VHFxMkovVVB6NnJMbHFISE9CWEdNSGRDWEJHYzJOZlVQZ0tkR2VHam9BdGI5bnhXTlhWQUliUVVFTE93bzhtaXNxR3ZicWFuVHRHTEhSNTZNbzNTSDV2UUtrdmtaUlFhMGRVUE1PVS9jZ0p0OEJaKzNhT3FyY29ZUEpmbUt0bDBNM0Y2T2xEbXdVREpUTUNRT0R5MUZVS0tjR3lUelU2d1dnUWJBRXpRbllQMVlCNkhlRDV0bDRjbFY1QzVWdUxTQ1JxMzhscU9MRy9tR3gvZ0FBQUFCSlJVNUVya0pnZ2c9PSI+PC9pbWFnZT4KICAgIDwvZGVmcz4KICAgIDxnIGlkPSI2Lk5vdGlmaWNhdGlvbua2iOaBr+aPkOmGki80LkxvYWRpbmfliqDovb3kuK0vMS7ku4Xlm77moIfliqDovb0vMTYqMTYiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGUiIG9wYWNpdHk9IjAiIHg9IjAiIHk9IjAiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PC9yZWN0PgogICAgICAgIDxwYXRoIGQ9Ik04LDEuNSBDMTEuNTg5ODUwOSwxLjUgMTQuNSw0LjQxMDE0OTEzIDE0LjUsOCBDMTQuNSwxMS41ODk4NTA5IDExLjU4OTg1MDksMTQuNSA4LDE0LjUgQzQuNDEwMTQ5MTMsMTQuNSAxLjUsMTEuNTg5ODUwOSAxLjUsOCBDMS41LDQuNDEwMTQ5MTMgNC40MTAxNDkxMywxLjUgOCwxLjUgWiBNOCwzLjUgQzUuNTE0NzE4NjMsMy41IDMuNSw1LjUxNDcxODYzIDMuNSw4IEMzLjUsMTAuNDg1MjgxNCA1LjUxNDcxODYzLDEyLjUgOCwxMi41IEMxMC40ODUyODE0LDEyLjUgMTIuNSwxMC40ODUyODE0IDEyLjUsOCBDMTIuNSw1LjUxNDcxODYzIDEwLjQ4NTI4MTQsMy41IDgsMy41IFoiIGlkPSJPdmFsIiBmaWxsPSJ1cmwoI3BhdHRlcm4tMSkiIGZpbGwtcnVsZT0ibm9uemVybyI+PC9wYXRoPgogICAgPC9nPgo8L3N2Zz4="
-      />
+      <img class="loading" v-show="loading"
+        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Ni5Ob3RpZmljYXRpb27mtojmga/mj5DphpIvNC5Mb2FkaW5n5Yqg6L295LitLzEu5LuF5Zu+5qCH5Yqg6L29LzE2KjE2PC90aXRsZT4KICAgIDxkZWZzPgogICAgICAgIDxwYXR0ZXJuIGlkPSJwYXR0ZXJuLTEiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHBhdHRlcm5Vbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giPgogICAgICAgICAgICA8dXNlIHhsaW5rOmhyZWY9IiNpbWFnZS0yIj48L3VzZT4KICAgICAgICA8L3BhdHRlcm4+CiAgICAgICAgPGltYWdlIGlkPSJpbWFnZS0yIiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQTRBQUFBT0NBWUFBQUFmU0MzUkFBQUFBWE5TUjBJQXJzNGM2UUFBQUVSbFdFbG1UVTBBS2dBQUFBZ0FBWWRwQUFRQUFBQUJBQUFBR2dBQUFBQUFBNkFCQUFNQUFBQUJBQUVBQUtBQ0FBUUFBQUFCQUFBQURxQURBQVFBQUFBQkFBQUFEZ0FBQUFDOThEbjZBQUFCcFVsRVFWUW9GVFdTVFhZVU1ReUV5ei9kSWNNcVlaT1hPM0E2THNCTk9CUXZGOGlDRldUSFpLWnQyWHpsTVBQR2JWbFdxVXFTMDlPMytVTkpKVTNWS1cwcGFadFR1NlFkZThlM2M3ZFAvRW5FRU1kZHJUaURTd0ZPbXNwWUdXc1F0TnczSCtkeUE1R3cxSkhWODlURVNieklzOEFEd0hReWZCbTJ3cjZZY0ppMVZCeU5pOFd3d0daTjZpeERiUnRrK1phNmtiZ3NSaHdOZlpZN25JQmcvd3Byc0RKbjEzdEhBdGRyY0RHNGdqNEF1N2JPeDg1WTRLVDcvd3duUUtjYm0wSFl5Ym9QRHNuUU5KUnhYamkvRzh6L0t6ZVBCaEZYY0xpRjdvUGMxUU5XZW91MnZHcDF2UTBWUDltL3R6ZTkvUjVxQ0E0OUUvZmlmSjRMakdRWkNkQ0NaeFFNblFIKzZVVmZ0Z2ZwNmRENVV0VHFxMkovVVB6NnJMbHFISE9CWEdNSGRDWEJHYzJOZlVQZ0tkR2VHam9BdGI5bnhXTlhWQUliUVVFTE93bzhtaXNxR3ZicWFuVHRHTEhSNTZNbzNTSDV2UUtrdmtaUlFhMGRVUE1PVS9jZ0p0OEJaKzNhT3FyY29ZUEpmbUt0bDBNM0Y2T2xEbXdVREpUTUNRT0R5MUZVS0tjR3lUelU2d1dnUWJBRXpRbllQMVlCNkhlRDV0bDRjbFY1QzVWdUxTQ1JxMzhscU9MRy9tR3gvZ0FBQUFCSlJVNUVya0pnZ2c9PSI+PC9pbWFnZT4KICAgIDwvZGVmcz4KICAgIDxnIGlkPSI2Lk5vdGlmaWNhdGlvbua2iOaBr+aPkOmGki80LkxvYWRpbmfliqDovb3kuK0vMS7ku4Xlm77moIfliqDovb0vMTYqMTYiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGUiIG9wYWNpdHk9IjAiIHg9IjAiIHk9IjAiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PC9yZWN0PgogICAgICAgIDxwYXRoIGQ9Ik04LDEuNSBDMTEuNTg5ODUwOSwxLjUgMTQuNSw0LjQxMDE0OTEzIDE0LjUsOCBDMTQuNSwxMS41ODk4NTA5IDExLjU4OTg1MDksMTQuNSA4LDE0LjUgQzQuNDEwMTQ5MTMsMTQuNSAxLjUsMTEuNTg5ODUwOSAxLjUsOCBDMS41LDQuNDEwMTQ5MTMgNC40MTAxNDkxMywxLjUgOCwxLjUgWiBNOCwzLjUgQzUuNTE0NzE4NjMsMy41IDMuNSw1LjUxNDcxODYzIDMuNSw4IEMzLjUsMTAuNDg1MjgxNCA1LjUxNDcxODYzLDEyLjUgOCwxMi41IEMxMC40ODUyODE0LDEyLjUgMTIuNSwxMC40ODUyODE0IDEyLjUsOCBDMTIuNSw1LjUxNDcxODYzIDEwLjQ4NTI4MTQsMy41IDgsMy41IFoiIGlkPSJPdmFsIiBmaWxsPSJ1cmwoI3BhdHRlcm4tMSkiIGZpbGwtcnVsZT0ibm9uemVybyI+PC9wYXRoPgogICAgPC9nPgo8L3N2Zz4=" />
       <div class="empty" v-show="loaded">
         <img class="img" width="160" height="120" src="./empty.png" />
         <div class="label">暂无数据</div>
@@ -146,14 +141,18 @@ import {
   Table as ElTable,
   TableColumn as ElTableColumn,
   Input as ElInput,
+  Tooltip as ElTooltip
 } from "element-ui";
+import HelpIcon from './help-icon.vue';
 
 export default {
-  name: "yt-comple-table-new",
+  name: "yt-complex-table-new",
   components: {
     ElTable,
     ElTableColumn,
     ElInput,
+    ElTooltip,
+    HelpIcon,
   },
   props: {
     tableData: {
@@ -190,7 +189,7 @@ export default {
     },
   },
   methods: {
-    hanldeCellBlur(row, column, subCol) {
+    handleCellBlur(row, column, subCol) {
       let value = row[column.field][subCol.field];
       const numValue = Number(value);
       // 验证范围
@@ -287,15 +286,13 @@ export default {
         valid: true,
       };
       let isFocus = hasFocus;
-      let refName = "";
       this.tableData
         .filter((item) => !item.totalFlag)
         .forEach((row) => {
           this.columnList.forEach((column, x) => {
             (column.subColumnList || []).forEach((subCol, y) => {
               (subCol.subColumnList || []).forEach((leafCol, z) => {
-                if (row.editableCellType?.[leafCol.field] === "input") {
-                  refName = `${row.number}_${column.field}_${leafCol.field}`;
+                if (leafCol.editable && leafCol.editable(row, column, leafCol)) {
                   const validateResult = this.validateCell(
                     row,
                     column,
@@ -304,7 +301,6 @@ export default {
                   );
                   if (validateResult && !validateResult.valid) {
                     if (!isFocus) {
-                      const el = this.$refs[refName]?.[0]?.$el;
                       this.scrollToCell(row, leafCol);
                       isFocus = true;
                     }
@@ -352,23 +348,32 @@ export default {
       this.tableScrollToColumn(bodyWrapper, columnIndex, fixedNum);
       this.tableScrollToRow(bodyWrapper, rowIndex);
     },
+    getTipContent(tipText) {
+      return tipText.replace(/\n/g, '<br />');
+    }
   },
 };
+
 </script>
 <style lang="scss">
-.yt-comple-table-new {
+.yt-complex-table-new {
   &.el-table {
     width: 100%;
     font: 14px / 22px PingFangSC-Regular;
     color: rgba(0, 0, 0, 0.9);
     transition: opacity 2s;
 
-    .el-table__cell {
-      padding: 0;
+    &.el-table--border {
+      border-right: 1px solid #EEEEEE;
+      border-bottom: 1px solid #EEEEEE;
+
+      .el-table__cell {
+          border-right: 1px solid rgba(231, 231, 231);
+      }
     }
 
-    .el-table__fixed {
-      height: 100%;
+    .el-table__cell {
+      padding: 0;
     }
 
     .el-table__header-wrapper,
@@ -379,11 +384,19 @@ export default {
         background: #f3f3f3;
 
         .cell {
+          display: inline-flex;
+          align-items: center;
           padding: 0;
           font-weight: 400;
           color: rgba(0, 0, 0, 0.6);
           line-height: 22px;
           white-space: nowrap;
+
+          .header-tip {
+            flex-shrink: 0;
+            cursor: pointer;
+            margin-left: 4px;
+          }
         }
 
         .required-mark {
@@ -392,28 +405,31 @@ export default {
         }
       }
     }
+
     .el-table__body-wrapper,
     .el-table__fixed-body-wrapper {
       .el-table__cell .cell {
         padding: 0px;
+
         .cell-wrapper {
           width: 100%;
           padding: 12px;
           display: inline-flex;
           align-items: center;
           height: 52px;
+
           &.highlight {
-            background-color: rgb(223, 199, 179);
-            .text {
-              color: #fff;
-            }
+            background-color: #FFF7E8;
           }
+
           .text {
+            position: relative;
             line-height: 22px;
           }
 
           .el-input__inner {
             padding: 0 8px;
+            font-size: 14px;
           }
 
           .error .el-input__inner {

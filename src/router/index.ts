@@ -36,7 +36,7 @@ import BackgroundImage from "../components/background-image/index.vue";
 import Badge from "../components/badge/index.vue";
 import Cascader from "@/components/cascader/index.vue";
 import AnimateNumber from "@/components/animate-number/index.vue";
-import MultiHeaderTable from "@/components/multi-header-table/index.vue";
+import MultiHeaderTable from "@/components/complex-table/index.vue";
 
 Vue.use(VueRouter);
 

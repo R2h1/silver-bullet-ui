@@ -1,5 +1,5 @@
 <template>
-  <div class='example-wrap'>
+  <div class="example-wrap">
     <Timeline />
   </div>
 </template>
@@ -9,9 +9,9 @@ import Timeline from "./timeline.vue";
 
 export default {
   components: {
-    Timeline
-  }
-}
+    Timeline,
+  },
+};
 </script>
 
 <style scoped>

@@ -1,4 +1,4 @@
-import YtComplexTableNew from "./index.vue";
+import YtComplexTableNew from "./views/index.vue";
 
 YtComplexTableNew.install = function (Vue) {
   Vue.component(YtComplexTableNew.name, YtComplexTableNew);

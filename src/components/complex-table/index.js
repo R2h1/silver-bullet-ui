@@ -1,4 +1,4 @@
-import YtComplexTable from "./views/index.vue";
+import YtComplexTable from "./complex-table.vue";
 
 YtComplexTable.install = function (Vue) {
   Vue.component(YtComplexTable.name, YtComplexTable);

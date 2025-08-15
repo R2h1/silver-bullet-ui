@@ -15,10 +15,10 @@ export const tableData = [
       {
         year: "2025",
         month: "06",
-        oldActualInvestmentDays: 8,
-        actualInvestmentDays: 8,
-        oldActualLeaveDays: 4,
-        actualLeaveDays: 5,
+        oldActualInvestmentDays: null,
+        actualInvestmentDays: null,
+        oldActualLeaveDays: null,
+        actualLeaveDays: null,
       },
     ],
   },
@@ -231,6 +231,8 @@ export const tableData = [
   },
 ];
 
+const autoInitMemberTypes = ["1"];
+
 export const tableColumnList = [
   {
     label: "序号",
@@ -290,6 +292,13 @@ export const tableColumnList = [
               const newKey = `${firstLetter.toLowerCase()}${otherLetterStr}`;
               return row[column.field][oldKey] !== row[column.field][newKey];
             },
+            editable: (row, column, leafCol) => {
+              if (row.totalFlag) return false;
+              if (!row[column.field].hasValue) {
+                return false;
+              }
+              return leafCol.field.endsWith("Days");
+            },
           },
         ],
       },
@@ -318,6 +327,16 @@ export const tableColumnList = [
               const oldKey = `old${firstLetter.toUpperCase()}${otherLetterStr}`;
               const newKey = `${firstLetter.toLowerCase()}${otherLetterStr}`;
               return row[column.field][oldKey] !== row[column.field][newKey];
+            },
+            editable: (row, column, leafCol) => {
+              if (row.totalFlag) return false;
+              if (!row[column.field].hasValue) {
+                return false;
+              }
+              return (
+                leafCol.field.endsWith("Days") &&
+                !autoInitMemberTypes.includes(row.memberType)
+              );
             },
           },
         ],
@@ -355,6 +374,13 @@ export const tableColumnList = [
               const newKey = `${firstLetter.toLowerCase()}${otherLetterStr}`;
               return row[column.field][oldKey] !== row[column.field][newKey];
             },
+            editable: (row, column, leafCol) => {
+              if (row.totalFlag) return false;
+              if (!row[column.field].hasValue) {
+                return false;
+              }
+              return leafCol.field.endsWith("Days");
+            },
           },
         ],
       },
@@ -383,6 +409,16 @@ export const tableColumnList = [
               const oldKey = `old${firstLetter.toUpperCase()}${otherLetterStr}`;
               const newKey = `${firstLetter.toLowerCase()}${otherLetterStr}`;
               return row[column.field][oldKey] !== row[column.field][newKey];
+            },
+            editable: (row, column, leafCol) => {
+              if (row.totalFlag) return false;
+              if (!row[column.field].hasValue) {
+                return false;
+              }
+              return (
+                leafCol.field.endsWith("Days") &&
+                !autoInitMemberTypes.includes(row.memberType)
+              );
             },
           },
         ],

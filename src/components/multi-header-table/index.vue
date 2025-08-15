@@ -1,177 +1,315 @@
 <template>
-  <div class="root">
-    <div
-      style="width: 100%; flex: 1; min-height: 0px; padding: 50px"
-      ref="wrapper"
-    >
-      <yt-complex-table-new
-        ref="complexTable"
-        :maxHeight="maxHeight"
-        v-if="showTable"
-        :tableData="tableData"
-        :columnList="tableColumnList"
-        @change="handleChange"
-      ></yt-complex-table-new>
+  <el-table
+    :key="tableKey"
+    :data="tableData"
+    :maxHeight="maxHeight"
+    border
+    ref="complexTable"
+    class="yt-comple-table"
+  >
+    <dynamic-column
+      v-for="column in columnList"
+      @cell-change="handleCellChange"
+      :key="column.field"
+      :column="column"
+    />
+    <div class="yt-comple-table__empty" slot="empty">
+      <img
+        class="loading"
+        v-show="loading"
+        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Ni5Ob3RpZmljYXRpb27mtojmga/mj5DphpIvNC5Mb2FkaW5n5Yqg6L295LitLzEu5LuF5Zu+5qCH5Yqg6L29LzE2KjE2PC90aXRsZT4KICAgIDxkZWZzPgogICAgICAgIDxwYXR0ZXJuIGlkPSJwYXR0ZXJuLTEiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHBhdHRlcm5Vbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giPgogICAgICAgICAgICA8dXNlIHhsaW5rOmhyZWY9IiNpbWFnZS0yIj48L3VzZT4KICAgICAgICA8L3BhdHRlcm4+CiAgICAgICAgPGltYWdlIGlkPSJpbWFnZS0yIiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQTRBQUFBT0NBWUFBQUFmU0MzUkFBQUFBWE5TUjBJQXJzNGM2UUFBQUVSbFdFbG1UVTBBS2dBQUFBZ0FBWWRwQUFRQUFBQUJBQUFBR2dBQUFBQUFBNkFCQUFNQUFBQUJBQUVBQUtBQ0FBUUFBQUFCQUFBQURxQURBQVFBQUFBQkFBQUFEZ0FBQUFDOThEbjZBQUFCcFVsRVFWUW9GVFdTVFhZVU1ReUV5ei9kSWNNcVlaT1hPM0E2THNCTk9CUXZGOGlDRldUSFpLWnQyWHpsTVBQR2JWbFdxVXFTMDlPMytVTkpKVTNWS1cwcGFadFR1NlFkZThlM2M3ZFAvRW5FRU1kZHJUaURTd0ZPbXNwWUdXc1F0TnczSCtkeUE1R3cxSkhWODlURVNieklzOEFEd0hReWZCbTJ3cjZZY0ppMVZCeU5pOFd3d0daTjZpeERiUnRrK1phNmtiZ3NSaHdOZlpZN25JQmcvd3Byc0RKbjEzdEhBdGRyY0RHNGdqNEF1N2JPeDg1WTRLVDcvd3duUUtjYm0wSFl5Ym9QRHNuUU5KUnhYamkvRzh6L0t6ZVBCaEZYY0xpRjdvUGMxUU5XZW91MnZHcDF2UTBWUDltL3R6ZTkvUjVxQ0E0OUUvZmlmSjRMakdRWkNkQ0NaeFFNblFIKzZVVmZ0Z2ZwNmRENVV0VHFxMkovVVB6NnJMbHFISE9CWEdNSGRDWEJHYzJOZlVQZ0tkR2VHam9BdGI5bnhXTlhWQUliUVVFTE93bzhtaXNxR3ZicWFuVHRHTEhSNTZNbzNTSDV2UUtrdmtaUlFhMGRVUE1PVS9jZ0p0OEJaKzNhT3FyY29ZUEpmbUt0bDBNM0Y2T2xEbXdVREpUTUNRT0R5MUZVS0tjR3lUelU2d1dnUWJBRXpRbllQMVlCNkhlRDV0bDRjbFY1QzVWdUxTQ1JxMzhscU9MRy9tR3gvZ0FBQUFCSlJVNUVya0pnZ2c9PSI+PC9pbWFnZT4KICAgIDwvZGVmcz4KICAgIDxnIGlkPSI2Lk5vdGlmaWNhdGlvbua2iOaBr+aPkOmGki80LkxvYWRpbmfliqDovb3kuK0vMS7ku4Xlm77moIfliqDovb0vMTYqMTYiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGUiIG9wYWNpdHk9IjAiIHg9IjAiIHk9IjAiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PC9yZWN0PgogICAgICAgIDxwYXRoIGQ9Ik04LDEuNSBDMTEuNTg5ODUwOSwxLjUgMTQuNSw0LjQxMDE0OTEzIDE0LjUsOCBDMTQuNSwxMS41ODk4NTA5IDExLjU4OTg1MDksMTQuNSA4LDE0LjUgQzQuNDEwMTQ5MTMsMTQuNSAxLjUsMTEuNTg5ODUwOSAxLjUsOCBDMS41LDQuNDEwMTQ5MTMgNC40MTAxNDkxMywxLjUgOCwxLjUgWiBNOCwzLjUgQzUuNTE0NzE4NjMsMy41IDMuNSw1LjUxNDcxODYzIDMuNSw4IEMzLjUsMTAuNDg1MjgxNCA1LjUxNDcxODYzLDEyLjUgOCwxMi41IEMxMC40ODUyODE0LDEyLjUgMTIuNSwxMC40ODUyODE0IDEyLjUsOCBDMTIuNSw1LjUxNDcxODYzIDEwLjQ4NTI4MTQsMy41IDgsMy41IFoiIGlkPSJPdmFsIiBmaWxsPSJ1cmwoI3BhdHRlcm4tMSkiIGZpbGwtcnVsZT0ibm9uemVybyI+PC9wYXRoPgogICAgPC9nPgo8L3N2Zz4="
+      />
+      <div class="empty" v-show="loaded">
+        <img class="img" width="160" height="120" src="./empty.png" />
+        <div class="label">暂无数据</div>
+      </div>
     </div>
-    <div
-      style="
-        width: 100%;
-        height: 60px;
-        position: fixed;
-        display: flex;
-        align-items: center;
-        bottom: 0px;
-        left: 0px;
-        z-index: 1000;
-        padding: 0 60px;
-        background-color: #fff;
-        box-shadow: inset 1px 1px rgba(0, 0, 0, 0.1);
-      "
-    >
-      <el-button @click="handleSubmit">提交</el-button>
-      <el-button @click="handleSave">保存</el-button>
-    </div>
-  </div>
+  </el-table>
 </template>
 
 <script>
-import YtComplexTableNew from "./yt-complex-table-new/index";
-import { tableData, tableColumnList, memberTypeList } from "./mock";
+import { Table as ElTable } from "element-ui";
+import DynamicColumn from "./dynamic-column.vue";
 
 export default {
+  name: "yt-comple-table",
   components: {
-    YtComplexTableNew,
+    ElTable,
+    DynamicColumn,
+  },
+  props: {
+    tableData: {
+      type: Array,
+      default: () => [],
+    },
+    columnList: {
+      type: Array,
+      default: () => [],
+    },
+    loading: {
+      // 正在加载中...
+      type: Boolean,
+      default: false,
+    },
+    loaded: {
+      type: Boolean,
+      default: false,
+    },
+    maxHeight: {
+      type: Number,
+      default: 600,
+    },
   },
   data() {
     return {
-      tableData: [],
-      tableColumnList: [],
-      maxHeight: undefined,
-      showTable: false,
+      tableKey: 1,
     };
   },
-  mounted() {
-    this.getTableData();
+
+  watch: {
+    columnList(newVal) {
+      this.tableKey = this.tableKey + 1;
+    },
   },
   methods: {
-    async handleMounted() {
-      await (async () => {
-        this.maxHeight = 500;
-      })();
-    },
-    handleSubmit() {
-      const res = this.$refs.complexTable.validate(false, false);
-      console.error("handleClick2", res);
-    },
-    handleSave() {
-      const res = this.$refs.complexTable.validate(false, true);
-      console.error("handleSave", res);
+    handleCellChange(event) {
+      this.$emit("cell-change", event);
     },
     handleChange(value) {
-      console.error("handleChange", value);
-    },
-    async getTableData() {
-      function divide(num) {
-        const numStr = String(num || "");
-        const parts = numStr.split(".");
-        const integer = parts[0];
-        const decimal = numStr.replace(integer, "");
-        return [integer, parts[1] ? decimal : ""];
-      }
-
-      function plus(num1, num2) {
-        const [integer1, decimal1] = divide(num1);
-        const [integer2, decimal2] = divide(num2);
-        let integer = String(BigInt(integer1) + BigInt(integer2));
-        let decimal = "";
-        if (decimal1 && decimal2) {
-          decimal = String((decimal1 * 100 + decimal2 * 100) / 100);
-        } else if (decimal1) {
-          decimal = decimal1;
-        } else if (decimal2) {
-          decimal = decimal2;
-        }
-        const curry = BigInt(Math.floor(decimal));
-        decimal = String(decimal).split(".")[1];
-        integer = BigInt(integer) + curry;
-        return `${integer}${decimal ? `.${decimal}` : ""}`;
-      }
-      const totalItem = {
-        totalFlag: true,
-        number: "合计",
-      };
-      tableData.forEach((item, index) => {
-        const { accountName, accountNo, memberType, actualInvestmentDetail } =
-          item;
-        Object.assign(item, {
-          number: index + 1,
-          member: `${accountName} ${accountNo}`,
-          memberTypeName:
-            (
-              memberTypeList.find(
-                (memberTypeItem) => memberType === memberTypeItem.value
-              ) || {}
-            ).label || "--",
-          editableCellType: {
-            actualInvestmentDays: "input",
-            actualLeaveDays: "input",
-          },
-        });
-        actualInvestmentDetail.reduce((acc, cur) => {
-          const {
-            year,
-            month,
-            actualInvestmentDays,
-            actualLeaveDays,
-            oldActualInvestmentDays,
-            oldActualLeaveDays,
-          } = cur;
-          acc[`${year}-${month}`] = {
-            actualInvestmentDays,
-            actualLeaveDays,
-            oldActualInvestmentDays,
-            oldActualLeaveDays,
-          };
-          if (!totalItem[`${year}-${month}`]) {
-            totalItem[`${year}-${month}`] = {
-              actualInvestmentDays: 0,
-              actualInvestment: 0,
-            };
-          }
-          totalItem[`${year}-${month}`].actualInvestmentDays = Number(
-            plus(
-              totalItem[`${year}-${month}`].actualInvestmentDays,
-              actualInvestmentDays
-            )
-          );
-          return acc;
-        }, item);
+      // 行数据 + 列字段信息
+      this.$emit("change", {
+        row: value.row,
+        columnField: value.columnField,
+        subColField: value.subColField,
       });
-      console.log(tableData);
-      // 添加合计行
-      tableData.push(totalItem);
-      console.log(totalItem);
-      this.tableData = tableData;
-      this.tableColumnList = tableColumnList;
-      this.showTable = true;
+    },
+    hanldeCellBlur(row, column, subCol) {
+      let value = row[column.field][subCol.field];
+      let errorMsg = "";
+      const numValue = Number(value);
+      // 验证范围
+      if (value === "" || value == null) {
+        errorMsg = "不能为空";
+      } else if (numValue < 0 || Number.isNaN(numValue)) {
+        errorMsg = "只能是非负数值";
+      } else if (numValue > subCol.maxValue) {
+        errorMsg = `不能超过${subCol.maxValue}`;
+      } else {
+        value = numValue;
+      }
+      row[column.field][subCol.field] = value;
+      if (!row[column.field].validResult) {
+        this.$set(row[column.field], "validResult", {});
+      }
+      if (subCol.field) {
+        this.$set(row[column.field].validResult, `${subCol.field}`, {
+          valid: false,
+          msg: "",
+        });
+      }
+      row[column.field].validResult[subCol.field].valid = !errorMsg;
+      row[column.field].validResult[subCol.field].msg = errorMsg;
+      // 行数据 + 列字段信息
+      this.$emit("change", {
+        row,
+        columnField: column.field,
+        subColField: subCol.field,
+      });
+    },
+    handleCellInput(row, column, subCol) {
+      let value = row[column.field][subCol.field];
+      const reg = new RegExp(`^\\d+(?:\\.\\d{0,${2}})?`);
+      if (reg.test(value)) {
+        value = value.match(new RegExp(`^\\d+(?:\\.\\d{0,${2}})?`))[0];
+      }
+      row[column.field][subCol.field] = value;
+      if (!row[column.field].validResult) {
+        this.$set(row[column.field], "validResult", {});
+      }
+      if (subCol.field) {
+        this.$set(row[column.field].validResult, `${subCol.field}`, {
+          valid: false,
+          msg: "",
+        });
+      }
+      row[column.field].validResult[subCol.field].valid = true;
+      row[column.field].validResult[subCol.field].msg = "";
+    },
+    validateCell(row, column, subCol, canEmpty) {
+      const columnField = column.field;
+      const subColField = subCol.field;
+      const value = row[columnField][subColField];
+      let errorMsg = "";
+      let valid = true;
+      const numValue = Number(value);
+      // 验证范围
+      if (value === "" || value == null) {
+        errorMsg = "不能为空";
+        valid = canEmpty;
+      } else if (Number.isNaN(numValue) || numValue < 0) {
+        errorMsg = "只能是非负数值";
+        valid = false;
+      } else if (numValue > subCol.maxValue) {
+        errorMsg = `不能超过${subCol.maxValue}`;
+        valid = false;
+      }
+      if (!row[columnField].validResult) {
+        this.$set(row[columnField], "validResult", {});
+      }
+      if (subColField) {
+        this.$set(row[columnField].validResult, `${subColField}`, {
+          valid: false,
+          msg: "",
+        });
+      }
+      row[columnField].validResult[subColField].valid = valid;
+      row[columnField].validResult[subColField].msg = errorMsg;
+      return {
+        valid,
+      };
+    },
+    validate(hasFocus, canEmpty) {
+      const result = {
+        valid: true,
+      };
+      let isFocus = hasFocus;
+      let refName = "";
+      this.tableData
+        .filter((item) => !item.totalFlag)
+        .forEach((row) => {
+          this.columnList.forEach((column) => {
+            if (column.subColumnList) {
+              column.subColumnList.forEach((subCol) => {
+                if (
+                  row.editableCellType &&
+                  row.editableCellType[subCol.field] === "input"
+                ) {
+                  refName = `${row.number}_${column.field}_${subCol.field}`;
+                  const validateResult = this.validateCell(
+                    row,
+                    column,
+                    subCol,
+                    canEmpty
+                  );
+                  if (validateResult && !validateResult.valid) {
+                    if (!isFocus) {
+                      const el = this.$refs[refName]?.[0]?.$el;
+                      el?.scrollIntoView({
+                        block: "center",
+                        behavior: "smooth",
+                      });
+                      isFocus = true;
+                    }
+                    result.valid = false;
+                  }
+                }
+              });
+            }
+          });
+        });
+      return result;
     },
   },
 };
 </script>
 <style lang="scss">
-#app,
-.root {
-  display: flex;
-  height: 100%;
-  min-height: 0;
-  flex-direction: column;
-}
-html,
-body {
-  height: 100%;
-}
+.yt-comple-table {
+  &.el-table {
+    width: 100%;
+    font: 14px / 22px PingFangSC-Regular;
+    color: rgba(0, 0, 0, 0.9);
+    transition: opacity 2s;
 
-body {
-  overflow-y: hidden;
+    .el-table__cell {
+      padding: 0;
+    }
+
+    .el-table__header-wrapper {
+      .el-table__cell {
+        padding: 12px;
+        color: rgba(0, 0, 0, 0.6);
+        background: #f3f3f3;
+
+        .cell {
+          padding: 0;
+          font-weight: 400;
+          color: rgba(0, 0, 0, 0.6);
+          line-height: 22px;
+          white-space: nowrap;
+        }
+
+        .required-mark {
+          color: #f53f3f;
+          line-height: 22px;
+        }
+      }
+    }
+
+    .el-table__body-wrapper .el-table__cell .cell {
+      padding: 12px;
+      line-height: 22px;
+
+      .el-input__inner {
+        padding: 0 8px;
+      }
+
+      .error .el-input__inner {
+        border-color: #f24957;
+      }
+
+      .error-msg {
+        color: #f24957;
+        font-size: 12px;
+        position: absolute;
+        bottom: -2px;
+        left: 12px;
+        line-height: 16px;
+      }
+    }
+
+    .el-table__body-wrapper {
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background-color: #c5c5c5;
+      }
+    }
+
+    &::before,
+    &::after {
+      width: 0;
+      height: 0;
+    }
+
+    .yt-comple-table__empty {
+      .loading {
+        position: absolute;
+        top: 45%;
+        left: 45%;
+        transform: translateY(-50%);
+        width: 32.5px;
+        height: 32.5px;
+        animation: rotate 1s linear infinite;
+      }
+
+      .empty {
+        position: absolute;
+        top: 45%;
+        left: 45%;
+        transform: translateY(-50%);
+        line-height: 1;
+      }
+
+      .label {
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.6);
+      }
+    }
+  }
 }
 </style>
