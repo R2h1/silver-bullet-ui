@@ -12,6 +12,7 @@
         :tableData="tableData"
         :columnList="tableColumnList"
         @change="handleChange"
+        @action="handleAction"
       ></yt-complex-table>
     </div>
     <div
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-import YtComplexTable from "../../../low-code/yutu_lcap_vue/components/yt-complex-table/index";
+import YtComplexTable from "./index";
 import { tableData, tableColumnList, memberTypeList } from "./mock";
 export default {
   components: {
@@ -61,6 +62,9 @@ export default {
     this.getTableData();
   },
   methods: {
+    handleAction(action, row) {
+      console.log(action, row);
+    },
     handleSubmit() {
       const res = this.$refs.complexTable.validate(false, false);
       console.error("handleClick2", res);

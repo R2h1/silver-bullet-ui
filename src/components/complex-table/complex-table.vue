@@ -121,7 +121,19 @@
           </el-tooltip>
         </template>
         <template slot-scope="scope">
-          <div class="cell-wrapper">
+          <template v-if="column.actions">
+            <div class="cell-wrapper">
+              <el-button
+                v-for="action in getVisibleButtons(column, scope.row)"
+                :key="action.key"
+                type="text"
+                @click="handleOperation(action, scope.row, scope.$index)"
+              >
+                {{ action.text }}
+              </el-button>
+            </div>
+          </template>
+          <div v-else class="cell-wrapper">
             <span class="text">
               {{ scope.row[column.field] }}
             </span>
@@ -150,7 +162,7 @@ import {
   Input as ElInput,
   Tooltip as ElTooltip,
 } from "element-ui";
-import HelpIcon from "../help-icon.vue";
+import HelpIcon from "./help-icon.vue";
 
 export default {
   name: "yt-complex-table",
@@ -170,6 +182,7 @@ export default {
       type: Array,
       default: () => [],
     },
+
     loading: {
       // 正在加载中...
       type: Boolean,
@@ -196,6 +209,18 @@ export default {
     },
   },
   methods: {
+    handleOperation(action, row, index) {
+      this.$emit("action", {
+        action,
+        row,
+        index,
+      });
+    },
+    getVisibleButtons(column, row) {
+      return (column.actions || []).filter((action) =>
+        typeof action.show === "function" ? btn.show(row) : action.show
+      );
+    },
     handleCellBlur(row, column, subCol) {
       let value = row[column.field][subCol.field];
       const numValue = Number(value);

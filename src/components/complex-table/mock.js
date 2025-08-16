@@ -507,6 +507,19 @@ export const tableColumnList = [
       },
     ],
   },
+  {
+    label: "操作",
+    field: "operations",
+    colMinW: 120,
+    fixed: "right",
+    actions: [
+      {
+        key: "updateStatus",
+        text: "更新状态",
+        show: true,
+      },
+    ],
+  },
 ];
 
 export const memberTypeList = [

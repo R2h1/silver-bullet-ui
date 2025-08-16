@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import YtComplexTableNew from "../../../low-code/yutu_lcap_vue/components/yt-complex-table-new/index";
+import YtComplexTableNew from "./complex-table-new.vue";
 import { tableData, tableColumnList, memberTypeList } from "./mock";
 
 export default {
