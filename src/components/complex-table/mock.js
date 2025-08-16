@@ -462,12 +462,16 @@ export const tableColumnList = [
           );
         },
         columnIndex: 6,
+        autoMergeSameData: true,
+        autoMergeField: "member",
       },
       {
         label: "其他项目已投入天数",
         field: "actualOtherDays",
         colMinW: 168,
         required: false,
+        autoMergeSameData: true,
+        autoMergeField: "member",
       },
     ],
   },

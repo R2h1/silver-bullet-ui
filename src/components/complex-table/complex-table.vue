@@ -214,13 +214,40 @@ export default {
   methods: {
     calculateSpans() {
       this.spanConfig = {};
+      function flattenColumns(columns) {
+        let columnIndex = 0; // 全局索引计数器
+        const leafColumns = []; // 存储所有叶子列
+
+        // 递归遍历函数
+        const traverse = (arr) => {
+          arr.forEach((col) => {
+            if (col.subColumnList && col.subColumnList.length > 0) {
+              // 非叶子列：递归处理子列
+              traverse(col.subColumnList);
+            } else {
+              // 叶子列：深拷贝对象并添加索引
+              const leaf = { ...col, columnIndex: columnIndex++ };
+              leafColumns.push(leaf);
+            }
+          });
+        };
+
+        traverse(columns);
+        return leafColumns;
+      }
+      const leafColumns = flattenColumns(this.columnList);
+      const autoMergeColumns = leafColumns.filter(
+        (col) => col.autoMergeSameData
+      );
+
+      console.log("autoMergeColumns", autoMergeColumns);
 
       // 遍历所有需要合并的列
-      this.columnList.forEach((column) => {
+      autoMergeColumns.forEach((column) => {
         if (!column.autoMergeSameData) return;
 
-        const field = column.field;
-        const mergeField = column.autoMergeField || field;
+        const columnIndex = column.columnIndex;
+        const mergeField = column.autoMergeField;
         const spanMap = {};
 
         // 初始化为1（不合并）
@@ -255,15 +282,14 @@ export default {
           }
         }
 
-        this.spanConfig[field] = spanMap;
+        this.spanConfig[columnIndex] = spanMap;
       });
       console.log("spanConfig", this.spanConfig);
     },
     objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      const field = (this.columnList[columnIndex] || {}).field;
       // 不需要合并的列
-      if (!field || !this.spanConfig[field]) return [1, 1];
-      const rowspan = this.spanConfig[field][row.rowId];
+      if (!this.spanConfig[columnIndex]) return [1, 1];
+      const rowspan = this.spanConfig[columnIndex][row.rowId];
       return [rowspan, 1];
     },
     handleOperation(action, row, index) {
