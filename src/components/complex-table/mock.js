@@ -401,18 +401,22 @@ export const tableColumnList = [
     field: "number",
     colMinW: 54,
     fixed: true,
+    autoMergeSameData: true,
+    autoMergeField: "member",
   },
   {
     label: "姓名",
     field: "member",
     colMinW: 150,
     fixed: true,
+    autoMergeSameData: true,
   },
   {
     label: "类型",
     field: "memberTypeName",
     colMinW: 100,
     fixed: true,
+    autoMergeSameData: true,
   },
   {
     label: "角色",

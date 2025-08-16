@@ -126,6 +126,8 @@ export default {
           actualInvestmentDetail,
         } = item;
         Object.assign(item, {
+          // 唯一标识
+          rowId: index,
           number: index + 1,
           member: `${accountName} ${accountNo}`,
           memberTypeName:

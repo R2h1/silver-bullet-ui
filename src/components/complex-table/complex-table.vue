@@ -6,6 +6,7 @@
     border
     ref="complexTable"
     class="yt-complex-table"
+    :span-method="objectSpanMethod"
   >
     <template v-for="column in columnList">
       <!-- 多级表头 -->
@@ -124,7 +125,7 @@
           <template v-if="column.actions">
             <div class="cell-wrapper">
               <el-button
-                v-for="action in getVisibleButtons(column, scope.row)"
+                v-for="action in getVisibleActions(column, scope.row)"
                 :key="action.key"
                 type="text"
                 @click="handleOperation(action, scope.row, scope.$index)"
@@ -200,15 +201,71 @@ export default {
   data() {
     return {
       tableKey: 1,
+      spanConfig: {},
     };
   },
 
   watch: {
     columnList(newVal) {
       this.tableKey = this.tableKey + 1;
+      this.calculateSpans();
     },
   },
   methods: {
+    calculateSpans() {
+      this.spanConfig = {};
+
+      // 遍历所有需要合并的列
+      this.columnList.forEach((column) => {
+        if (!column.autoMergeSameData) return;
+
+        const field = column.field;
+        const mergeField = column.autoMergeField || field;
+        const spanMap = {};
+
+        // 初始化为1（不合并）
+        this.tableData.forEach((row) => {
+          spanMap[row.rowId] = 1;
+        });
+
+        // 计算连续相同值的合并
+        for (let i = 0; i < this.tableData.length; i++) {
+          const current = this.tableData[i];
+          const currentKey = current[mergeField];
+
+          // 跳过已处理的行（被合并的行）
+          if (spanMap[current.rowId] === 0 || current.totalFlag) continue;
+
+          let spanCount = 1;
+          for (let j = i + 1; j < this.tableData.length; j++) {
+            const next = this.tableData[j];
+            const nextKey = next[mergeField];
+
+            if (currentKey === nextKey) {
+              spanCount++;
+              spanMap[next.rowId] = 0; // 标记为被合并
+            } else {
+              break;
+            }
+          }
+
+          // 如果发现了连续相同的行，更新当前行的合并行数
+          if (spanCount > 1) {
+            spanMap[current.rowId] = spanCount;
+          }
+        }
+
+        this.spanConfig[field] = spanMap;
+      });
+      console.log("spanConfig", this.spanConfig);
+    },
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      const field = (this.columnList[columnIndex] || {}).field;
+      // 不需要合并的列
+      if (!field || !this.spanConfig[field]) return [1, 1];
+      const rowspan = this.spanConfig[field][row.rowId];
+      return [rowspan, 1];
+    },
     handleOperation(action, row, index) {
       this.$emit("action", {
         action,
@@ -216,7 +273,7 @@ export default {
         index,
       });
     },
-    getVisibleButtons(column, row) {
+    getVisibleActions(column, row) {
       return (column.actions || []).filter((action) =>
         typeof action.show === "function" ? btn.show(row) : action.show
       );
